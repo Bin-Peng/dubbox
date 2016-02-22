@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -30,18 +30,18 @@ import com.alibaba.dubbo.remoting.RemotingException;
 public class Networkers {
     
     public static Peer join(String group, String peer, ChannelHandler handler) throws RemotingException {
-        return join(URL.valueOf(group), URL.valueOf(peer), handler);
+        return join(EURL.valueOf(group), EURL.valueOf(peer), handler);
     }
 
-    public static Peer join(URL group, URL peer, ChannelHandler handler) throws RemotingException {
+    public static Peer join(EURL group, EURL peer, ChannelHandler handler) throws RemotingException {
         return lookup(group).join(peer, handler);
     }
     
     public static Group lookup(String group) throws RemotingException {
-        return lookup(URL.valueOf(group));
+        return lookup(EURL.valueOf(group));
     }
     
-    public static Group lookup(URL group) throws RemotingException {
+    public static Group lookup(EURL group) throws RemotingException {
         Networker networker = ExtensionLoader.getExtensionLoader(Networker.class).getExtension(group.getProtocol());
         return networker.lookup(group);
     }

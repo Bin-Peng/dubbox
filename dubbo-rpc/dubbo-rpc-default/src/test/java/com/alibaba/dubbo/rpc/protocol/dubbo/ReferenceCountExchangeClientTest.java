@@ -23,7 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.DubboAppender;
 import com.alibaba.dubbo.common.utils.LogUtil;
@@ -151,8 +151,8 @@ public class ReferenceCountExchangeClientTest {
     @SuppressWarnings("unchecked")
     private void init(int connections){
         int port = NetUtils.getAvailablePort();
-        URL demoUrl = URL.valueOf("dubbo://127.0.0.1:"+port+"/demo?"+Constants.CONNECTIONS_KEY+"="+connections);
-        URL helloUrl = URL.valueOf("dubbo://127.0.0.1:"+port+"/hello?"+Constants.CONNECTIONS_KEY+"="+connections);
+        EURL demoUrl = EURL.valueOf("dubbo://127.0.0.1:"+port+"/demo?"+Constants.CONNECTIONS_KEY+"="+connections);
+        EURL helloUrl = EURL.valueOf("dubbo://127.0.0.1:"+port+"/hello?"+Constants.CONNECTIONS_KEY+"="+connections);
         
         demoExporter = export(new DemoServiceImpl(), IDemoService.class, demoUrl);
         helloExporter = export(new HelloServiceImpl(), IHelloService.class, helloUrl);
@@ -215,15 +215,15 @@ public class ReferenceCountExchangeClientTest {
     
     private static DubboProtocol     protocol = DubboProtocol.getDubboProtocol();
     public static  ProxyFactory proxy    = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
-    public static Invoker<?> referInvoker(Class<?> type, URL url) {
+    public static Invoker<?> referInvoker(Class<?> type, EURL url) {
         return (Invoker<?>)protocol.refer(type, url);
     }
 
     public static <T> Exporter<T> export(T instance, Class<T> type, String url) {
-        return export(instance, type, URL.valueOf(url));
+        return export(instance, type, EURL.valueOf(url));
     }
     
-    public static <T> Exporter<T> export(T instance, Class<T> type, URL url) {
+    public static <T> Exporter<T> export(T instance, Class<T> type, EURL url) {
         return protocol.export(proxy.getInvoker(instance, type, url));
     }
 }

@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.registry;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -43,6 +43,6 @@ public interface RegistryFactory {
      * @return 注册中心引用，总不返回空
      */
     @Adaptive({"protocol"})
-    Registry getRegistry(URL url);
+    Registry getRegistry(EURL url);
 
 }

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -37,7 +37,7 @@ public class ConsumerContextFilterTest {
     Filter     consumerContextFilter = new ConsumerContextFilter();
     @Test
     public void testSetContext(){
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         Invoker<DemoService> invoker = new MyInvoker<DemoService>(url);
         Invocation invocation = new MockInvocation();
         consumerContextFilter.invoke(invoker, invocation);

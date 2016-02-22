@@ -22,11 +22,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
-import com.alibaba.dubbo.registry.Registry;
-import com.alibaba.dubbo.registry.RegistryFactory;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
+//import com.alibaba.dubbo.registry.RegistryFactory;
+import cn.sunline.ltts.apm.api.registry.base.RegistryFactory;
 import com.alibaba.dubbo.registry.RegistryService;
 
 /**
@@ -79,7 +81,7 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
         }
     }
 
-    public Registry getRegistry(URL url) {
+    public Registry getRegistry(EURL url) {
     	url = url.setPath(RegistryService.class.getName())
     			.addParameter(Constants.INTERFACE_KEY, RegistryService.class.getName())
     			.removeParameters(Constants.EXPORT_KEY, Constants.REFER_KEY);
@@ -103,6 +105,6 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
         }
     }
 
-    protected abstract Registry createRegistry(URL url);
+    protected abstract Registry createRegistry(EURL url);
 
 }

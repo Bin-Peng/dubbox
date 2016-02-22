@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -220,7 +220,7 @@ public class TelnetCodec extends TransportCodec {
             } else if (attribute instanceof Charset) {
                 return (Charset) attribute;
             }
-            URL url = channel.getUrl();
+            EURL url = channel.getUrl();
             if (url != null) {
                 String parameter = url.getParameter(Constants.CHARSET_KEY);
                 if (parameter != null && parameter.length() > 0) {

@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -108,7 +108,7 @@ public class ThriftProtocol extends AbstractProtocol {
     public <T> Exporter<T> export( Invoker<T> invoker ) throws RpcException {
 
         // 只能使用 thrift codec
-        URL url = invoker.getUrl().addParameter(Constants.CODEC_KEY, ThriftCodec.NAME);
+        EURL url = invoker.getUrl().addParameter(Constants.CODEC_KEY, ThriftCodec.NAME);
         // find server.
         String key = url.getAddress();
         //client 也可以暴露一个只有server可以调用的服务。
@@ -147,7 +147,7 @@ public class ThriftProtocol extends AbstractProtocol {
 
     } // ~ end of method destroy
 
-    public <T> Invoker<T> refer( Class<T> type, URL url ) throws RpcException {
+    public <T> Invoker<T> refer( Class<T> type, EURL url ) throws RpcException {
 
         ThriftInvoker<T> invoker = new ThriftInvoker<T>(type, url, getClients(url), invokers);
 
@@ -157,7 +157,7 @@ public class ThriftProtocol extends AbstractProtocol {
 
     }
 
-    private ExchangeClient[] getClients(URL url){
+    private ExchangeClient[] getClients(EURL url){
 
         int connections = url.getParameter(Constants.CONNECTIONS_KEY, 1);
 
@@ -169,7 +169,7 @@ public class ThriftProtocol extends AbstractProtocol {
         return clients;
     }
 
-    private ExchangeClient initClient(URL url) {
+    private ExchangeClient initClient(EURL url) {
 
         ExchangeClient client ;
 
@@ -186,7 +186,7 @@ public class ThriftProtocol extends AbstractProtocol {
 
     }
 
-    private ExchangeServer getServer(URL url) {
+    private ExchangeServer getServer(EURL url) {
         //默认开启server关闭时发送readonly事件
         url = url.addParameterIfAbsent(Constants.CHANNEL_READONLYEVENT_SENT_KEY, Boolean.TRUE.toString());
         String str = url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_SERVER);

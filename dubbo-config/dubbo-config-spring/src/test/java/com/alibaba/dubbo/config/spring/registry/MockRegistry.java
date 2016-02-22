@@ -3,7 +3,7 @@ package com.alibaba.dubbo.config.spring.registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.NotifyListener;
 import com.alibaba.dubbo.registry.Registry;
 
@@ -12,28 +12,28 @@ import com.alibaba.dubbo.registry.Registry;
  */
 public class MockRegistry implements Registry {
 
-    private URL url;
+    private EURL url;
 
-    private List<URL> registered = new ArrayList<URL>();
+    private List<EURL> registered = new ArrayList<EURL>();
 
-    private List<URL> subscribered = new ArrayList<URL>();
+    private List<EURL> subscribered = new ArrayList<EURL>();
 
-    public List<URL> getRegistered() {
+    public List<EURL> getRegistered() {
         return registered;
     }
 
-    public List<URL> getSubscribered() {
+    public List<EURL> getSubscribered() {
         return subscribered;
     }
 
-    public MockRegistry(URL url) {
+    public MockRegistry(EURL url) {
         if (url == null) {
             throw new NullPointerException();
         }
         this.url = url;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
@@ -45,23 +45,23 @@ public class MockRegistry implements Registry {
 
     }
 
-    public void register(URL url) {
+    public void register(EURL url) {
         registered.add(url);
     }
 
-    public void unregister(URL url) {
+    public void unregister(EURL url) {
         registered.remove(url);
     }
 
-    public void subscribe(URL url, NotifyListener listener) {
+    public void subscribe(EURL url, NotifyListener listener) {
         subscribered.add(url);
     }
 
-    public void unsubscribe(URL url, NotifyListener listener) {
+    public void unsubscribe(EURL url, NotifyListener listener) {
         subscribered.remove(url);
     }
 
-    public List<URL> lookup(URL url) {
+    public List<EURL> lookup(EURL url) {
         return null;
     }
 }

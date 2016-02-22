@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.common.utils.ConfigUtils;
@@ -47,9 +47,9 @@ final public class MockInvoker<T> implements Invoker<T> {
     private final static Map<String, Invoker<?>> mocks = new ConcurrentHashMap<String, Invoker<?>>();
     private final static Map<String, Throwable> throwables = new ConcurrentHashMap<String, Throwable>();
     
-    private final URL url ;
+    private final EURL url ;
     
-    public MockInvoker(URL url) {
+    public MockInvoker(EURL url) {
         this.url = url;
     }
 	public Result invoke(Invocation invocation) throws RpcException {
@@ -64,7 +64,7 @@ final public class MockInvoker<T> implements Invoker<T> {
     	if (StringUtils.isBlank(mock)){
     		throw new RpcException(new IllegalAccessException("mock can not be null. url :" + url));
     	}
-        mock = normallizeMock(URL.decode(mock));
+        mock = normallizeMock(EURL.decode(mock));
         if (Constants.RETURN_PREFIX.trim().equalsIgnoreCase(mock.trim())){
         	RpcResult result = new RpcResult();
         	result.setValue(null);
@@ -203,7 +203,7 @@ final public class MockInvoker<T> implements Invoker<T> {
         return value;
     }
     
-	public URL getUrl() {
+	public EURL getUrl() {
 		return this.url;
 	}
 

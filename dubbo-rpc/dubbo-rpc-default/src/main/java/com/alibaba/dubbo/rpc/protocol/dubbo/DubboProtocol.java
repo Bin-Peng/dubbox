@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.serialize.support.SerializableClassRegistry;
@@ -148,7 +148,7 @@ public class DubboProtocol extends AbstractProtocol {
             }
         }
         
-        private Invocation createInvocation(Channel channel, URL url, String methodKey) {
+        private Invocation createInvocation(Channel channel, EURL url, String methodKey) {
             String method = url.getParameter(methodKey);
             if (method == null || method.length() == 0) {
                 return null;
@@ -192,7 +192,7 @@ public class DubboProtocol extends AbstractProtocol {
     
     private boolean isClientSide(Channel channel) {
         InetSocketAddress address = channel.getRemoteAddress();
-        URL url = channel.getUrl();
+        EURL url = channel.getUrl();
         return url.getPort() == address.getPort() && 
                     NetUtils.filterLocalHost(channel.getUrl().getIp())
                     .equals(NetUtils.filterLocalHost(address.getAddress().getHostAddress()));
@@ -233,7 +233,7 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
     public <T> Exporter<T> export(Invoker<T> invoker) throws RpcException {
-        URL url = invoker.getUrl();
+        EURL url = invoker.getUrl();
         
         // export service.
         String key = serviceKey(url);
@@ -263,7 +263,7 @@ public class DubboProtocol extends AbstractProtocol {
         return exporter;
     }
 
-    private void optimizeSerialization(URL url) throws RpcException {
+    private void optimizeSerialization(EURL url) throws RpcException {
         String className = url.getParameter(Constants.OPTIMIZER_KEY, "");
         if (StringUtils.isEmpty(className) || optimizers.contains(className)) {
             return;
@@ -297,7 +297,7 @@ public class DubboProtocol extends AbstractProtocol {
         }
     }
     
-    private void openServer(URL url) {
+    private void openServer(EURL url) {
         // find server.
         String key = url.getAddress();
         //client 也可以暴露一个只有server可以调用的服务。
@@ -313,7 +313,7 @@ public class DubboProtocol extends AbstractProtocol {
         }
     }
     
-    private ExchangeServer createServer(URL url) {
+    private ExchangeServer createServer(EURL url) {
         //默认开启server关闭时发送readonly事件
         url = url.addParameterIfAbsent(Constants.CHANNEL_READONLYEVENT_SENT_KEY, Boolean.TRUE.toString());
         //默认开启heartbeat
@@ -340,7 +340,7 @@ public class DubboProtocol extends AbstractProtocol {
         return server;
     }
 
-    public <T> Invoker<T> refer(Class<T> serviceType, URL url) throws RpcException {
+    public <T> Invoker<T> refer(Class<T> serviceType, EURL url) throws RpcException {
 
         // modified by lishen
         optimizeSerialization(url);
@@ -351,7 +351,7 @@ public class DubboProtocol extends AbstractProtocol {
         return invoker;
     }
     
-    private ExchangeClient[] getClients(URL url){
+    private ExchangeClient[] getClients(EURL url){
         //是否共享连接
         boolean service_share_connect = false;
         int connections = url.getParameter(Constants.CONNECTIONS_KEY, 0);
@@ -375,7 +375,7 @@ public class DubboProtocol extends AbstractProtocol {
     /**
      *获取共享连接 
      */
-    private ExchangeClient getSharedClient(URL url){
+    private ExchangeClient getSharedClient(EURL url){
         String key = url.getAddress();
         ReferenceCountExchangeClient client = referenceClientMap.get(key);
         if ( client != null ){
@@ -398,7 +398,7 @@ public class DubboProtocol extends AbstractProtocol {
     /**
      * 创建新连接.
      */
-    private ExchangeClient initClient(URL url) {
+    private ExchangeClient initClient(EURL url) {
         
         // client type setting.
         String str = url.getParameter(Constants.CLIENT_KEY, url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_CLIENT));

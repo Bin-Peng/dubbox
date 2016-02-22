@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.serialize.Serialization;
@@ -60,7 +60,7 @@ public abstract class AbstractCodec implements Codec2 {
 			return false;
 		} else {
 			InetSocketAddress address = channel.getRemoteAddress();
-			URL url = channel.getUrl();
+			EURL url = channel.getUrl();
 			boolean client = url.getPort() == address.getPort()
 					&& NetUtils.filterLocalHost(url.getIp()).equals(
 							NetUtils.filterLocalHost(address.getAddress()

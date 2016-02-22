@@ -18,7 +18,7 @@ package com.alibaba.dubbo.monitor.dubbo;
 import java.util.Arrays;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.monitor.MonitorService;
 
 /**
@@ -28,17 +28,17 @@ import com.alibaba.dubbo.monitor.MonitorService;
  */
 public class MockMonitorService implements MonitorService {
     
-    private URL statistics;
+    private EURL statistics;
 
-    public void collect(URL statistics) {
+    public void collect(EURL statistics) {
         this.statistics = statistics;
     }
 
-    public URL getStatistics() {
+    public EURL getStatistics() {
         return statistics;
     }
 
-	public List<URL> lookup(URL query) {
+	public List<EURL> lookup(EURL query) {
 		return Arrays.asList(statistics);
 	}
 

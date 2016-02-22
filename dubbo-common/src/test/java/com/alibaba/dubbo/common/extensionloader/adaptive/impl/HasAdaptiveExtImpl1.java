@@ -15,14 +15,14 @@
  */
 package com.alibaba.dubbo.common.extensionloader.adaptive.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.adaptive.HasAdaptiveExt;
 
 /**
  * @author ding.lid
  */
 public class HasAdaptiveExtImpl1 implements HasAdaptiveExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return this.getClass().getSimpleName();
     }
 }

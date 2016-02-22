@@ -18,7 +18,7 @@ package com.alibaba.dubbo.validation.support;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.validation.Validation;
 import com.alibaba.dubbo.validation.Validator;
 
@@ -31,7 +31,7 @@ public abstract class AbstractValidation implements Validation {
 
     private final ConcurrentMap<String, Validator> validators = new ConcurrentHashMap<String, Validator>();
 
-    public Validator getValidator(URL url) {
+    public Validator getValidator(EURL url) {
         String key = url.toFullString();
         Validator validator = validators.get(key);
         if (validator == null) {
@@ -41,6 +41,6 @@ public abstract class AbstractValidation implements Validation {
         return validator;
     }
 
-    protected abstract Validator createValidator(URL url);
+    protected abstract Validator createValidator(EURL url);
 
 }

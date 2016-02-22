@@ -17,7 +17,7 @@
 package com.alibaba.dubbo.examples.heartbeat;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.remoting.Transporters;
 import com.alibaba.dubbo.remoting.exchange.ExchangeClient;
@@ -32,7 +32,7 @@ import com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeServer;
  */
 public class HeartbeatClient {
 
-    private static final URL serverUrl = URL.valueOf(
+    private static final EURL serverUrl = EURL.valueOf(
             new StringBuilder( 32 )
                     .append( "netty://" )
                     .append( NetUtils.getLocalHost() )
@@ -71,7 +71,7 @@ public class HeartbeatClient {
             Thread.sleep( 1000 );
         }
         
-        URL url = serverUrl.addParameter( Constants.HEARTBEAT_KEY, 1000 );
+        EURL url = serverUrl.addParameter( Constants.HEARTBEAT_KEY, 1000 );
 
         HeartBeatExchangeHandler clientHandler = new HeartBeatExchangeHandler( handler );
         ExchangeClient exchangeClient = new HeaderExchangeClient(

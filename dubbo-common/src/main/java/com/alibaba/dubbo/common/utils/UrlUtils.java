@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 public class UrlUtils {
 
-    public static URL parseURL(String address, Map<String, String> defaults) {
+    public static EURL parseURL(String address, Map<String, String> defaults) {
         if (address == null || address.length() == 0) {
             return null;
         }
@@ -64,7 +64,7 @@ public class UrlUtils {
             defaultParameters.remove("port");
             defaultParameters.remove("path");
         }
-        URL u = URL.valueOf(url);
+        EURL u = EURL.valueOf(url);
         boolean changed = false;
         String protocol = u.getProtocol();
         String username = u.getUsername();
@@ -118,12 +118,12 @@ public class UrlUtils {
             }
         }
         if (changed) {
-            u = new URL(protocol, username, password, host, port, path, parameters);
+            u = new EURL(protocol, username, password, host, port, path, parameters);
         }
         return u;
     }
 
-    public static List<URL> parseURLs(String address, Map<String, String> defaults) {
+    public static List<EURL> parseURLs(String address, Map<String, String> defaults) {
         if (address == null || address.length() == 0) {
             return null;
         }
@@ -131,7 +131,7 @@ public class UrlUtils {
         if (addresses == null || addresses.length == 0) {
             return null; //here won't be empty
         }
-        List<URL> registries = new ArrayList<URL>();
+        List<EURL> registries = new ArrayList<EURL>();
         for (String addr : addresses) {
             registries.add(parseURL(addr, defaults));
         }
@@ -301,12 +301,12 @@ public class UrlUtils {
     }
 
     //compatible for dubbo-2.0.0
-    public static List<String> revertForbid(List<String> forbid, Set<URL> subscribed) {
+    public static List<String> revertForbid(List<String> forbid, Set<EURL> subscribed) {
         if (forbid != null && forbid.size() > 0) {
             List<String> newForbid = new ArrayList<String>();
             for (String serviceName : forbid) {
                 if (! serviceName.contains(":") && ! serviceName.contains("/")) {
-                    for (URL url : subscribed) {
+                    for (EURL url : subscribed) {
                         if (serviceName.equals(url.getServiceInterface())) {
                             newForbid.add(url.getServiceKey());
                             break;
@@ -321,7 +321,7 @@ public class UrlUtils {
         return forbid;
     }
 
-    public static URL getEmptyUrl(String service, String category) {
+    public static EURL getEmptyUrl(String service, String category) {
         String group = null;
         String version = null;
         int i = service.indexOf('/');
@@ -334,7 +334,7 @@ public class UrlUtils {
             version = service.substring(i + 1);
             service = service.substring(0, i);
         }
-        return URL.valueOf(Constants.EMPTY_PROTOCOL + "://0.0.0.0/" + service + "?" 
+        return EURL.valueOf(Constants.EMPTY_PROTOCOL + "://0.0.0.0/" + service + "?" 
                     + Constants.CATEGORY_KEY + "=" + category
                     + (group == null ? "" : "&" + Constants.GROUP_KEY + "=" + group)
                     + (version == null ? "" : "&" + Constants.VERSION_KEY + "=" + version));
@@ -352,7 +352,7 @@ public class UrlUtils {
         }
     }
 
-    public static boolean isMatch(URL consumerUrl, URL providerUrl) {
+    public static boolean isMatch(EURL consumerUrl, EURL providerUrl) {
         String consumerInterface = consumerUrl.getServiceInterface();
         String providerInterface = providerUrl.getServiceInterface();
         if( ! (Constants.ANY_VALUE.equals(consumerInterface) || StringUtils.isEquals(consumerInterface, providerInterface)) ) return false;
@@ -378,7 +378,7 @@ public class UrlUtils {
                && (consumerClassifier == null || Constants.ANY_VALUE.equals(consumerClassifier) || StringUtils.isEquals(consumerClassifier, providerClassifier));
     }
     
-    public static boolean isMatchGlobPattern(String pattern, String value, URL param) {
+    public static boolean isMatchGlobPattern(String pattern, String value, EURL param) {
         if (param != null && pattern.startsWith("$")) {
             pattern = param.getRawParameter(pattern.substring(1));
         }
@@ -416,7 +416,7 @@ public class UrlUtils {
         }
     }
 
-    public static boolean isServiceKeyMatch(URL pattern, URL value) {
+    public static boolean isServiceKeyMatch(EURL pattern, EURL value) {
         return  pattern.getParameter(Constants.INTERFACE_KEY).equals(
             value.getParameter(Constants.INTERFACE_KEY))
             && isItemMatch(pattern.getParameter(Constants.GROUP_KEY),

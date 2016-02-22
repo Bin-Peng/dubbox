@@ -20,7 +20,7 @@ import javax.cache.CacheBuilder;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * JCache
@@ -31,7 +31,7 @@ public class JCache implements com.alibaba.dubbo.cache.Cache {
 
     private final Cache<Object, Object> store;
 
-    public JCache(URL url) {
+    public JCache(EURL url) {
         String type = url.getParameter("jcache");
         CacheManager cacheManager = type == null || type.length() == 0 ? Caching.getCacheManager() : Caching.getCacheManager(type);
         CacheBuilder<Object, Object> cacheBuilder = cacheManager.createCacheBuilder(url.getServiceKey());

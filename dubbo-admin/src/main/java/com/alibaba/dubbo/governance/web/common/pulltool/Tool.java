@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.governance.service.OverrideService;
@@ -107,7 +107,7 @@ public class Tool {
     
     public static String getPath(String url) {
         try {
-            return URL.valueOf(url).getPath();
+            return EURL.valueOf(url).getPath();
         } catch (Throwable t) {
             return url;
         }
@@ -115,7 +115,7 @@ public class Tool {
     
     public static String getAddress(String url) {
         try {
-            return URL.valueOf(url).getAddress();
+            return EURL.valueOf(url).getAddress();
         } catch (Throwable t) {
             return url;
         }
@@ -200,11 +200,11 @@ public class Tool {
     }
     
     public static String encodeUrl(String url) {
-    	return URL.encode(url);
+    	return EURL.encode(url);
     }
 
     public static String decodeUrl(String url) {
-        return URL.decode(url);
+        return EURL.decode(url);
     }
     
     public static String encodeHtml(String html) {

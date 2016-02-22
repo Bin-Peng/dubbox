@@ -16,7 +16,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.governance.service.ConsumerService;
 import com.alibaba.dubbo.governance.service.OverrideService;
@@ -213,7 +213,7 @@ public class Consumers extends Restful {
                     if (mock == null || mock.length() == 0) {
                         map.remove("mock");
                     } else {
-                        map.put("mock", URL.encode(mock));
+                        map.put("mock", EURL.encode(mock));
                     }
                     if (map.size() > 0) {
                     	override.setParams(StringUtils.toQueryString(map));
@@ -229,7 +229,7 @@ public class Consumers extends Restful {
                 Override override = new Override();
                 override.setService(service);
                 override.setAddress(address);
-                override.setParams("mock=" + URL.encode(mock));
+                override.setParams("mock=" + EURL.encode(mock));
                 override.setEnabled(true);
                 override.setOperator(operator);
                 override.setOperatorAddress(operatorAddress);
@@ -276,7 +276,7 @@ public class Consumers extends Restful {
             if (mock == null || mock.length() == 0) {
                 map.remove("mock");
             } else {
-                map.put("mock", URL.encode(mock));
+                map.put("mock", EURL.encode(mock));
             }
             if (map.size() > 0) {
             	allOverride.setParams(StringUtils.toQueryString(map));
@@ -290,7 +290,7 @@ public class Consumers extends Restful {
         } else if (mock != null && mock.length() > 0) {
             Override override = new Override();
             override.setService(service);
-            override.setParams("mock=" + URL.encode(mock));
+            override.setParams("mock=" + EURL.encode(mock));
             override.setEnabled(true);
             override.setOperator(operator);
             override.setOperatorAddress(operatorAddress);

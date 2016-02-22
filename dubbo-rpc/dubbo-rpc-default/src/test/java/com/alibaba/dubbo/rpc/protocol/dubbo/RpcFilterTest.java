@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.protocol.dubbo;
 
 import junit.framework.TestCase;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Protocol;
 import com.alibaba.dubbo.rpc.ProxyFactory;
@@ -33,7 +33,7 @@ public class RpcFilterTest extends TestCase
 	public void testRpcFilter() throws Exception
 	{
 		DemoService service = new DemoServiceImpl();
-		URL url = URL.valueOf("dubbo://127.0.0.1:9010/com.alibaba.dubbo.rpc.DemoService?service.filter=echo");
+		EURL url = EURL.valueOf("dubbo://127.0.0.1:9010/com.alibaba.dubbo.rpc.DemoService?service.filter=echo");
 		protocol.export(proxy.getInvoker(service, DemoService.class, url));
 		service = proxy.getProxy(protocol.refer(DemoService.class, url));
 		assertEquals("123",service.echo("123"));

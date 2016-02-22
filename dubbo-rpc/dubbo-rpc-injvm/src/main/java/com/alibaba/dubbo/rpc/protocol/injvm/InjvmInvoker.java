@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.protocol.injvm;
 
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.UrlUtils;
 import com.alibaba.dubbo.rpc.Exporter;
@@ -38,7 +38,7 @@ class InjvmInvoker<T> extends AbstractInvoker<T> {
 
     private final Map<String, Exporter<?>> exporterMap;
 
-    InjvmInvoker(Class<T> type, URL url, String key, Map<String, Exporter<?>> exporterMap){
+    InjvmInvoker(Class<T> type, EURL url, String key, Map<String, Exporter<?>> exporterMap){
         super(type, url);
         this.key = key;
         this.exporterMap = exporterMap;

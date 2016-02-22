@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.registry.NotifyListener;
 
@@ -39,8 +39,8 @@ import com.alibaba.dubbo.registry.NotifyListener;
 public class FailbackRegistryTest {
     MockRegistry  registry;
     static String service;
-    static URL    serviceUrl;
-    static URL    registryUrl;
+    static EURL    serviceUrl;
+    static EURL    registryUrl;
     private int FAILED_PERIOD = 200;
     private int sleeptime = 100;
     private int trytimes = 5;
@@ -51,8 +51,8 @@ public class FailbackRegistryTest {
     @Before
     public void setUp() throws Exception {
         service = "com.alibaba.dubbo.test.DemoService";
-        serviceUrl = URL.valueOf("remote://127.0.0.1/demoservice?method=get");
-        registryUrl = URL.valueOf("http://1.2.3.4:9090/registry?check=false&file=N/A").addParameter(Constants.REGISTRY_RETRY_PERIOD_KEY,String.valueOf(FAILED_PERIOD));
+        serviceUrl = EURL.valueOf("remote://127.0.0.1/demoservice?method=get");
+        registryUrl = EURL.valueOf("http://1.2.3.4:9090/registry?check=false&file=N/A").addParameter(Constants.REGISTRY_RETRY_PERIOD_KEY,String.valueOf(FAILED_PERIOD));
     }
 
     /**
@@ -68,7 +68,7 @@ public class FailbackRegistryTest {
         final CountDownLatch latch = new CountDownLatch(3);//全部共调用3次。成功才会减1. subscribe register的失败尝试不会在做了
 
         NotifyListener listner = new NotifyListener() {
-            public void notify(List<URL> urls) {
+            public void notify(List<EURL> urls) {
                 notified.set(Boolean.TRUE);
             }
         };
@@ -125,7 +125,7 @@ public class FailbackRegistryTest {
         final CountDownLatch latch = new CountDownLatch(1);//全部共调用4次。成功才会减1. subscribe的失败尝试不会在做了
 
         NotifyListener listner = new NotifyListener() {
-            public void notify(List<URL> urls) {
+            public void notify(List<EURL> urls) {
                 notified.set(Boolean.TRUE);
             }
         };
@@ -159,7 +159,7 @@ public class FailbackRegistryTest {
         final AtomicInteger count = new AtomicInteger(0);
 
         NotifyListener listner = new NotifyListener() {
-            public void notify(List<URL> urls) {
+            public void notify(List<EURL> urls) {
                 count.incrementAndGet();
                 //第一次抛出异常，看后面是否会再次调用到incrementAndGet
                 if(count.get() == 1l ){
@@ -189,7 +189,7 @@ public class FailbackRegistryTest {
         /**
          * @param url
          */
-        public MockRegistry(URL url, CountDownLatch latch) {
+        public MockRegistry(EURL url, CountDownLatch latch) {
             super(url);
             this.latch = latch;
         }
@@ -204,7 +204,7 @@ public class FailbackRegistryTest {
         }
 
         @Override
-        protected void doRegister(URL url) {
+        protected void doRegister(EURL url) {
             if (bad) {
                 throw new RuntimeException("can not invoke!");
             }
@@ -214,7 +214,7 @@ public class FailbackRegistryTest {
         }
 
         @Override
-        protected void doUnregister(URL url) {
+        protected void doUnregister(EURL url) {
             if (bad) {
                 throw new RuntimeException("can not invoke!");
             }
@@ -224,17 +224,17 @@ public class FailbackRegistryTest {
         }
 
         @Override
-        protected void doSubscribe(URL url, NotifyListener listener) {
+        protected void doSubscribe(EURL url, NotifyListener listener) {
             if (bad) {
                 throw new RuntimeException("can not invoke!");
             }
             //System.out.println("do doSubscribe");
-            super.notify(url, listener, Arrays.asList(new URL[] { serviceUrl }));
+            super.notify(url, listener, Arrays.asList(new EURL[] { serviceUrl }));
             latch.countDown();
         }
 
         @Override
-        protected void doUnsubscribe(URL url, NotifyListener listener) {
+        protected void doUnsubscribe(EURL url, NotifyListener listener) {
             if (bad) {
                 throw new RuntimeException("can not invoke!");
             }

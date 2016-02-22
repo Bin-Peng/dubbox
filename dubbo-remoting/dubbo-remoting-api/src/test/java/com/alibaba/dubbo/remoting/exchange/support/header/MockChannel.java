@@ -16,7 +16,7 @@
 
 package com.alibaba.dubbo.remoting.exchange.support.header;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -62,7 +62,7 @@ public class MockChannel implements Channel {
         attributes.remove(key);
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return null;
     }
 

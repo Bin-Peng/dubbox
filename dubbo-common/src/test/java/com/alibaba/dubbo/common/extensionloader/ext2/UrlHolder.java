@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext2;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * @author ding.lid
@@ -24,7 +24,7 @@ import com.alibaba.dubbo.common.URL;
 public class UrlHolder {
     private Double Num;
     
-    private URL url;
+    private EURL url;
     
     private String name;
     
@@ -38,11 +38,11 @@ public class UrlHolder {
         Num = num;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(EURL url) {
         this.url = url;
     }
 

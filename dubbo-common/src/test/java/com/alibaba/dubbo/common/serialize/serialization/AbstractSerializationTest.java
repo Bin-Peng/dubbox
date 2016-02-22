@@ -41,7 +41,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.model.AnimalEnum;
 import com.alibaba.dubbo.common.model.BizException;
 import com.alibaba.dubbo.common.model.BizExceptionNoDefaultConstructor;
@@ -66,7 +66,7 @@ import com.alibaba.dubbo.common.serialize.Serialization;
 public abstract class AbstractSerializationTest {
     Serialization         serialization;
 
-    URL                   url                   = new URL("protocl", "1.1.1.1", 1234);
+    EURL                   url                   = new EURL("protocl", "1.1.1.1", 1234);
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
     static Random         random                = new Random();
@@ -1190,7 +1190,7 @@ public abstract class AbstractSerializationTest {
     
     @Test
     public void test_URL_mutable_withType() throws Exception {
-        URL data = URL.valueOf("dubbo://admin:hello1234@10.20.130.230:20880/context/path?version=1.0.0&application=morgan&noValue");
+        EURL data = EURL.valueOf("dubbo://admin:hello1234@10.20.130.230:20880/context/path?version=1.0.0&application=morgan&noValue");
 
         ObjectOutput objectOutput = serialization.serialize(url, byteArrayOutputStream);
         objectOutput.writeObject(data);
@@ -1200,7 +1200,7 @@ public abstract class AbstractSerializationTest {
                 byteArrayOutputStream.toByteArray());
         ObjectInput deserialize = serialization.deserialize(url, byteArrayInputStream);
 
-        URL actual = (URL) deserialize.readObject(URL.class);
+        EURL actual = (EURL) deserialize.readObject(EURL.class);
         assertEquals(data, actual);
         assertEquals(data.getParameters(), actual.getParameters());
 

@@ -15,7 +15,7 @@
  */
 package com.alibaba.remoting.transport.mina;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
 import com.alibaba.dubbo.remoting.exchange.ExchangeServer;
@@ -31,12 +31,12 @@ public class MinaClientToServerTest extends ClientToServerTest {
 
     @Override
     protected ExchangeServer newServer(int port, Replier<?> receiver) throws RemotingException {
-        return Exchangers.bind(URL.valueOf("exchange://localhost:" + port + "?server=mina"), receiver);
+        return Exchangers.bind(EURL.valueOf("exchange://localhost:" + port + "?server=mina"), receiver);
     }
 
     @Override
     protected ExchangeChannel newClient(int port) throws RemotingException {
-        return Exchangers.connect(URL.valueOf("exchange://localhost:" + port + "?client=mina"));
+        return Exchangers.connect(EURL.valueOf("exchange://localhost:" + port + "?client=mina"));
     }
 
 }

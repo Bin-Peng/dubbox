@@ -29,7 +29,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -49,7 +49,7 @@ import com.alibaba.dubbo.rpc.protocol.AbstractInvoker;
 public class FailoverClusterInvokerTest {
     List<Invoker<FailoverClusterInvokerTest>> invokers = new ArrayList<Invoker<FailoverClusterInvokerTest>>();
     int retries = 5;
-    URL url = URL.valueOf("test://test:11/test?retries="+retries);
+    EURL url = EURL.valueOf("test://test:11/test?retries="+retries);
     Invoker<FailoverClusterInvokerTest> invoker1 = EasyMock.createMock(Invoker.class);
     Invoker<FailoverClusterInvokerTest> invoker2 = EasyMock.createMock(Invoker.class);
     RpcInvocation invocation = new RpcInvocation();
@@ -180,7 +180,7 @@ public class FailoverClusterInvokerTest {
      */
     @Test
     public void testInvokerDestoryAndReList(){
-    	final URL url = URL.valueOf("test://localhost/"+ Demo.class.getName() + "?loadbalance=roundrobin&retries="+retries);
+    	final EURL url = EURL.valueOf("test://localhost/"+ Demo.class.getName() + "?loadbalance=roundrobin&retries="+retries);
     	RpcException exception = new RpcException(RpcException.TIMEOUT_EXCEPTION);
     	MockInvoker<Demo> invoker1 = new MockInvoker<Demo>(Demo.class, url);
     	invoker1.setException(exception);
@@ -219,14 +219,14 @@ public class FailoverClusterInvokerTest {
     public static interface Demo{}
     
     public static class MockInvoker<T> extends AbstractInvoker<T> {
-    	URL url;
+    	EURL url;
     	boolean available = true;
     	boolean destoryed = false;
     	Result result ;
     	RpcException exception;
     	Callable<?> callable;
     	
-		public MockInvoker(Class<T> type, URL url) {
+		public MockInvoker(Class<T> type, EURL url) {
 			super(type, url);
 		}
 
@@ -258,7 +258,7 @@ public class FailoverClusterInvokerTest {
     }
     
     public class MockDirectory<T> extends StaticDirectory<T> {
-		public MockDirectory(URL url , List<Invoker<T>> invokers) {
+		public MockDirectory(EURL url , List<Invoker<T>> invokers) {
 			super(url, invokers);
 		}
 		@Override

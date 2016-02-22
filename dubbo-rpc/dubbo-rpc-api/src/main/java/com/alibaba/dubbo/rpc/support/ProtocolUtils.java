@@ -1,7 +1,7 @@
 package com.alibaba.dubbo.rpc.support;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * @author <a href="mailto:gang.lvg@alibaba-inc.com">kimi</a>
@@ -11,7 +11,7 @@ public class ProtocolUtils {
     private ProtocolUtils() {
     }
 
-    public static String serviceKey(URL url) {
+    public static String serviceKey(EURL url) {
         return serviceKey(url.getPort(), url.getPath(), url.getParameter(Constants.VERSION_KEY),
                           url.getParameter(Constants.GROUP_KEY));
     }

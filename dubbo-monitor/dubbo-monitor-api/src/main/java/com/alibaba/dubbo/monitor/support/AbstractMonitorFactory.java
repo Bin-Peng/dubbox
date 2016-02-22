@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.monitor.Monitor;
 import com.alibaba.dubbo.monitor.MonitorFactory;
 import com.alibaba.dubbo.monitor.MonitorService;
@@ -44,7 +44,7 @@ public abstract class AbstractMonitorFactory implements MonitorFactory {
         return Collections.unmodifiableCollection(MONITORS.values());
     }
 
-    public Monitor getMonitor(URL url) {
+    public Monitor getMonitor(EURL url) {
     	url = url.setPath(MonitorService.class.getName()).addParameter(Constants.INTERFACE_KEY, MonitorService.class.getName());
     	String key = url.toServiceString();
         LOCK.lock();
@@ -65,6 +65,6 @@ public abstract class AbstractMonitorFactory implements MonitorFactory {
         }
     }
 
-    protected abstract Monitor createMonitor(URL url);
+    protected abstract Monitor createMonitor(EURL url);
 
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.AtomicPositiveInteger;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.TimeoutException;
@@ -53,11 +53,11 @@ public class DubboInvoker<T> extends AbstractInvoker<T> {
     
     private final Set<Invoker<?>> invokers;
     
-    public DubboInvoker(Class<T> serviceType, URL url, ExchangeClient[] clients){
+    public DubboInvoker(Class<T> serviceType, EURL url, ExchangeClient[] clients){
         this(serviceType, url, clients, null);
     }
     
-    public DubboInvoker(Class<T> serviceType, URL url, ExchangeClient[] clients, Set<Invoker<?>> invokers){
+    public DubboInvoker(Class<T> serviceType, EURL url, ExchangeClient[] clients, Set<Invoker<?>> invokers){
         super(serviceType, url, new String[] {Constants.INTERFACE_KEY, Constants.GROUP_KEY, Constants.TOKEN_KEY, Constants.TIMEOUT_KEY});
         this.clients = clients;
         // get version.

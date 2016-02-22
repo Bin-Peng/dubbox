@@ -17,7 +17,7 @@ package com.alibaba.dubbo.common.extensionloader.ext6_inject.impl;
 
 import junit.framework.Assert;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext1.SimpleExt;
 import com.alibaba.dubbo.common.extensionloader.ext6_inject.Dao;
 import com.alibaba.dubbo.common.extensionloader.ext6_inject.Ext6;
@@ -38,7 +38,7 @@ public class Ext6Impl1 implements Ext6 {
         this.ext1 = ext1;
     }
 
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return "Ext6Impl1-echo-" + ext1.echo(url, s);
     }
     

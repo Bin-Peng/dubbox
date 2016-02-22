@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.proxy;
 
 import java.lang.reflect.InvocationTargetException;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -35,9 +35,9 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
     
     private final Class<T> type;
     
-    private final URL url;
+    private final EURL url;
 
-    public AbstractProxyInvoker(T proxy, Class<T> type, URL url){
+    public AbstractProxyInvoker(T proxy, Class<T> type, EURL url){
         if (proxy == null) {
             throw new IllegalArgumentException("proxy == null");
         }
@@ -56,7 +56,7 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
         return type;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

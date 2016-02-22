@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.registry.RegistryService;
@@ -53,7 +53,7 @@ public class SimpleRegistryExporter {
     
     public static Exporter<RegistryService> export(int port, RegistryService registryService) {
         return protocol.export(proxyFactory.getInvoker(registryService, RegistryService.class, 
-                new URL("dubbo", NetUtils.getLocalHost(), port, RegistryService.class.getName())
+                new EURL("dubbo", NetUtils.getLocalHost(), port, RegistryService.class.getName())
                 .setPath(RegistryService.class.getName())
                 .addParameter(Constants.INTERFACE_KEY, RegistryService.class.getName())
                 .addParameter(Constants.CLUSTER_STICKY_KEY, "true")

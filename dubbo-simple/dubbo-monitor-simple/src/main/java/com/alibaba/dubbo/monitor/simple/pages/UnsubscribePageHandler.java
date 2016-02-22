@@ -17,7 +17,7 @@ package com.alibaba.dubbo.monitor.simple.pages;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
 import com.alibaba.dubbo.monitor.simple.RegistryContainer;
@@ -30,12 +30,12 @@ import com.alibaba.dubbo.registry.NotifyListener;
  */
 public class UnsubscribePageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String consumer = url.getParameterAndDecoded("consumer");
         if (consumer == null || consumer.length() == 0) {
             throw new IllegalArgumentException("Please input consumer parameter.");
         }
-        URL consumerUrl = URL.valueOf(consumer);
+        EURL consumerUrl = EURL.valueOf(consumer);
         RegistryContainer.getInstance().getRegistry().unsubscribe(consumerUrl, NotifyListenerAdapter.NOTIFY_LISTENER);
         String parameter;
         if (url.hasParameter("service")) {
@@ -56,7 +56,7 @@ public class UnsubscribePageHandler implements PageHandler {
         
         private NotifyListenerAdapter() {}
 
-        public void notify(List<URL> urls) {}
+        public void notify(List<EURL> urls) {}
         
     }
 

@@ -25,7 +25,7 @@ import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.attributes.Attribute;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -52,7 +52,7 @@ final class GrizzlyChannel extends AbstractChannel {
      * @param url
      * @param handler
      */
-    private GrizzlyChannel(Connection<?> connection, URL url, ChannelHandler handler){
+    private GrizzlyChannel(Connection<?> connection, EURL url, ChannelHandler handler){
         super(url, handler);
         if (connection == null) {
             throw new IllegalArgumentException("grizzly connection == null");
@@ -60,7 +60,7 @@ final class GrizzlyChannel extends AbstractChannel {
         this.connection = connection;
     }
 
-    static GrizzlyChannel getOrAddChannel(Connection<?> connection, URL url, ChannelHandler handler) {
+    static GrizzlyChannel getOrAddChannel(Connection<?> connection, EURL url, ChannelHandler handler) {
         if (connection == null) {
             return null;
         }

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * RPC Invocation.
@@ -52,7 +52,7 @@ public class RpcInvocation implements Invocation, Serializable {
                 invocation.getArguments(), new HashMap<String, String>(invocation.getAttachments()),
                 invocation.getInvoker());
         if (invoker != null) {
-            URL url = invoker.getUrl();
+            EURL url = invoker.getUrl();
             setAttachment(Constants.PATH_KEY, url.getPath());
             if (url.hasParameter(Constants.INTERFACE_KEY)) {
                 setAttachment(Constants.INTERFACE_KEY, url.getParameter(Constants.INTERFACE_KEY));

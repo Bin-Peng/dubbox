@@ -14,7 +14,7 @@
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.RpcInvocation;
@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class ServiceMethodNotFoundTest extends AbstractTest {
 
-    private URL url;
+    private EURL url;
 
     protected void init() throws Exception {
 
@@ -98,7 +98,7 @@ public class ServiceMethodNotFoundTest extends AbstractTest {
 
         protocol = new ThriftProtocol();
 
-        url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:" + PORT + "/" + Demo.class.getName() );
+        url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:" + PORT + "/" + Demo.class.getName() );
 
     }
 

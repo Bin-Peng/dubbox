@@ -28,7 +28,7 @@ import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ExecutorUtil;
@@ -52,7 +52,7 @@ public class MinaServer extends AbstractServer {
 
     private SocketAcceptor acceptor;
 
-    public MinaServer(URL url, ChannelHandler handler) throws RemotingException{
+    public MinaServer(EURL url, ChannelHandler handler) throws RemotingException{
         super(url, ChannelHandlers.wrap(handler, ExecutorUtil.setThreadName(url, SERVER_THREAD_POOL_NAME)));
     }
 

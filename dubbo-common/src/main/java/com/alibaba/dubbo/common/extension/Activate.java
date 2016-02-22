@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * 比如，过滤扩展，有多个实现，使用Activate Annotation的扩展可以根据条件被自动加载。
  * <ol>
  * <li>{@link Activate#group()}生效的Group。具体的有哪些Group值由框架SPI给出。
- * <li>{@link Activate#value()}在{@link com.alibaba.dubbo.common.URL}中Key集合中有，则生效。
+ * <li>{@link Activate#value()}在{@link cn.sunline.ltts.apm.api.registry.base.EURL}中Key集合中有，则生效。
  * </ol>
  *
  * <p />
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * @export
  * @see SPI
  * @see ExtensionLoader
- * @see ExtensionLoader#getActivateExtension(com.alibaba.dubbo.common.URL, String[], String)
+ * @see ExtensionLoader#getActivateExtension(cn.sunline.ltts.apm.api.registry.base.EURL, String[], String)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

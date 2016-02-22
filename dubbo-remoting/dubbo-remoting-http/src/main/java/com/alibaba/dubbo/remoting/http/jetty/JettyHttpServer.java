@@ -26,7 +26,7 @@ import org.mortbay.log.StdErrLog;
 import org.mortbay.thread.QueuedThreadPool;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -40,9 +40,9 @@ public class JettyHttpServer extends AbstractHttpServer {
 
     private Server              server;
 
-    private URL url;
+    private EURL url;
 
-    public JettyHttpServer(URL url, final HttpHandler handler){
+    public JettyHttpServer(EURL url, final HttpHandler handler){
         super(url, handler);
 
         // modified by lishen

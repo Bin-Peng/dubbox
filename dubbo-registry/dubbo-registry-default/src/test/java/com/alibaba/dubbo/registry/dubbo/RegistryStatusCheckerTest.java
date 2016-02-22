@@ -21,7 +21,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.status.Status;
 import com.alibaba.dubbo.registry.RegistryFactory;
@@ -39,8 +39,8 @@ public class RegistryStatusCheckerTest {
         SimpleRegistryExporter.exportIfAbsent(9090);
         SimpleRegistryExporter.exportIfAbsent(9091);
     }
-    URL registryUrl = URL.valueOf("dubbo://cat:cat@127.0.0.1:9090/");
-    URL registryUrl2 = URL.valueOf("dubbo://cat:cat@127.0.0.1:9091");
+    EURL registryUrl = EURL.valueOf("dubbo://cat:cat@127.0.0.1:9090/");
+    EURL registryUrl2 = EURL.valueOf("dubbo://cat:cat@127.0.0.1:9091");
 
     @Before
     public void setUp() {

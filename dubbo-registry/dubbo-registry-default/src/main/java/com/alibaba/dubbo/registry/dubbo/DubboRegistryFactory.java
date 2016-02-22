@@ -21,14 +21,16 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.bytecode.Wrapper;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 import com.alibaba.dubbo.registry.RegistryService;
 import com.alibaba.dubbo.registry.integration.RegistryDirectory;
-import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
+//import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
+import cn.sunline.ltts.apm.api.registry.base.support.AbstractRegistryFactory;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Protocol;
 import com.alibaba.dubbo.rpc.ProxyFactory;
@@ -59,9 +61,9 @@ public class DubboRegistryFactory extends AbstractRegistryFactory {
         this.cluster = cluster;
     }
     
-    public Registry createRegistry(URL url) {
+    public Registry createRegistry(EURL url) {
         url = getRegistryURL(url);
-        List<URL> urls = new ArrayList<URL>();
+        List<EURL> urls = new ArrayList<EURL>();
         urls.add(url.removeParameter(Constants.BACKUP_KEY));
         String backup = url.getParameter(Constants.BACKUP_KEY);
         if (backup != null && backup.length() > 0) {
@@ -77,11 +79,11 @@ public class DubboRegistryFactory extends AbstractRegistryFactory {
         directory.setRegistry(registry);
         directory.setProtocol(protocol);
         directory.notify(urls);
-        directory.subscribe(new URL(Constants.CONSUMER_PROTOCOL, NetUtils.getLocalHost(), 0, RegistryService.class.getName(), url.getParameters()));
+        directory.subscribe(new EURL(Constants.CONSUMER_PROTOCOL, NetUtils.getLocalHost(), 0, RegistryService.class.getName(), url.getParameters()));
         return registry;
     }
     
-    private static URL getRegistryURL(URL url) {
+    private static EURL getRegistryURL(EURL url) {
         return url.setPath(RegistryService.class.getName())
                 .removeParameter(Constants.EXPORT_KEY).removeParameter(Constants.REFER_KEY)
                 .addParameter(Constants.INTERFACE_KEY, RegistryService.class.getName())

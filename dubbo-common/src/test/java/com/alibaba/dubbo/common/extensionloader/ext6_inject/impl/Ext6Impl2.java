@@ -17,7 +17,7 @@ package com.alibaba.dubbo.common.extensionloader.ext6_inject.impl;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext6_inject.Ext6;
 
 /**
@@ -34,7 +34,7 @@ public class Ext6Impl2 implements Ext6 {
         this.list = list;
     }
 
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         throw new UnsupportedOperationException();
     }
 

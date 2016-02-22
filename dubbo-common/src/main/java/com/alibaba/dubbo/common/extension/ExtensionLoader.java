@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.support.ActivateComparator;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -101,7 +101,8 @@ public class ExtensionLoader<T> {
     private Map<String, IllegalStateException> exceptions = new ConcurrentHashMap<String, IllegalStateException>();
     
     private static <T> boolean withExtensionAnnotation(Class<T> type) {
-        return type.isAnnotationPresent(SPI.class);
+    	//sunline-mod  PB 20160218  dubbo兼容apm-api的SPI类（RegistryFactory注解为apm-api 的SPI）
+        return type.isAnnotationPresent(SPI.class) || type.isAnnotationPresent(cn.sunline.ltts.apm.api.registry.base.extension.SPI.class) ;
     }
     
     @SuppressWarnings("unchecked")
@@ -145,9 +146,9 @@ public class ExtensionLoader<T> {
      * @param url url
      * @param key url parameter key which used to get extension point names
      * @return extension list which are activated.
-     * @see #getActivateExtension(com.alibaba.dubbo.common.URL, String, String)
+     * @see #getActivateExtension(cn.sunline.ltts.apm.api.registry.base.EURL, String, String)
      */
-    public List<T> getActivateExtension(URL url, String key) {
+    public List<T> getActivateExtension(EURL url, String key) {
         return getActivateExtension(url, key, null);
     }
 
@@ -156,12 +157,12 @@ public class ExtensionLoader<T> {
      *     getActivateExtension(url, values, null);
      * </pre>
      *
-     * @see #getActivateExtension(com.alibaba.dubbo.common.URL, String[], String)
+     * @see #getActivateExtension(cn.sunline.ltts.apm.api.registry.base.EURL, String[], String)
      * @param url url
      * @param values extension point names
      * @return extension list which are activated
      */
-    public List<T> getActivateExtension(URL url, String[] values) {
+    public List<T> getActivateExtension(EURL url, String[] values) {
         return getActivateExtension(url, values, null);
     }
 
@@ -170,13 +171,13 @@ public class ExtensionLoader<T> {
      *     getActivateExtension(url, url.getParameter(key).split(","), null);
      * </pre>
      *
-     * @see #getActivateExtension(com.alibaba.dubbo.common.URL, String[], String)
+     * @see #getActivateExtension(cn.sunline.ltts.apm.api.registry.base.EURL, String[], String)
      * @param url url
      * @param key url parameter key which used to get extension point names
      * @param group group
      * @return extension list which are activated.
      */
-    public List<T> getActivateExtension(URL url, String key, String group) {
+    public List<T> getActivateExtension(EURL url, String key, String group) {
         String value = url.getParameter(key);
         return getActivateExtension(url, value == null || value.length() == 0 ? null : Constants.COMMA_SPLIT_PATTERN.split(value), group);
     }
@@ -190,7 +191,7 @@ public class ExtensionLoader<T> {
      * @param group group
      * @return extension list which are activated
      */
-    public List<T> getActivateExtension(URL url, String[] values, String group) {
+    public List<T> getActivateExtension(EURL url, String[] values, String group) {
         List<T> exts = new ArrayList<T>();
         List<String> names = values == null ? new ArrayList<String>(0) : Arrays.asList(values);
         if (! names.contains(Constants.REMOVE_VALUE_PREFIX + Constants.DEFAULT_KEY)) {
@@ -245,7 +246,7 @@ public class ExtensionLoader<T> {
         return false;
     }
     
-    private boolean isActive(Activate activate, URL url) {
+    private boolean isActive(Activate activate, EURL url) {
         String[] keys = activate.value();
         if (keys == null || keys.length == 0) {
             return true;
@@ -771,7 +772,7 @@ public class ExtensionLoader<T> {
             } else {
                 int urlTypeIndex = -1;
                 for (int i = 0; i < pts.length; ++i) {
-                    if (pts[i].equals(URL.class)) {
+                    if (pts[i].equals(EURL.class)) {
                         urlTypeIndex = i;
                         break;
                     }
@@ -783,7 +784,7 @@ public class ExtensionLoader<T> {
                                     urlTypeIndex);
                     code.append(s);
                     
-                    s = String.format("\n%s url = arg%d;", URL.class.getName(), urlTypeIndex); 
+                    s = String.format("\n%s url = arg%d;", EURL.class.getName(), urlTypeIndex); 
                     code.append(s);
                 }
                 // 参数没有URL类型
@@ -800,7 +801,7 @@ public class ExtensionLoader<T> {
                                     && Modifier.isPublic(m.getModifiers())
                                     && !Modifier.isStatic(m.getModifiers())
                                     && m.getParameterTypes().length == 0
-                                    && m.getReturnType() == URL.class) {
+                                    && m.getReturnType() == EURL.class) {
                                 urlTypeIndex = i;
                                 attribMethod = name;
                                 break LBL_PTS;
@@ -820,7 +821,7 @@ public class ExtensionLoader<T> {
                                     urlTypeIndex, attribMethod, pts[urlTypeIndex].getName(), attribMethod);
                     code.append(s);
 
-                    s = String.format("%s url = arg%d.%s();",URL.class.getName(), urlTypeIndex, attribMethod); 
+                    s = String.format("%s url = arg%d.%s();",EURL.class.getName(), urlTypeIndex, attribMethod); 
                     code.append(s);
                 }
                 

@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 
@@ -160,7 +160,7 @@ public class NetUtils {
             return host;
         }
         if (host.contains("://")) {
-            URL u = URL.valueOf(host);
+            EURL u = EURL.valueOf(host);
             if (NetUtils.isInvalidLocalHost(u.getHost())) {
                 return u.setHost(NetUtils.getLocalHost()).toFullString();
             }

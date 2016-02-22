@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.bytecode.Wrapper;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
@@ -94,7 +94,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
 
     private transient volatile boolean destroyed;
 
-    private final List<URL> urls = new ArrayList<URL>();
+    private final List<EURL> urls = new ArrayList<EURL>();
 
     @SuppressWarnings("unused")
     private final Object finalizerGuardian = new Object() {
@@ -122,11 +122,11 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         appendAnnotation(Reference.class, reference);
     }
 
-    public URL toUrl() {
+    public EURL toUrl() {
         return urls == null || urls.size() == 0 ? null : urls.iterator().next();
     }
 
-    public List<URL> toUrls() {
+    public List<EURL> toUrls() {
         return urls;
     }
 
@@ -335,7 +335,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
     
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	private T createProxy(Map<String, String> map) {
-		URL tmpUrl = new URL("temp", "localhost", 0, map);
+		EURL tmpUrl = new EURL("temp", "localhost", 0, map);
 		final boolean isJvmRefer;
         if (isInjvm() == null) {
             if (url != null && url.length() > 0) { //指定URL的情况下，不做本地引用
@@ -351,7 +351,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         }
 		
 		if (isJvmRefer) {
-			URL url = new URL(Constants.LOCAL_PROTOCOL, NetUtils.LOCALHOST, 0, interfaceClass.getName()).addParameters(map);
+			EURL url = new EURL(Constants.LOCAL_PROTOCOL, NetUtils.LOCALHOST, 0, interfaceClass.getName()).addParameters(map);
 			invoker = refprotocol.refer(interfaceClass, url);
             if (logger.isInfoEnabled()) {
                 logger.info("Using injvm service " + interfaceClass.getName());
@@ -361,7 +361,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 String[] us = Constants.SEMICOLON_SPLIT_PATTERN.split(url);
                 if (us != null && us.length > 0) {
                     for (String u : us) {
-                        URL url = URL.valueOf(u);
+                        EURL url = EURL.valueOf(u);
                         if (url.getPath() == null || url.getPath().length() == 0) {
                             url = url.setPath(interfaceName);
                         }
@@ -373,12 +373,12 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                     }
                 }
             } else { // 通过注册中心配置拼装URL
-            	List<URL> us = loadRegistries(false);
+            	List<EURL> us = loadRegistries(false);
             	if (us != null && us.size() > 0) {
-                	for (URL u : us) {
-                	    URL monitorUrl = loadMonitor(u);
+                	for (EURL u : us) {
+                	    EURL monitorUrl = loadMonitor(u);
                         if (monitorUrl != null) {
-                            map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));
+                            map.put(Constants.MONITOR_KEY, EURL.encode(monitorUrl.toFullString()));
                         }
                 	    urls.add(u.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));
                     }
@@ -392,8 +392,8 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 invoker = refprotocol.refer(interfaceClass, urls.get(0));
             } else {
                 List<Invoker<?>> invokers = new ArrayList<Invoker<?>>();
-                URL registryURL = null;
-                for (URL url : urls) {
+                EURL registryURL = null;
+                for (EURL url : urls) {
                     invokers.add(refprotocol.refer(interfaceClass, url));
                     if (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) {
                         registryURL = url; // 用了最后一个registry url
@@ -401,7 +401,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 }
                 if (registryURL != null) { // 有 注册中心协议的URL
                     // 对有注册中心的Cluster 只用 AvailableCluster
-                    URL u = registryURL.addParameter(Constants.CLUSTER_KEY, AvailableCluster.NAME); 
+                    EURL u = registryURL.addParameter(Constants.CLUSTER_KEY, AvailableCluster.NAME); 
                     invoker = cluster.join(new StaticDirectory(u, invokers));
                 }  else { // 不是 注册中心的URL
                     invoker = cluster.join(new StaticDirectory(invokers));

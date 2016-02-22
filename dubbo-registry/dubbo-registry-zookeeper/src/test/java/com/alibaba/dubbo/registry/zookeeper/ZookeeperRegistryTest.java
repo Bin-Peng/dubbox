@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * ZookeeperRegistryTest
@@ -31,10 +31,10 @@ import com.alibaba.dubbo.common.URL;
 public class ZookeeperRegistryTest {
 
     String            service     = "com.alibaba.dubbo.test.injvmServie";
-    URL               registryUrl = URL.valueOf("zookeeper://239.255.255.255/");
-    URL               serviceUrl  = URL.valueOf("zookeeper://zookeeper/" + service
+    EURL               registryUrl = EURL.valueOf("zookeeper://239.255.255.255/");
+    EURL               serviceUrl  = EURL.valueOf("zookeeper://zookeeper/" + service
                                                 + "?notify=false&methods=test1,test2");
-    URL               consumerUrl = URL.valueOf("zookeeper://consumer/" + service + "?notify=false&methods=test1,test2");
+    EURL               consumerUrl = EURL.valueOf("zookeeper://consumer/" + service + "?notify=false&methods=test1,test2");
     // ZookeeperRegistry registry    = new ZookeeperRegistry(registryUrl);
 
     /**

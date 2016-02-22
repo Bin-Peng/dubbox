@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.cache.Cache;
 import com.alibaba.dubbo.cache.CacheFactory;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * AbstractCacheFactory
@@ -31,7 +31,7 @@ public abstract class AbstractCacheFactory implements CacheFactory {
     
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
 
-    public Cache getCache(URL url) {
+    public Cache getCache(EURL url) {
         String key = url.toFullString();
         Cache cache = caches.get(key);
         if (cache == null) {
@@ -41,6 +41,6 @@ public abstract class AbstractCacheFactory implements CacheFactory {
         return cache;
     }
 
-    protected abstract Cache createCache(URL url);
+    protected abstract Cache createCache(EURL url);
 
 }

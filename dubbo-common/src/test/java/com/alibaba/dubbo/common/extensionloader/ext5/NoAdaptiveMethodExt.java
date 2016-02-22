@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext5;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.SPI;
 
 /**
@@ -25,5 +25,5 @@ import com.alibaba.dubbo.common.extension.SPI;
  */
 @SPI("impl1")
 public interface NoAdaptiveMethodExt {
-    String echo(URL url, String s);
+    String echo(EURL url, String s);
 }

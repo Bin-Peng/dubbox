@@ -22,7 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -59,7 +59,7 @@ public class FutureFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = eventFilter.invoke(invoker, invocation);
@@ -75,7 +75,7 @@ public class FutureFilterTest {
         RpcResult result = new RpcResult();
         result.setException(new RuntimeException());
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1&"+Constants.ON_THROW_METHOD_KEY+"=echo");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1&"+Constants.ON_THROW_METHOD_KEY+"=echo");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         eventFilter.invoke(invoker, invocation).recreate();

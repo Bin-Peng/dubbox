@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.monitor;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -34,6 +34,6 @@ public interface MonitorFactory {
      * @return monitor
      */
     @Adaptive("protocol")
-    Monitor getMonitor(URL url);
+    Monitor getMonitor(EURL url);
 
 }

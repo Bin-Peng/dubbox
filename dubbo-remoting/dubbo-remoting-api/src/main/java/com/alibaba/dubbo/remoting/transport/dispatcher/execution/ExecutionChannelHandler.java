@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport.dispatcher.execution;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -25,7 +25,7 @@ import com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.Chan
 
 public class ExecutionChannelHandler extends WrappedChannelHandler {
     
-    public ExecutionChannelHandler(ChannelHandler handler, URL url) {
+    public ExecutionChannelHandler(ChannelHandler handler, EURL url) {
         super(handler, url);
     }
 

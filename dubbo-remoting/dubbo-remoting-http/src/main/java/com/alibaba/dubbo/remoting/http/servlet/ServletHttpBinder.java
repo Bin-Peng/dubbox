@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.http.servlet;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
@@ -29,7 +29,7 @@ import com.alibaba.dubbo.remoting.http.HttpServer;
 public class ServletHttpBinder implements HttpBinder {
     
     @Adaptive()
-    public HttpServer bind(URL url, HttpHandler handler) {
+    public HttpServer bind(EURL url, HttpHandler handler) {
         return new ServletHttpServer(url, handler);
     }
 

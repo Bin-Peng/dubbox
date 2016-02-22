@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -55,7 +55,7 @@ public abstract class AbstractServer extends AbstractEndpoint implements Server 
     
     ExecutorService executor;
 
-    public AbstractServer(URL url, ChannelHandler handler) throws RemotingException {
+    public AbstractServer(EURL url, ChannelHandler handler) throws RemotingException {
         super(url, handler);
         localAddress = getUrl().toInetSocketAddress();
         String host = url.getParameter(Constants.ANYHOST_KEY, false) 
@@ -82,7 +82,7 @@ public abstract class AbstractServer extends AbstractEndpoint implements Server 
     
     protected abstract void doClose() throws Throwable;
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         if (url == null) {
             return;
         }

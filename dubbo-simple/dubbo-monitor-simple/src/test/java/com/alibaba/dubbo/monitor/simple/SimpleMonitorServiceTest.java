@@ -17,7 +17,7 @@ package com.alibaba.dubbo.monitor.simple;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 
 /**
@@ -29,7 +29,7 @@ public class SimpleMonitorServiceTest {
     
     @Test
     public void testMonitor() {
-        new SimpleMonitorService().collect(new URL("dubbo", NetUtils.getLocalHost(), 0));
+        new SimpleMonitorService().collect(new EURL("dubbo", NetUtils.getLocalHost(), 0));
     }
 
 }

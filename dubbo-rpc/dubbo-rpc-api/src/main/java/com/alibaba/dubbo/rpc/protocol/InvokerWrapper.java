@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -30,9 +30,9 @@ public class InvokerWrapper<T> implements Invoker<T> {
     
     private final Invoker<T> invoker;
 
-    private final URL url;
+    private final EURL url;
 
-    public InvokerWrapper(Invoker<T> invoker, URL url){
+    public InvokerWrapper(Invoker<T> invoker, EURL url){
         this.invoker = invoker;
         this.url = url;
     }
@@ -41,7 +41,7 @@ public class InvokerWrapper<T> implements Invoker<T> {
         return invoker.getInterface();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.protocol;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Filter;
@@ -55,7 +55,7 @@ public class ProtocolFilterWrapper implements Protocol {
         return protocol.export(buildInvokerChain(invoker, Constants.SERVICE_FILTER_KEY, Constants.PROVIDER));
     }
 
-    public <T> Invoker<T> refer(Class<T> type, URL url) throws RpcException {
+    public <T> Invoker<T> refer(Class<T> type, EURL url) throws RpcException {
         if (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) {
             return protocol.refer(type, url);
         }
@@ -79,7 +79,7 @@ public class ProtocolFilterWrapper implements Protocol {
                         return invoker.getInterface();
                     }
 
-                    public URL getUrl() {
+                    public EURL getUrl() {
                         return invoker.getUrl();
                     }
 

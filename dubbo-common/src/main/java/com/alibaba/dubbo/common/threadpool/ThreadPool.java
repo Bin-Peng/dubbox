@@ -18,7 +18,7 @@ package com.alibaba.dubbo.common.threadpool;
 import java.util.concurrent.Executor;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -37,6 +37,6 @@ public interface ThreadPool {
      * @return 线程池
      */
     @Adaptive({Constants.THREADPOOL_KEY})
-    Executor getExecutor(URL url);
+    Executor getExecutor(EURL url);
 
 }

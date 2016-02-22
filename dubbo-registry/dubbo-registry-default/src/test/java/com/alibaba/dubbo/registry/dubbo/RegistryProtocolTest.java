@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.registry.NotifyListener;
 import com.alibaba.dubbo.registry.RegistryFactory;
@@ -56,7 +56,7 @@ public class RegistryProtocolTest {
 
     final String service     = "com.alibaba.dubbo.registry.protocol.DemoService:1.0.0";
     final String serviceUrl  = "dubbo://127.0.0.1:9453/" + service + "?notify=true&methods=test1,test2";
-    final URL    registryUrl = URL.valueOf("registry://127.0.0.1:9090/");
+    final EURL    registryUrl = EURL.valueOf("registry://127.0.0.1:9090/");
 
     @Test
     public void testDefaultPort() {
@@ -84,7 +84,7 @@ public class RegistryProtocolTest {
 
         Protocol dubboProtocol = DubboProtocol.getDubboProtocol();
         registryProtocol.setProtocol(dubboProtocol);
-        URL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
+        EURL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
         DubboInvoker<DemoService> invoker = new DubboInvoker<DemoService>(DemoService.class,
                 newRegistryUrl, new ExchangeClient[] { new MockedClient("10.20.20.20", 2222, true) });
         Exporter<DemoService> exporter = registryProtocol.export(invoker);
@@ -98,15 +98,15 @@ public class RegistryProtocolTest {
     
     @Test
     public void testNotifyOverride() throws Exception{
-        URL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
+        EURL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
         Invoker<RegistryProtocolTest> invoker = new MockInvoker<RegistryProtocolTest>(RegistryProtocolTest.class, newRegistryUrl);
         Exporter<?> exporter = protocol.export(invoker);
         RegistryProtocol rprotocol = RegistryProtocol.getRegistryProtocol();
         NotifyListener listener = getListener(rprotocol);
-        List<URL> urls = new ArrayList<URL>();
-        urls.add(URL.valueOf("override://0.0.0.0/?timeout=1000"));
-        urls.add(URL.valueOf("override://0.0.0.0/"+ service + "?timeout=100"));
-        urls.add(URL.valueOf("override://0.0.0.0/"+ service + "?x=y"));
+        List<EURL> urls = new ArrayList<EURL>();
+        urls.add(EURL.valueOf("override://0.0.0.0/?timeout=1000"));
+        urls.add(EURL.valueOf("override://0.0.0.0/"+ service + "?timeout=100"));
+        urls.add(EURL.valueOf("override://0.0.0.0/"+ service + "?x=y"));
         listener.notify(urls);
         
         assertEquals(true, exporter.getInvoker().isAvailable());
@@ -126,13 +126,13 @@ public class RegistryProtocolTest {
      */
     @Test
     public void testNotifyOverride_notmatch() throws Exception{
-        URL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
+        EURL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
         Invoker<RegistryProtocolTest> invoker = new MockInvoker<RegistryProtocolTest>(RegistryProtocolTest.class, newRegistryUrl);
         Exporter<?> exporter = protocol.export(invoker);
         RegistryProtocol rprotocol = RegistryProtocol.getRegistryProtocol();
         NotifyListener listener = getListener(rprotocol);
-        List<URL> urls = new ArrayList<URL>();
-        urls.add(URL.valueOf("override://0.0.0.0/com.alibaba.dubbo.registry.protocol.HackService?timeout=100"));
+        List<EURL> urls = new ArrayList<EURL>();
+        urls.add(EURL.valueOf("override://0.0.0.0/com.alibaba.dubbo.registry.protocol.HackService?timeout=100"));
         listener.notify(urls);
         assertEquals(true, exporter.getInvoker().isAvailable());
         assertEquals(null, exporter.getInvoker().getUrl().getParameter("timeout"));
@@ -145,7 +145,7 @@ public class RegistryProtocolTest {
      */
     @Test
     public void testDestoryRegistry(){
-        URL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
+        EURL newRegistryUrl = registryUrl.addParameter(Constants.EXPORT_KEY, serviceUrl);
         Invoker<RegistryProtocolTest> invoker = new MockInvoker<RegistryProtocolTest>(RegistryProtocolTest.class, newRegistryUrl);
         Exporter<?> exporter = protocol.export(invoker);
         destroyRegistryProtocol();
@@ -163,7 +163,7 @@ public class RegistryProtocolTest {
     }
     
     static class MockInvoker<T> extends AbstractInvoker<T>{
-        public MockInvoker(Class<T> type, URL url) {
+        public MockInvoker(Class<T> type, EURL url) {
             super(type, url);
         }
 
@@ -176,7 +176,7 @@ public class RegistryProtocolTest {
     
     static class MockRegistry extends AbstractRegistry{
 
-        public MockRegistry(URL url) {
+        public MockRegistry(EURL url) {
             super(url);
         }
 

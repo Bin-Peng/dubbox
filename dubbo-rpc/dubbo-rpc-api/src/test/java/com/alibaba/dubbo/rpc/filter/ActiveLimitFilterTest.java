@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -39,7 +39,7 @@ public class ActiveLimitFilterTest {
 
     @Test
     public void testInvokeNoActives() {
-        URL url = URL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=0");
+        EURL url = EURL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=0");
         Invoker<ActiveLimitFilterTest> invoker = new MyInvoker<ActiveLimitFilterTest>(url);
         Invocation invocation = new MockInvocation();
         activeLimitFilter.invoke(invoker, invocation);
@@ -47,7 +47,7 @@ public class ActiveLimitFilterTest {
 
     @Test
     public void testInvokeLessActives() {
-        URL url = URL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=10");
+        EURL url = EURL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=10");
         Invoker<ActiveLimitFilterTest> invoker = new MyInvoker<ActiveLimitFilterTest>(url);
         Invocation invocation = new MockInvocation();
         activeLimitFilter.invoke(invoker, invocation);
@@ -55,7 +55,7 @@ public class ActiveLimitFilterTest {
 
     @Test
     public void testInvokeGreaterActives() {
-        URL url = URL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=1&timeout=1");
+        EURL url = EURL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1&actives=1&timeout=1");
         final Invoker<ActiveLimitFilterTest> invoker = new MyInvoker<ActiveLimitFilterTest>(url);
         final Invocation invocation = new MockInvocation();
         for (int i = 0; i < 100; i++) {

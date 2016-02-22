@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.jboss.netty.channel.ChannelFuture;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -46,7 +46,7 @@ final class NettyChannel extends AbstractChannel {
 
     private final Map<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
-    private NettyChannel(org.jboss.netty.channel.Channel channel, URL url, ChannelHandler handler){
+    private NettyChannel(org.jboss.netty.channel.Channel channel, EURL url, ChannelHandler handler){
         super(url, handler);
         if (channel == null) {
             throw new IllegalArgumentException("netty channel == null;");
@@ -54,7 +54,7 @@ final class NettyChannel extends AbstractChannel {
         this.channel = channel;
     }
 
-    static NettyChannel getOrAddChannel(org.jboss.netty.channel.Channel ch, URL url, ChannelHandler handler) {
+    static NettyChannel getOrAddChannel(org.jboss.netty.channel.Channel ch, EURL url, ChannelHandler handler) {
         if (ch == null) {
             return null;
         }

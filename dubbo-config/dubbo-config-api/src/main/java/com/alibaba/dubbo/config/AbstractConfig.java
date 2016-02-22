@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -247,7 +247,7 @@ public abstract class AbstractConfig implements Serializable {
                     String str = String.valueOf(value).trim();
                     if (value != null && str.length() > 0) {
                         if (parameter != null && parameter.escaped()) {
-                            str = URL.encode(str);
+                            str = EURL.encode(str);
                         }
                         if (parameter != null && parameter.append()) {
                             String pre = (String)parameters.get(Constants.DEFAULT_KEY + "." + key);

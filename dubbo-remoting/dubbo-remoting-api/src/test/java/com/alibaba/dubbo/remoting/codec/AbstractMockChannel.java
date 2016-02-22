@@ -19,7 +19,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -33,7 +33,7 @@ public class AbstractMockChannel implements Channel {
     public static final String LOCAL_ADDRESS = "local";
     public static final String REMOTE_ADDRESS = "remote";
     public static final String ERROR_WHEN_SEND = "error_when_send";
-    private URL remoteUrl ;
+    private EURL remoteUrl ;
     InetSocketAddress localAddress ;
     InetSocketAddress remoteAddress ;
     private ChannelHandler handler;
@@ -45,7 +45,7 @@ public class AbstractMockChannel implements Channel {
         
     }
     
-    public AbstractMockChannel(URL remoteUrl){
+    public AbstractMockChannel(EURL remoteUrl){
         this.remoteUrl = remoteUrl;
         this.remoteAddress = NetUtils.toAddress(remoteUrl.getParameter(REMOTE_ADDRESS));
         this.localAddress = NetUtils.toAddress(remoteUrl.getParameter(LOCAL_ADDRESS));
@@ -54,7 +54,7 @@ public class AbstractMockChannel implements Channel {
         this.handler = handler;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return remoteUrl;
     }
 

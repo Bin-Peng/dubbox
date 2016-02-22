@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.exchange.ExchangeClient;
 import com.alibaba.dubbo.rpc.ProxyFactory;
@@ -52,7 +52,7 @@ public class DubboInvokerAvilableTest {
     
     @Test
     public void test_Normal_available(){
-        URL url = URL.valueOf("dubbo://127.0.0.1:20883/hi");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:20883/hi");
         ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, url);
         
         DubboInvoker<?> invoker = (DubboInvoker<?>)protocol.refer(IDemoService.class, url);
@@ -63,7 +63,7 @@ public class DubboInvokerAvilableTest {
     
     @Test
     public void test_Normal_ChannelReadOnly() throws Exception{
-        URL url = URL.valueOf("dubbo://127.0.0.1:20883/hi");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:20883/hi");
         ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, url);
         
         DubboInvoker<?> invoker = (DubboInvoker<?>)protocol.refer(IDemoService.class, url);
@@ -79,7 +79,7 @@ public class DubboInvokerAvilableTest {
     
     @Test
     public void test_NoInvokers() throws Exception{
-        URL url = URL.valueOf("dubbo://127.0.0.1:20883/hi?connections=1");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:20883/hi?connections=1");
         ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, url);
         
         DubboInvoker<?> invoker = (DubboInvoker<?>)protocol.refer(IDemoService.class, url);
@@ -92,7 +92,7 @@ public class DubboInvokerAvilableTest {
     
     @Test
     public void test_Lazy_ChannelReadOnly() throws Exception{
-        URL url = URL.valueOf("dubbo://127.0.0.1:20883/hi?lazy=true&connections=1");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:20883/hi?lazy=true&connections=1");
         ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, url);
         
         DubboInvoker<?> invoker = (DubboInvoker<?>)protocol.refer(IDemoService.class, url);

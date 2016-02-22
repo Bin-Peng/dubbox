@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.registry.NotifyListener;
@@ -41,7 +41,7 @@ public abstract class AbstractRegistryService implements RegistryService {
 
     // 已注册的服务
     // Map<serviceName, Map<url, queryString>>
-    private final ConcurrentMap<String, List<URL>> registered = new ConcurrentHashMap<String, List<URL>>();
+    private final ConcurrentMap<String, List<EURL>> registered = new ConcurrentHashMap<String, List<EURL>>();
 
     // 已订阅的服务
     // Map<serviceName, queryString>
@@ -49,54 +49,54 @@ public abstract class AbstractRegistryService implements RegistryService {
 
     // 已通知的服务
     // Map<serviceName, Map<url, queryString>>
-    private final ConcurrentMap<String, List<URL>> notified = new ConcurrentHashMap<String, List<URL>>();
+    private final ConcurrentMap<String, List<EURL>> notified = new ConcurrentHashMap<String, List<EURL>>();
     
     // 已订阅服务的监听器列表
     // Map<serviceName, List<notificationListener>>
     private final ConcurrentMap<String, List<NotifyListener>> notifyListeners = new ConcurrentHashMap<String, List<NotifyListener>>();
     
-    public void register(URL url) {
+    public void register(EURL url) {
         if (logger.isInfoEnabled()) {
             logger.info("Register service: " + url.getServiceKey() + ",url:" + url);
         }
         register(url.getServiceKey(), url);
     }
 
-    public void unregister(URL url) {
+    public void unregister(EURL url) {
         if (logger.isInfoEnabled()) {
             logger.info("Unregister service: " + url.getServiceKey() + ",url:" + url);
         }
         unregister(url.getServiceKey(), url);
     }
 
-    public void subscribe(URL url, NotifyListener listener) {
+    public void subscribe(EURL url, NotifyListener listener) {
         if (logger.isInfoEnabled()) {
             logger.info("Subscribe service: " + url.getServiceKey() + ",url:" + url);
         }
         subscribe(url.getServiceKey(), url, listener);
     }
     
-    public void unsubscribe(URL url, NotifyListener listener) {
+    public void unsubscribe(EURL url, NotifyListener listener) {
         if (logger.isInfoEnabled()) {
             logger.info("Unsubscribe service: " + url.getServiceKey() + ",url:" + url);
         }
         unsubscribe(url.getServiceKey(), url, listener);
     }
 
-    public List<URL> lookup(URL url) {
+    public List<EURL> lookup(EURL url) {
         return getRegistered(url.getServiceKey());
     }
 
-    public void register(String service, URL url) {
+    public void register(String service, EURL url) {
         if (service == null) {
             throw new IllegalArgumentException("service == null");
         }
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
-        List<URL> urls = registered.get(service);
+        List<EURL> urls = registered.get(service);
         if (urls == null) {
-            registered.putIfAbsent(service, new CopyOnWriteArrayList<URL>());
+            registered.putIfAbsent(service, new CopyOnWriteArrayList<EURL>());
             urls = registered.get(service);
         }
         if (! urls.contains(url)) {
@@ -104,17 +104,17 @@ public abstract class AbstractRegistryService implements RegistryService {
         }
     }
     
-    public void unregister(String service, URL url) {
+    public void unregister(String service, EURL url) {
         if (service == null) {
             throw new IllegalArgumentException("service == null");
         }
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
-        List<URL> urls = registered.get(service);
+        List<EURL> urls = registered.get(service);
         if (urls != null) {
-            URL deleteURL = null;
-            for (URL u : urls) {
+            EURL deleteURL = null;
+            for (EURL u : urls) {
                 if (u.toIdentityString().equals(url.toIdentityString())) {
                     deleteURL = u;
                     break;
@@ -126,7 +126,7 @@ public abstract class AbstractRegistryService implements RegistryService {
         }
     }
     
-    public void subscribe(String service, URL url, NotifyListener listener) {
+    public void subscribe(String service, EURL url, NotifyListener listener) {
         if (service == null) {
             throw new IllegalArgumentException("service == null");
         }
@@ -140,7 +140,7 @@ public abstract class AbstractRegistryService implements RegistryService {
         addListener(service, listener);
     }
 
-    public void unsubscribe(String service, URL url, NotifyListener listener) {
+    public void unsubscribe(String service, EURL url, NotifyListener listener) {
         if (service == null) {
             throw new IllegalArgumentException("service == null");
         }
@@ -179,7 +179,7 @@ public abstract class AbstractRegistryService implements RegistryService {
         }
     }
     
-    private void doNotify(String service, List<URL> urls) {
+    private void doNotify(String service, List<EURL> urls) {
         notified.put(service, urls);
         List<NotifyListener> listeners = notifyListeners.get(service);
         if (listeners != null) {
@@ -193,15 +193,15 @@ public abstract class AbstractRegistryService implements RegistryService {
         }
     }
     
-    protected void notify(String service, List<URL> urls, NotifyListener listener) {
+    protected void notify(String service, List<EURL> urls, NotifyListener listener) {
         listener.notify(urls);
     }
     
     protected final void forbid(String service) {
-        doNotify(service, new ArrayList<URL>(0));
+        doNotify(service, new ArrayList<EURL>(0));
     }
 
-    protected final void notify(String service, List<URL> urls) {
+    protected final void notify(String service, List<EURL> urls) {
         if (service == null || service.length() == 0
                 || urls == null || urls.size() == 0) {
             return;
@@ -209,11 +209,11 @@ public abstract class AbstractRegistryService implements RegistryService {
         doNotify(service, urls);
     }
     
-    public Map<String, List<URL>> getRegistered() {
+    public Map<String, List<EURL>> getRegistered() {
         return Collections.unmodifiableMap(registered);
     }
     
-    public List<URL> getRegistered(String service) {
+    public List<EURL> getRegistered(String service) {
         return Collections.unmodifiableList(registered.get(service));
     }
     
@@ -225,11 +225,11 @@ public abstract class AbstractRegistryService implements RegistryService {
         return subscribed.get(service);
     }
     
-    public Map<String, List<URL>> getNotified() {
+    public Map<String, List<EURL>> getNotified() {
         return Collections.unmodifiableMap(notified);
     }
     
-    public List<URL> getNotified(String service) {
+    public List<EURL> getNotified(String service) {
         return Collections.unmodifiableList(notified.get(service));
     }
     

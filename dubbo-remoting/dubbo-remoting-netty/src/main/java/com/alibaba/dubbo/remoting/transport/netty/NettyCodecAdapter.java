@@ -30,7 +30,7 @@ import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Codec2;
 import com.alibaba.dubbo.remoting.buffer.DynamicChannelBuffer;
 
@@ -47,13 +47,13 @@ final class NettyCodecAdapter {
 
     private final Codec2         codec;
     
-    private final URL            url;
+    private final EURL            url;
     
     private final int            bufferSize;
     
     private final com.alibaba.dubbo.remoting.ChannelHandler handler;
 
-    public NettyCodecAdapter(Codec2 codec, URL url, com.alibaba.dubbo.remoting.ChannelHandler handler) {
+    public NettyCodecAdapter(Codec2 codec, EURL url, com.alibaba.dubbo.remoting.ChannelHandler handler) {
         this.codec = codec;
         this.url = url;
         this.handler = handler;

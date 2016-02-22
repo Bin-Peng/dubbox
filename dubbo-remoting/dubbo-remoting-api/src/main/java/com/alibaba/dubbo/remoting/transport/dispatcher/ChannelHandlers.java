@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.remoting.transport.dispatcher;
 
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Dispatcher;
@@ -29,13 +29,13 @@ import com.alibaba.dubbo.remoting.transport.MultiMessageHandler;
  */
 public class ChannelHandlers {
 
-    public static ChannelHandler wrap(ChannelHandler handler, URL url){
+    public static ChannelHandler wrap(ChannelHandler handler, EURL url){
         return ChannelHandlers.getInstance().wrapInternal(handler, url);
     }
 
     protected ChannelHandlers() {}
 
-    protected ChannelHandler wrapInternal(ChannelHandler handler, URL url) {
+    protected ChannelHandler wrapInternal(ChannelHandler handler, EURL url) {
         return new MultiMessageHandler(new HeartbeatHandler(ExtensionLoader.getExtensionLoader(Dispatcher.class)
                                         .getAdaptiveExtension().dispatch(handler, url)));
     }

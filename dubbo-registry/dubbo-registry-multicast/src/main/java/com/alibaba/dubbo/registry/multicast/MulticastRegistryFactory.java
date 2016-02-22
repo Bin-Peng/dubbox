@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.registry.multicast;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
@@ -26,7 +26,7 @@ import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
  */
 public class MulticastRegistryFactory extends AbstractRegistryFactory {
 
-    public Registry createRegistry(URL url) {
+    public Registry createRegistry(EURL url) {
         return new MulticastRegistry(url);
     }
 

@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting.http.support;
 
 import java.net.InetSocketAddress;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.HttpServer;
 
@@ -28,13 +28,13 @@ import com.alibaba.dubbo.remoting.http.HttpServer;
  */
 public abstract class AbstractHttpServer implements HttpServer {
 
-    private final URL url;
+    private final EURL url;
     
     private final HttpHandler handler;
 
     private volatile boolean closed;
     
-    public AbstractHttpServer(URL url, HttpHandler handler){
+    public AbstractHttpServer(EURL url, HttpHandler handler){
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -49,11 +49,11 @@ public abstract class AbstractHttpServer implements HttpServer {
         return handler;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
     }
     
     public boolean isBound() {

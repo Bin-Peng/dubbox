@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport.netty;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Client;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -29,11 +29,11 @@ public class NettyTransporter implements Transporter {
 
     public static final String NAME = "netty";
     
-    public Server bind(URL url, ChannelHandler listener) throws RemotingException {
+    public Server bind(EURL url, ChannelHandler listener) throws RemotingException {
         return new NettyServer(url, listener);
     }
 
-    public Client connect(URL url, ChannelHandler listener) throws RemotingException {
+    public Client connect(EURL url, ChannelHandler listener) throws RemotingException {
         return new NettyClient(url, listener);
     }
 

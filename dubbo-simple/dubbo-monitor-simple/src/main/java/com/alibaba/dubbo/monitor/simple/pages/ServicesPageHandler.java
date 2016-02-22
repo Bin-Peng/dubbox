@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
@@ -34,24 +34,24 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
 @Menu(name = "Services", desc = "Show registered services.", order = 2000)
 public class ServicesPageHandler implements PageHandler {
     
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         Set<String> services = RegistryContainer.getInstance().getServices();
         List<List<String>> rows = new ArrayList<List<String>>();
         int providerCount = 0;
         int consumerCount = 0;
         if (services != null && services.size() > 0) {
             for (String service : services) {
-                List<URL> providers = RegistryContainer.getInstance().getProvidersByService(service);
+                List<EURL> providers = RegistryContainer.getInstance().getProvidersByService(service);
                 int providerSize = providers == null ? 0 : providers.size();
                 providerCount += providerSize;
-                List<URL> consumers = RegistryContainer.getInstance().getConsumersByService(service);
+                List<EURL> consumers = RegistryContainer.getInstance().getConsumersByService(service);
                 int consumerSize = consumers == null ? 0 : consumers.size();
                 consumerCount += consumerSize;
                 List<String> row = new ArrayList<String>();
                 row.add(service);
                 if (providerSize > 0 || consumerSize > 0) {
                     if (providerSize > 0) {
-                        URL provider = providers.iterator().next();
+                        EURL provider = providers.iterator().next();
                         row.add(provider.getParameter(Constants.APPLICATION_KEY, ""));
                         row.add(provider.getParameter("owner", "") + (provider.hasParameter("organization") ?  " (" + provider.getParameter("organization") + ")" : ""));
                     } else {

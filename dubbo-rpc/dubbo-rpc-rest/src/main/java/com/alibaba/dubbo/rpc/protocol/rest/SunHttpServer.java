@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.rest;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import org.jboss.resteasy.plugins.server.sun.http.SunHttpJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 
@@ -26,7 +26,7 @@ public class SunHttpServer extends BaseRestServer {
 
     private final SunHttpJaxrsServer server = new SunHttpJaxrsServer();
 
-    protected void doStart(URL url) {
+    protected void doStart(EURL url) {
         server.setPort(url.getPort());
         server.start();
     }

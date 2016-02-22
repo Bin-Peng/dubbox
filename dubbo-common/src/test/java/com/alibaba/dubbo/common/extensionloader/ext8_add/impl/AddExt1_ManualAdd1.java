@@ -15,14 +15,14 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext8_add.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext8_add.AddExt1;
 
 /**
  * @author ding.lid
  */
 public class AddExt1_ManualAdd1 implements AddExt1 {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return this.getClass().getSimpleName();
     }
 }

@@ -21,7 +21,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * 在{@link ExtensionLoader}生成Extension的Adaptive Instance时，为{@link ExtensionLoader}提供信息。
@@ -30,7 +30,7 @@ import com.alibaba.dubbo.common.URL;
  * @export
  * 
  * @see ExtensionLoader
- * @see URL
+ * @see EURL
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -38,9 +38,9 @@ import com.alibaba.dubbo.common.URL;
 public @interface Adaptive {
     
     /**
-     * 从{@link URL}的Key名，对应的Value作为要Adapt成的Extension名。
+     * 从{@link EURL}的Key名，对应的Value作为要Adapt成的Extension名。
      * <p>
-     * 如果{@link URL}这些Key都没有Value，使用 用 缺省的扩展（在接口的{@link SPI}中设定的值）。<br>
+     * 如果{@link EURL}这些Key都没有Value，使用 用 缺省的扩展（在接口的{@link SPI}中设定的值）。<br>
      * 比如，<code>String[] {"key1", "key2"}</code>，表示
      * <ol>
      * <li>先在URL上找key1的Value作为要Adapt成的Extension名；

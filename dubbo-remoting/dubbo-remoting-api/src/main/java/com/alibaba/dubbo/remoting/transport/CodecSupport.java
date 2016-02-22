@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -59,12 +59,12 @@ public class CodecSupport {
         return ID_SERIALIZATION_MAP.get(id);
     }
 
-    public static Serialization getSerialization(URL url) {
+    public static Serialization getSerialization(EURL url) {
         return ExtensionLoader.getExtensionLoader(Serialization.class).getExtension(
             url.getParameter(Constants.SERIALIZATION_KEY, Constants.DEFAULT_REMOTING_SERIALIZATION));
     }
 
-    public static Serialization getSerialization(URL url, Byte id) {
+    public static Serialization getSerialization(EURL url, Byte id) {
         Serialization result = getSerializationById(id);
         if (result == null) {
             result = getSerialization(url);

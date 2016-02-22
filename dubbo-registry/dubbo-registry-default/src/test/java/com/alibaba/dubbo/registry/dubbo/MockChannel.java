@@ -17,7 +17,7 @@ package com.alibaba.dubbo.registry.dubbo;
 
 import java.net.InetSocketAddress;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
@@ -60,7 +60,7 @@ public class MockChannel implements ExchangeChannel {
     public void close(int timeout) {
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return null;
     }
 

@@ -18,7 +18,7 @@ package com.alibaba.dubbo.remoting;
 import javax.sound.midi.Receiver;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -38,25 +38,25 @@ public interface Transporter {
     /**
      * Bind a server.
      * 
-     * @see com.alibaba.dubbo.remoting.Transporters#bind(URL, Receiver, ChannelHandler)
+     * @see com.alibaba.dubbo.remoting.Transporters#bind(EURL, Receiver, ChannelHandler)
      * @param url server url
      * @param handler
      * @return server
      * @throws RemotingException 
      */
     @Adaptive({Constants.SERVER_KEY, Constants.TRANSPORTER_KEY})
-    Server bind(URL url, ChannelHandler handler) throws RemotingException;
+    Server bind(EURL url, ChannelHandler handler) throws RemotingException;
 
     /**
      * Connect to a server.
      * 
-     * @see com.alibaba.dubbo.remoting.Transporters#connect(URL, Receiver, ChannelListener)
+     * @see com.alibaba.dubbo.remoting.Transporters#connect(EURL, Receiver, ChannelListener)
      * @param url server url
      * @param handler
      * @return client
      * @throws RemotingException 
      */
     @Adaptive({Constants.CLIENT_KEY, Constants.TRANSPORTER_KEY})
-    Client connect(URL url, ChannelHandler handler) throws RemotingException;
+    Client connect(EURL url, ChannelHandler handler) throws RemotingException;
 
 }

@@ -22,7 +22,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.monitor.Monitor;
 import com.alibaba.dubbo.monitor.MonitorFactory;
@@ -42,14 +42,14 @@ import com.alibaba.dubbo.rpc.RpcException;
  */
 public class DubboMonitorTest {
     
-    private volatile URL lastStatistics;
+    private volatile EURL lastStatistics;
     
     private final Invoker<MonitorService> monitorInvoker = new Invoker<MonitorService>() {
         public Class<MonitorService> getInterface() {
             return MonitorService.class;
         }
-        public URL getUrl() {
-            return URL.valueOf("dubbo://127.0.0.1:7070?interval=20");
+        public EURL getUrl() {
+            return EURL.valueOf("dubbo://127.0.0.1:7070?interval=20");
         }
         public boolean isAvailable() {
             return false;
@@ -63,11 +63,11 @@ public class DubboMonitorTest {
     
     private final MonitorService monitorService = new MonitorService() {
 
-        public void collect(URL statistics) {
+        public void collect(EURL statistics) {
             DubboMonitorTest.this.lastStatistics = statistics;
         }
 
-		public List<URL> lookup(URL query) {
+		public List<EURL> lookup(EURL query) {
 			return Arrays.asList(DubboMonitorTest.this.lastStatistics);
 		}
         
@@ -76,7 +76,7 @@ public class DubboMonitorTest {
     @Test
     public void testCount() throws Exception {
         DubboMonitor monitor = new DubboMonitor(monitorInvoker, monitorService);
-        URL statistics = new URL("dubbo", "10.20.153.10", 0)
+        EURL statistics = new EURL("dubbo", "10.20.153.10", 0)
             .addParameter(MonitorService.APPLICATION, "morgan")
             .addParameter(MonitorService.INTERFACE, "MemberService")
             .addParameter(MonitorService.METHOD, "findPerson")
@@ -110,7 +110,7 @@ public class DubboMonitorTest {
     @Test
     public void testMonitorFactory() throws Exception {
         MockMonitorService monitorService = new MockMonitorService();
-        URL statistics = new URL("dubbo", "10.20.153.10", 0)
+        EURL statistics = new EURL("dubbo", "10.20.153.10", 0)
                 .addParameter(MonitorService.APPLICATION, "morgan")
                 .addParameter(MonitorService.INTERFACE, "MemberService")
                 .addParameter(MonitorService.METHOD, "findPerson")
@@ -126,9 +126,9 @@ public class DubboMonitorTest {
         ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
         MonitorFactory monitorFactory = ExtensionLoader.getExtensionLoader(MonitorFactory.class).getAdaptiveExtension();
 
-        Exporter<MonitorService> exporter = protocol.export(proxyFactory.getInvoker(monitorService, MonitorService.class, URL.valueOf("dubbo://127.0.0.1:17979/" + MonitorService.class.getName())));
+        Exporter<MonitorService> exporter = protocol.export(proxyFactory.getInvoker(monitorService, MonitorService.class, EURL.valueOf("dubbo://127.0.0.1:17979/" + MonitorService.class.getName())));
         try {
-            Monitor monitor = monitorFactory.getMonitor(URL.valueOf("dubbo://127.0.0.1:17979?interval=10"));
+            Monitor monitor = monitorFactory.getMonitor(EURL.valueOf("dubbo://127.0.0.1:17979?interval=10"));
             try {
                 monitor.collect(statistics);
                 int i = 0;
@@ -136,7 +136,7 @@ public class DubboMonitorTest {
                     i ++;
                     Thread.sleep(10);
                 }
-                URL result = monitorService.getStatistics();
+                EURL result = monitorService.getStatistics();
                 Assert.assertEquals(1, result.getParameter(MonitorService.SUCCESS, 0));
                 Assert.assertEquals(3, result.getParameter(MonitorService.ELAPSED, 0));
             } finally {

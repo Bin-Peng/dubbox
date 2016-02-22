@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 
@@ -13,9 +13,9 @@ import com.alibaba.dubbo.registry.RegistryFactory;
  */
 public class MockRegistryFactory implements RegistryFactory {
 
-    private static final Map<URL, Registry> registries = new HashMap<URL, Registry>();
+    private static final Map<EURL, Registry> registries = new HashMap<EURL, Registry>();
 
-    public Registry getRegistry(URL url) {
+    public Registry getRegistry(EURL url) {
         MockRegistry registry = new MockRegistry(url);
         registries.put(url, registry);
         return registry;

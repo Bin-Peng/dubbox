@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.protocol.dubbo.support;
 
 import java.util.Collection;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.exchange.ExchangeServer;
 import com.alibaba.dubbo.rpc.Exporter;
@@ -37,22 +37,22 @@ public class ProtocolUtils {
     public static ProxyFactory proxy    = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
 
     public static <T> T refer(Class<T> type, String url) {
-        return refer(type, URL.valueOf(url));
+        return refer(type, EURL.valueOf(url));
     }
 
-    public static <T> T refer(Class<T> type, URL url) {
+    public static <T> T refer(Class<T> type, EURL url) {
         return proxy.getProxy(protocol.refer(type, url));
     }
     
-    public static Invoker<?> referInvoker(Class<?> type, URL url) {
+    public static Invoker<?> referInvoker(Class<?> type, EURL url) {
         return (Invoker<?>)protocol.refer(type, url);
     }
 
     public static <T> Exporter<T> export(T instance, Class<T> type, String url) {
-        return export(instance, type, URL.valueOf(url));
+        return export(instance, type, EURL.valueOf(url));
     }
 
-    public static <T> Exporter<T> export(T instance, Class<T> type, URL url) {
+    public static <T> Exporter<T> export(T instance, Class<T> type, EURL url) {
         return protocol.export(proxy.getInvoker(instance, type, url));
     }
 

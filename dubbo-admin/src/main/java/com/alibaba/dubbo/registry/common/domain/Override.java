@@ -18,7 +18,7 @@ package com.alibaba.dubbo.registry.common.domain;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
 /**
@@ -159,7 +159,7 @@ public class Override extends Entity {
     	return map;
     }
 
-    public URL toUrl() {
+    public EURL toUrl() {
         String group = null;
         String version = null;
         String path = service;
@@ -198,7 +198,7 @@ public class Override extends Entity {
             param.put(Constants.VERSION_KEY, version);
         }
         sb.append(StringUtils.toQueryString(param));
-        return URL.valueOf(sb.toString());
+        return EURL.valueOf(sb.toString());
     }
 
 }

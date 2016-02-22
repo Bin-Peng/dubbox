@@ -47,7 +47,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.extensionloader.ext1.SimpleExt;
 import com.alibaba.dubbo.common.extensionloader.ext1.impl.SimpleExtImpl2;
@@ -127,7 +127,7 @@ public class ExtensionLoaderTest {
         assertThat(impl2, anyOf(instanceOf(Ext5Wrapper1.class), instanceOf(Ext5Wrapper2.class)));
         
         
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1");
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1");
         int echoCount1 = Ext5Wrapper1.echoCount.get();
         int echoCount2 = Ext5Wrapper2.echoCount.get();
 
@@ -355,7 +355,7 @@ public class ExtensionLoaderTest {
     @Test
     public void testLoadActivateExtension() throws Exception {
         // test default
-        URL url = URL.valueOf("test://localhost/test");
+        EURL url = EURL.valueOf("test://localhost/test");
         List<ActivateExt1> list = ExtensionLoader.getExtensionLoader(ActivateExt1.class)
                 .getActivateExtension(url, new String[]{}, "default_group");
         Assert.assertEquals(1, list.size());
@@ -378,7 +378,7 @@ public class ExtensionLoaderTest {
         Assert.assertTrue(list.get(0).getClass() == ValueActivateExtImpl.class);
 
         // test order
-        url = URL.valueOf("test://localhost/test");
+        url = EURL.valueOf("test://localhost/test");
         url = url.addParameter(Constants.GROUP_KEY, "order");
         list = ExtensionLoader.getExtensionLoader(ActivateExt1.class)
                 .getActivateExtension(url, new String[]{}, "order");
@@ -390,14 +390,14 @@ public class ExtensionLoaderTest {
     @Test
     public void testLoadDefaultActivateExtension() throws Exception {
         // test default
-        URL url = URL.valueOf("test://localhost/test?ext=order1,default");
+        EURL url = EURL.valueOf("test://localhost/test?ext=order1,default");
         List<ActivateExt1> list = ExtensionLoader.getExtensionLoader(ActivateExt1.class)
                 .getActivateExtension(url, "ext", "default_group");
         Assert.assertEquals(2, list.size());
         Assert.assertTrue(list.get(0).getClass() == OrderActivateExtImpl1.class);
         Assert.assertTrue(list.get(1).getClass() == ActivateExt1Impl1.class);
         
-        url = URL.valueOf("test://localhost/test?ext=default,order1");
+        url = EURL.valueOf("test://localhost/test?ext=default,order1");
         list = ExtensionLoader.getExtensionLoader(ActivateExt1.class)
                 .getActivateExtension(url, "ext", "default_group");
         Assert.assertEquals(2, list.size());

@@ -18,7 +18,7 @@ package com.alibaba.dubbo.remoting.http;
 import java.net.InetSocketAddress;
 
 import com.alibaba.dubbo.common.Resetable;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 public interface HttpServer extends Resetable {
     
@@ -34,7 +34,7 @@ public interface HttpServer extends Resetable {
      * 
      * @return url
      */
-    URL getUrl();
+    EURL getUrl();
     
     /**
      * get local address.

@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.rpc.cluster.support;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -90,7 +90,7 @@ public class MergeableClusterInvokerTest {
     private Menu firstMenu = new Menu( firstMenuMap );
     private Menu secondMenu = new Menu( secondMenuMap );
     
-    private URL url = URL.valueOf( new StringBuilder( 32 )
+    private EURL url = EURL.valueOf( new StringBuilder( 32 )
                                            .append( "test://test/" )
                                            .append( MenuService.class.getName() ).toString() );
     

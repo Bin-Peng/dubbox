@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
 import com.alibaba.dubbo.monitor.MonitorService;
@@ -34,7 +34,7 @@ import com.alibaba.dubbo.monitor.simple.SimpleMonitorService;
  */
 public class ChartsPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String service = url.getParameter("service");
         if (service == null || service.length() == 0) {
             throw new IllegalArgumentException("Please input service parameter.");

@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.rpc.protocol.rest;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 
@@ -29,7 +29,7 @@ public class NettyServer extends BaseRestServer {
 
     private final NettyJaxrsServer server = new NettyJaxrsServer();
 
-    protected void doStart(URL url) {
+    protected void doStart(EURL url) {
         server.setPort(url.getPort());
         server.setKeepAlive(url.getParameter(Constants.KEEP_ALIVE_KEY, Constants.DEFAULT_KEEP_ALIVE));
         server.setExecutorThreadCount(url.getParameter(Constants.THREADS_KEY, Constants.DEFAULT_THREADS));

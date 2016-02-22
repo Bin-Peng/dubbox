@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.remoting.Channel;
@@ -117,7 +117,7 @@ public class CountTelnetHandler implements TelnetHandler {
     }
     
     private String count(Invoker<?> invoker, String method) {
-        URL url = invoker.getUrl();
+        EURL url = invoker.getUrl();
         List<List<String>> table = new ArrayList<List<String>>();
         List<String> header = new ArrayList<String>();
         header.add("method");

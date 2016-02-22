@@ -19,7 +19,7 @@ package com.alibaba.dubbo.rpc.protocol;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -84,7 +84,7 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
         return exporter;
     }
 
-    public <T> Invoker<T> refer(final Class<T> type, final URL url) throws RpcException {
+    public <T> Invoker<T> refer(final Class<T> type, final EURL url) throws RpcException {
         final Invoker<T> tagert = proxyFactory.getInvoker(doRefer(type, url), type, url);
         Invoker<T> invoker = new AbstractInvoker<T>(type, url) {
             @Override
@@ -114,7 +114,7 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
         return invoker;
     }
 
-    protected RpcException getRpcException(Class<?> type, URL url, Invocation invocation, Throwable e) {
+    protected RpcException getRpcException(Class<?> type, EURL url, Invocation invocation, Throwable e) {
         RpcException re = new RpcException("Failed to invoke remote service: " + type + ", method: "
                 + invocation.getMethodName() + ", cause: " + e.getMessage(), e);
         re.setCode(getErrorCode(e));
@@ -125,8 +125,8 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
         return RpcException.UNKNOWN_EXCEPTION;
     }
 
-    protected abstract <T> Runnable doExport(T impl, Class<T> type, URL url) throws RpcException;
+    protected abstract <T> Runnable doExport(T impl, Class<T> type, EURL url) throws RpcException;
 
-    protected abstract <T> T doRefer(Class<T> type, URL url) throws RpcException;
+    protected abstract <T> T doRefer(Class<T> type, EURL url) throws RpcException;
 
 }

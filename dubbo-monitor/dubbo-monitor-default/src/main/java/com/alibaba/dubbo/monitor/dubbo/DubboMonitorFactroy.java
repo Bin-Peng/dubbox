@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.monitor.dubbo;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.monitor.Monitor;
 import com.alibaba.dubbo.monitor.MonitorService;
 import com.alibaba.dubbo.monitor.support.AbstractMonitorFactory;
@@ -44,7 +44,7 @@ public class DubboMonitorFactroy extends AbstractMonitorFactory {
     }
     
     @Override
-    protected Monitor createMonitor(URL url) {
+    protected Monitor createMonitor(EURL url) {
         url = url.setProtocol(url.getParameter(Constants.PROTOCOL_KEY, "dubbo"));
         if (url.getPath() == null || url.getPath().length() == 0) {
             url = url.setPath(MonitorService.class.getName());

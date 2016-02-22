@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.rpc.protocol.rest;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 
@@ -25,7 +25,7 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
  */
 public abstract class BaseRestServer implements RestServer {
 
-    public void start(URL url) {
+    public void start(EURL url) {
         getDeployment().getMediaTypeMappings().put("json", "application/json");
         getDeployment().getMediaTypeMappings().put("xml", "text/xml");
 //        server.getDeployment().getMediaTypeMappings().put("xml", "application/xml");
@@ -60,5 +60,5 @@ public abstract class BaseRestServer implements RestServer {
 
     protected abstract ResteasyDeployment getDeployment();
 
-    protected abstract void doStart(URL url);
+    protected abstract void doStart(EURL url);
 }

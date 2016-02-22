@@ -22,7 +22,7 @@ import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.filterchain.NextAction;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -38,11 +38,11 @@ public class GrizzlyHandler extends BaseFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(GrizzlyHandler.class);
 
-    private final URL url;
+    private final EURL url;
     
     private final ChannelHandler handler;
     
-    public GrizzlyHandler(URL url, ChannelHandler handler){
+    public GrizzlyHandler(EURL url, ChannelHandler handler){
         this.url = url;
         this.handler = handler;
     }

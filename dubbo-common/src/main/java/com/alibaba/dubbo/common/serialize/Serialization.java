@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -54,7 +54,7 @@ public interface Serialization {
      * @throws IOException
      */
     @Adaptive
-    ObjectOutput serialize(URL url, OutputStream output) throws IOException;
+    ObjectOutput serialize(EURL url, OutputStream output) throws IOException;
 
     /**
      * create deserializer
@@ -64,6 +64,6 @@ public interface Serialization {
      * @throws IOException
      */
     @Adaptive
-    ObjectInput deserialize(URL url, InputStream input) throws IOException;
+    ObjectInput deserialize(EURL url, InputStream input) throws IOException;
 
 }

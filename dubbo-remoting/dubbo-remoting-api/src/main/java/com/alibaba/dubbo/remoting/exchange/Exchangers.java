@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.remoting.exchange;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -33,26 +33,26 @@ import com.alibaba.dubbo.remoting.transport.ChannelHandlerAdapter;
 public class Exchangers {
 
     public static ExchangeServer bind(String url, Replier<?> replier) throws RemotingException {
-        return bind(URL.valueOf(url), replier);
+        return bind(EURL.valueOf(url), replier);
     }
 
-    public static ExchangeServer bind(URL url,  Replier<?> replier) throws RemotingException {
+    public static ExchangeServer bind(EURL url,  Replier<?> replier) throws RemotingException {
         return bind(url, new ChannelHandlerAdapter(), replier);
     }
 
     public static ExchangeServer bind(String url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
-        return bind(URL.valueOf(url), handler, replier);
+        return bind(EURL.valueOf(url), handler, replier);
     }
 
-    public static ExchangeServer bind(URL url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
+    public static ExchangeServer bind(EURL url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
         return bind(url, new ExchangeHandlerDispatcher(replier, handler));
     }
     
     public static ExchangeServer bind(String url, ExchangeHandler handler) throws RemotingException {
-        return bind(URL.valueOf(url), handler);
+        return bind(EURL.valueOf(url), handler);
     }
 
-    public static ExchangeServer bind(URL url, ExchangeHandler handler) throws RemotingException {
+    public static ExchangeServer bind(EURL url, ExchangeHandler handler) throws RemotingException {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -64,34 +64,34 @@ public class Exchangers {
     }
 
     public static ExchangeClient connect(String url) throws RemotingException {
-        return connect(URL.valueOf(url));
+        return connect(EURL.valueOf(url));
     }
 
-    public static ExchangeClient connect(URL url) throws RemotingException {
+    public static ExchangeClient connect(EURL url) throws RemotingException {
         return connect(url, new ChannelHandlerAdapter(), null);
     }
 
     public static ExchangeClient connect(String url, Replier<?> replier) throws RemotingException {
-        return connect(URL.valueOf(url), new ChannelHandlerAdapter(), replier);
+        return connect(EURL.valueOf(url), new ChannelHandlerAdapter(), replier);
     }
 
-    public static ExchangeClient connect(URL url, Replier<?> replier) throws RemotingException {
+    public static ExchangeClient connect(EURL url, Replier<?> replier) throws RemotingException {
         return connect(url, new ChannelHandlerAdapter(), replier);
     }
 
     public static ExchangeClient connect(String url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
-        return connect(URL.valueOf(url), handler, replier);
+        return connect(EURL.valueOf(url), handler, replier);
     }
 
-    public static ExchangeClient connect(URL url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
+    public static ExchangeClient connect(EURL url, ChannelHandler handler, Replier<?> replier) throws RemotingException {
         return connect(url, new ExchangeHandlerDispatcher(replier, handler));
     }
     
     public static ExchangeClient connect(String url, ExchangeHandler handler) throws RemotingException {
-        return connect(URL.valueOf(url), handler);
+        return connect(EURL.valueOf(url), handler);
     }
 
-    public static ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException {
+    public static ExchangeClient connect(EURL url, ExchangeHandler handler) throws RemotingException {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -102,7 +102,7 @@ public class Exchangers {
         return getExchanger(url).connect(url, handler);
     }
 
-    public static Exchanger getExchanger(URL url) {
+    public static Exchanger getExchanger(EURL url) {
         String type = url.getParameter(Constants.EXCHANGER_KEY, Constants.DEFAULT_EXCHANGER);
         return getExchanger(type);
     }

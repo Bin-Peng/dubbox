@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.p2p.Group;
 import com.alibaba.dubbo.remoting.p2p.Networker;
@@ -27,7 +27,7 @@ import com.alibaba.dubbo.remoting.p2p.Networker;
  */
 public class FileNetworker implements Networker {
 
-    public Group lookup(URL url) throws RemotingException {
+    public Group lookup(EURL url) throws RemotingException {
         return new FileGroup(url);
     }
 

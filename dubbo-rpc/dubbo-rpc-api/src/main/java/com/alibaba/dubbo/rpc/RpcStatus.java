@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * URL statistics. (API, Cached, ThreadSafe)
@@ -41,7 +41,7 @@ public class RpcStatus {
      * @param url
      * @return status
      */
-    public static RpcStatus getStatus(URL url) {
+    public static RpcStatus getStatus(EURL url) {
         String uri = url.toIdentityString();
         RpcStatus status = SERVICE_STATISTICS.get(uri);
         if (status == null) {
@@ -55,7 +55,7 @@ public class RpcStatus {
      * 
      * @param url
      */
-    public static void removeStatus(URL url) {
+    public static void removeStatus(EURL url) {
         String uri = url.toIdentityString();
         SERVICE_STATISTICS.remove(uri);
     }
@@ -66,7 +66,7 @@ public class RpcStatus {
      * @param methodName
      * @return status
      */
-    public static RpcStatus getStatus(URL url, String methodName) {
+    public static RpcStatus getStatus(EURL url, String methodName) {
         String uri = url.toIdentityString();
         ConcurrentMap<String, RpcStatus> map = METHOD_STATISTICS.get(uri);
         if (map == null) {
@@ -85,7 +85,7 @@ public class RpcStatus {
      * 
      * @param url
      */
-    public static void removeStatus(URL url, String methodName) {
+    public static void removeStatus(EURL url, String methodName) {
         String uri = url.toIdentityString();
         ConcurrentMap<String, RpcStatus> map = METHOD_STATISTICS.get(uri);
         if (map != null) {
@@ -97,7 +97,7 @@ public class RpcStatus {
      * 
      * @param url
      */
-    public static void beginCount(URL url, String methodName) {
+    public static void beginCount(EURL url, String methodName) {
         beginCount(getStatus(url));
         beginCount(getStatus(url, methodName));
     }
@@ -112,7 +112,7 @@ public class RpcStatus {
      * @param elapsed
      * @param succeeded
      */
-    public static void endCount(URL url, String methodName, long elapsed, boolean succeeded) {
+    public static void endCount(EURL url, String methodName, long elapsed, boolean succeeded) {
         endCount(getStatus(url), elapsed, succeeded);
         endCount(getStatus(url, methodName), elapsed, succeeded);
     }

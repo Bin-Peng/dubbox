@@ -29,7 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -58,7 +58,7 @@ public class AbstractClusterInvokerTest {
     AbstractClusterInvoker<IHelloService> cluster_nocheck;
     Directory<IHelloService> dic ;
     RpcInvocation invocation = new RpcInvocation();
-    URL url = URL.valueOf("registry://localhost:9090");
+    EURL url = EURL.valueOf("registry://localhost:9090");
     
     Invoker<IHelloService> invoker1 ;
     Invoker<IHelloService> invoker2 ;
@@ -83,7 +83,7 @@ public class AbstractClusterInvokerTest {
         invoker5 = EasyMock.createMock(Invoker.class);
         mockedInvoker1 = EasyMock.createMock(Invoker.class);
         
-        URL turl = URL.valueOf("test://test:11/test");
+        EURL turl = EURL.valueOf("test://test:11/test");
         
         EasyMock.expect(invoker1.isAvailable()).andReturn(false).anyTimes();
         EasyMock.expect(invoker1.getInterface()).andReturn(IHelloService.class).anyTimes();
@@ -409,8 +409,8 @@ public class AbstractClusterInvokerTest {
                 return DemoService.class;
             }
 
-            public URL getUrl() {
-                return URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":20880/" + DemoService.class.getName());
+            public EURL getUrl() {
+                return EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":20880/" + DemoService.class.getName());
             }
 
             public boolean isAvailable() {

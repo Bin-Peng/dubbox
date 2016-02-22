@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -41,9 +41,9 @@ public class WrappedChannelHandler implements ChannelHandlerDelegate {
     
     protected final ChannelHandler handler;
 
-    protected final URL url;
+    protected final EURL url;
     
-    public WrappedChannelHandler(ChannelHandler handler, URL url) {
+    public WrappedChannelHandler(ChannelHandler handler, EURL url) {
         this.handler = handler;
         this.url = url;
         executor = (ExecutorService) ExtensionLoader.getExtensionLoader(ThreadPool.class).getAdaptiveExtension().getExecutor(url);
@@ -98,7 +98,7 @@ public class WrappedChannelHandler implements ChannelHandlerDelegate {
         }
     }
     
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

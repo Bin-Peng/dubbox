@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.remoting.transport;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Endpoint;
@@ -32,11 +32,11 @@ public abstract class AbstractPeer implements Endpoint, ChannelHandler {
 
     private final ChannelHandler handler;
 
-    private volatile URL         url;
+    private volatile EURL         url;
 
     private volatile boolean     closed;
 
-    public AbstractPeer(URL url, ChannelHandler handler) {
+    public AbstractPeer(EURL url, ChannelHandler handler) {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -59,11 +59,11 @@ public abstract class AbstractPeer implements Endpoint, ChannelHandler {
         close();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    protected void setUrl(URL url) {
+    protected void setUrl(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }

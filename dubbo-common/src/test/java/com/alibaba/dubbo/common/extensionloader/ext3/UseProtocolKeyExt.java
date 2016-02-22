@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext3;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -26,8 +26,8 @@ import com.alibaba.dubbo.common.extension.SPI;
 public interface UseProtocolKeyExt {
     // protocol key在第二个
     @Adaptive({"key1", "protocol"})
-    String echo(URL url, String s);
+    String echo(EURL url, String s);
     // protocol 吸在第一个
     @Adaptive({"protocol", "key2"})
-    String yell(URL url, String s);
+    String yell(EURL url, String s);
 }

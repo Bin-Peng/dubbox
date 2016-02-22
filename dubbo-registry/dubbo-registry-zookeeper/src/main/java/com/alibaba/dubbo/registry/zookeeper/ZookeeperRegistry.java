@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
@@ -52,11 +52,11 @@ public class ZookeeperRegistry extends FailbackRegistry {
     
     private final Set<String> anyServices = new ConcurrentHashSet<String>();
 
-    private final ConcurrentMap<URL, ConcurrentMap<NotifyListener, ChildListener>> zkListeners = new ConcurrentHashMap<URL, ConcurrentMap<NotifyListener, ChildListener>>();
+    private final ConcurrentMap<EURL, ConcurrentMap<NotifyListener, ChildListener>> zkListeners = new ConcurrentHashMap<EURL, ConcurrentMap<NotifyListener, ChildListener>>();
     
     private final ZookeeperClient zkClient;
     
-    public ZookeeperRegistry(URL url, ZookeeperTransporter zookeeperTransporter) {
+    public ZookeeperRegistry(EURL url, ZookeeperTransporter zookeeperTransporter) {
         super(url);
         if (url.isAnyHost()) {
     		throw new IllegalStateException("registry address == null");
@@ -93,7 +93,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         }
     }
 
-    protected void doRegister(URL url) {
+    protected void doRegister(EURL url) {
         try {
         	zkClient.create(toUrlPath(url), url.getParameter(Constants.DYNAMIC_KEY, true));
         } catch (Throwable e) {
@@ -101,7 +101,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         }
     }
 
-    protected void doUnregister(URL url) {
+    protected void doUnregister(EURL url) {
         try {
             zkClient.delete(toUrlPath(url));
         } catch (Throwable e) {
@@ -109,7 +109,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         }
     }
 
-    protected void doSubscribe(final URL url, final NotifyListener listener) {
+    protected void doSubscribe(final EURL url, final NotifyListener listener) {
         try {
             if (Constants.ANY_VALUE.equals(url.getServiceInterface())) {
                 String root = toRootPath();
@@ -123,7 +123,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
                     listeners.putIfAbsent(listener, new ChildListener() {
                         public void childChanged(String parentPath, List<String> currentChilds) {
                             for (String child : currentChilds) {
-								child = URL.decode(child);
+								child = EURL.decode(child);
                                 if (! anyServices.contains(child)) {
                                     anyServices.add(child);
                                     subscribe(url.setPath(child).addParameters(Constants.INTERFACE_KEY, child, 
@@ -138,14 +138,14 @@ public class ZookeeperRegistry extends FailbackRegistry {
                 List<String> services = zkClient.addChildListener(root, zkListener);
                 if (services != null && services.size() > 0) {
                     for (String service : services) {
-						service = URL.decode(service);
+						service = EURL.decode(service);
 						anyServices.add(service);
                         subscribe(url.setPath(service).addParameters(Constants.INTERFACE_KEY, service, 
                                 Constants.CHECK_KEY, String.valueOf(false)), listener);
                     }
                 }
             } else {
-                List<URL> urls = new ArrayList<URL>();
+                List<EURL> urls = new ArrayList<EURL>();
                 for (String path : toCategoriesPath(url)) {
                     ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
                     if (listeners == null) {
@@ -174,7 +174,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         }
     }
 
-    protected void doUnsubscribe(URL url, NotifyListener listener) {
+    protected void doUnsubscribe(EURL url, NotifyListener listener) {
         ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
         if (listeners != null) {
             ChildListener zkListener = listeners.get(listener);
@@ -184,7 +184,7 @@ public class ZookeeperRegistry extends FailbackRegistry {
         }
     }
 
-    public List<URL> lookup(URL url) {
+    public List<EURL> lookup(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("lookup url == null");
         }
@@ -213,15 +213,15 @@ public class ZookeeperRegistry extends FailbackRegistry {
         return root;
     }
     
-    private String toServicePath(URL url) {
+    private String toServicePath(EURL url) {
         String name = url.getServiceInterface();
         if (Constants.ANY_VALUE.equals(name)) {
             return toRootPath();
         }
-        return toRootDir() + URL.encode(name);
+        return toRootDir() + EURL.encode(name);
     }
 
-    private String[] toCategoriesPath(URL url) {
+    private String[] toCategoriesPath(EURL url) {
         String[] categroies;
         if (Constants.ANY_VALUE.equals(url.getParameter(Constants.CATEGORY_KEY))) {
             categroies = new String[] {Constants.PROVIDERS_CATEGORY, Constants.CONSUMERS_CATEGORY, 
@@ -236,21 +236,21 @@ public class ZookeeperRegistry extends FailbackRegistry {
         return paths;
     }
 
-    private String toCategoryPath(URL url) {
+    private String toCategoryPath(EURL url) {
         return toServicePath(url) + Constants.PATH_SEPARATOR + url.getParameter(Constants.CATEGORY_KEY, Constants.DEFAULT_CATEGORY);
     }
 
-    private String toUrlPath(URL url) {
-        return toCategoryPath(url) + Constants.PATH_SEPARATOR + URL.encode(url.toFullString());
+    private String toUrlPath(EURL url) {
+        return toCategoryPath(url) + Constants.PATH_SEPARATOR + EURL.encode(url.toFullString());
     }
     
-    private List<URL> toUrlsWithoutEmpty(URL consumer, List<String> providers) {
-    	List<URL> urls = new ArrayList<URL>();
+    private List<EURL> toUrlsWithoutEmpty(EURL consumer, List<String> providers) {
+    	List<EURL> urls = new ArrayList<EURL>();
         if (providers != null && providers.size() > 0) {
             for (String provider : providers) {
-                provider = URL.decode(provider);
+                provider = EURL.decode(provider);
                 if (provider.contains("://")) {
-                    URL url = URL.valueOf(provider);
+                    EURL url = EURL.valueOf(provider);
                     if (UrlUtils.isMatch(consumer, url)) {
                         urls.add(url);
                     }
@@ -260,12 +260,12 @@ public class ZookeeperRegistry extends FailbackRegistry {
         return urls;
     }
 
-    private List<URL> toUrlsWithEmpty(URL consumer, String path, List<String> providers) {
-        List<URL> urls = toUrlsWithoutEmpty(consumer, providers);
+    private List<EURL> toUrlsWithEmpty(EURL consumer, String path, List<String> providers) {
+        List<EURL> urls = toUrlsWithoutEmpty(consumer, providers);
         if (urls.isEmpty()) {
         	int i = path.lastIndexOf('/');
         	String category = i < 0 ? path : path.substring(i + 1);
-        	URL empty = consumer.setProtocol(Constants.EMPTY_PROTOCOL).addParameter(Constants.CATEGORY_KEY, category);
+        	EURL empty = consumer.setProtocol(Constants.EMPTY_PROTOCOL).addParameter(Constants.CATEGORY_KEY, category);
             urls.add(empty);
         }
         return urls;

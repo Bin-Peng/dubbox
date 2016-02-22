@@ -27,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -45,7 +45,7 @@ import com.alibaba.dubbo.rpc.cluster.Directory;
 public class ForkingClusterInvokerTest {
 
     List<Invoker<ForkingClusterInvokerTest>> invokers = new ArrayList<Invoker<ForkingClusterInvokerTest>>();
-    URL                                      url      = URL.valueOf("test://test:11/test?forks=2");
+    EURL                                      url      = EURL.valueOf("test://test:11/test?forks=2");
     Invoker<ForkingClusterInvokerTest>       invoker1 = EasyMock.createMock(Invoker.class);
     Invoker<ForkingClusterInvokerTest>       invoker2 = EasyMock.createMock(Invoker.class);
     Invoker<ForkingClusterInvokerTest>       invoker3 = EasyMock.createMock(Invoker.class);

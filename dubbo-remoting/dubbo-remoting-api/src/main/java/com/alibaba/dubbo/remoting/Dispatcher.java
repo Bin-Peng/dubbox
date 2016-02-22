@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.remoting;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 import com.alibaba.dubbo.remoting.transport.dispatcher.all.AllDispatcher;
@@ -37,6 +37,6 @@ public interface Dispatcher {
      * @return channel handler
      */
     @Adaptive({Constants.DISPATCHER_KEY, "dispather", "channel.handler"}) // 后两个参数为兼容旧配置
-    ChannelHandler dispatch(ChannelHandler handler, URL url);
+    ChannelHandler dispatch(ChannelHandler handler, EURL url);
 
 }

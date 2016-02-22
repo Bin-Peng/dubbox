@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.adaptive.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.extensionloader.adaptive.HasAdaptiveExt;
@@ -25,7 +25,7 @@ import com.alibaba.dubbo.common.extensionloader.adaptive.HasAdaptiveExt;
  */
 @Adaptive
 public class HasAdaptiveExt_ManualAdaptive implements HasAdaptiveExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         HasAdaptiveExt addExt1 = ExtensionLoader.getExtensionLoader(HasAdaptiveExt.class).getExtension(url.getParameter("key"));
         return addExt1.echo(url, s);
     }

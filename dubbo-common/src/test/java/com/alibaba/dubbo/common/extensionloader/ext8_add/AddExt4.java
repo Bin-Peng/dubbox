@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext8_add;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -27,5 +27,5 @@ import com.alibaba.dubbo.common.extension.SPI;
 @SPI("impl1")
 public interface AddExt4 {
     @Adaptive
-    String echo(URL url, String s);
+    String echo(EURL url, String s);
 }

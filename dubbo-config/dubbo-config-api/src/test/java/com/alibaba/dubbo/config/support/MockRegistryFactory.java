@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.config.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 
@@ -29,7 +29,7 @@ public class MockRegistryFactory implements RegistryFactory {
     /* 
      * @see com.alibaba.dubbo.registry.RegistryFactory#getRegistry(com.alibaba.dubbo.common.URL)
      */
-    public Registry getRegistry(URL url) {
+    public Registry getRegistry(EURL url) {
         
         return new MockRegistry();
     }

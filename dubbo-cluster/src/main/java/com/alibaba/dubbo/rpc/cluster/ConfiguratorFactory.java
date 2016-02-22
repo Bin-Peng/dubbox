@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -34,6 +34,6 @@ public interface ConfiguratorFactory {
      * @return configurator instance.
      */
     @Adaptive("protocol")
-    Configurator getConfigurator(URL url);
+    Configurator getConfigurator(EURL url);
 
 }

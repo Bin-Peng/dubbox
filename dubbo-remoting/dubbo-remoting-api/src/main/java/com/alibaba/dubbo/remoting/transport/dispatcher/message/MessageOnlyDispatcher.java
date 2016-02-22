@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport.dispatcher.message;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Dispatcher;
 
@@ -28,7 +28,7 @@ public class MessageOnlyDispatcher implements Dispatcher {
 
     public static final String NAME = "message";
 
-    public ChannelHandler dispatch(ChannelHandler handler, URL url) {
+    public ChannelHandler dispatch(ChannelHandler handler, EURL url) {
         return new MessageOnlyChannelHandler(handler, url);
     }
 

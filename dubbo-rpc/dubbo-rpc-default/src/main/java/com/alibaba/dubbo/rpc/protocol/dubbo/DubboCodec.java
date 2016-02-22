@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.io.Bytes;
 import com.alibaba.dubbo.common.io.UnsafeByteArrayInputStream;
@@ -155,7 +155,7 @@ public class DubboCodec extends ExchangeCodec implements Codec2 {
         }
     }
 
-    private ObjectInput deserialize(Serialization serialization, URL url, InputStream is)
+    private ObjectInput deserialize(Serialization serialization, EURL url, InputStream is)
             throws IOException {
         return serialization.deserialize(url, is);
     }

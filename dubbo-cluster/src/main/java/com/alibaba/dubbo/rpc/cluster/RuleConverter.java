@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.cluster;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.SPI;
 
 /**
@@ -27,6 +27,6 @@ import com.alibaba.dubbo.common.extension.SPI;
 @SPI
 public interface RuleConverter {
 
-    List<URL> convert(URL subscribeUrl, Object source);
+    List<EURL> convert(EURL subscribeUrl, Object source);
 
 }

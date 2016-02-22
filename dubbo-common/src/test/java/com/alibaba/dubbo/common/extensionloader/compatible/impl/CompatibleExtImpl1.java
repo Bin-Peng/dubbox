@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.common.extensionloader.compatible.impl;
 
 import com.alibaba.dubbo.common.Extension;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.compatible.CompatibleExt;
 
 /**
@@ -24,15 +24,15 @@ import com.alibaba.dubbo.common.extensionloader.compatible.CompatibleExt;
  */
 @Extension("impl1")
 public class CompatibleExtImpl1 implements CompatibleExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return "Ext1Impl1-echo";
     }
     
-    public String yell(URL url, String s) {
+    public String yell(EURL url, String s) {
         return "Ext1Impl1-yell";
     }
     
-    public String bang(URL url, int i) {
+    public String bang(EURL url, int i) {
         return "bang1";
     }
 }

@@ -17,7 +17,7 @@
 package com.alibaba.dubbo.remoting.exchange.support.header;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.exchange.Request;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class HeartBeatTaskTest {
 
-    private URL url = URL.valueOf("dubbo://localhost:20880");
+    private EURL url = EURL.valueOf("dubbo://localhost:20880");
     
     private MockChannel channel;
     private HeartBeatTask task;
@@ -50,7 +50,7 @@ public class HeartBeatTaskTest {
         channel = new MockChannel() {
 
             @Override
-            public URL getUrl() {
+            public EURL getUrl() {
                 return url;
             }
         };

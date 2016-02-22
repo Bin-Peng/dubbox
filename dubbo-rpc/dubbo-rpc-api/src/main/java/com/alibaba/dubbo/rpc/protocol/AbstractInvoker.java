@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -47,7 +47,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 
     private final Class<T>   type;
 
-    private final URL        url;
+    private final EURL        url;
 
     private final Map<String, String> attachment;
 
@@ -55,15 +55,15 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 
     private volatile boolean destroyed = false;
     
-    public AbstractInvoker(Class<T> type, URL url){
+    public AbstractInvoker(Class<T> type, EURL url){
         this(type, url, (Map<String, String>) null);
     }
     
-    public AbstractInvoker(Class<T> type, URL url, String[] keys) {
+    public AbstractInvoker(Class<T> type, EURL url, String[] keys) {
         this(type, url, convertAttachment(url, keys));
     }
 
-    public AbstractInvoker(Class<T> type, URL url, Map<String, String> attachment) {
+    public AbstractInvoker(Class<T> type, EURL url, Map<String, String> attachment) {
         if (type == null)
             throw new IllegalArgumentException("service type == null");
         if (url == null)
@@ -73,7 +73,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         this.attachment = attachment == null ? null : Collections.unmodifiableMap(attachment);
     }
     
-    private static Map<String, String> convertAttachment(URL url, String[] keys) {
+    private static Map<String, String> convertAttachment(EURL url, String[] keys) {
         if (keys == null || keys.length == 0) {
             return null;
         }
@@ -91,7 +91,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         return type;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

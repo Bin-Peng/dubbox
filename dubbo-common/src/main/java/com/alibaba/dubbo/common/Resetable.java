@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Resetable.
@@ -29,6 +29,6 @@ public interface Resetable {
      * 
      * @param url
      */
-    void reset(URL url);
+    void reset(EURL url);
     
 }

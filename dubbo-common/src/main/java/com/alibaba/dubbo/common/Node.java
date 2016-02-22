@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Node. (API/SPI, Prototype, ThreadSafe)
@@ -29,7 +29,7 @@ public interface Node {
      * 
      * @return url.
      */
-    URL getUrl();
+    EURL getUrl();
     
     /**
      * is available.

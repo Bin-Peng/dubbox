@@ -17,7 +17,7 @@ package com.alibaba.dubbo.monitor.dubbo;
 
 import java.io.Serializable;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.monitor.MonitorService;
 
 /**
@@ -29,7 +29,7 @@ public class Statistics implements Serializable {
     
     private static final long serialVersionUID = -6921183057683641441L;
     
-    private URL url;
+    private EURL url;
     
     private String application;
     
@@ -45,7 +45,7 @@ public class Statistics implements Serializable {
     
     private String server;
 
-    public Statistics(URL url) {
+    public Statistics(EURL url) {
         this.url = url;
         this.application = url.getParameter(MonitorService.APPLICATION);
         this.service = url.getParameter(MonitorService.INTERFACE);
@@ -56,11 +56,11 @@ public class Statistics implements Serializable {
         this.server = url.getParameter(MonitorService.PROVIDER, url.getAddress());
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(EURL url) {
         this.url = url;
     }
 

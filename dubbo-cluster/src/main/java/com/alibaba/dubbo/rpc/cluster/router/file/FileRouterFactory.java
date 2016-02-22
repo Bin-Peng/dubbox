@@ -20,7 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.IOUtils;
 import com.alibaba.dubbo.rpc.cluster.Router;
 import com.alibaba.dubbo.rpc.cluster.RouterFactory;
@@ -36,7 +36,7 @@ public class FileRouterFactory implements RouterFactory {
         this.routerFactory = routerFactory;
     }
     
-    public Router getRouter(URL url) {
+    public Router getRouter(EURL url) {
         try {
             // File URL 转换成 其它Route URL，然后Load
             // file:///d:/path/to/route.js?router=script ==> script:///d:/path/to/route.js?type=js&rule=<file-content>
@@ -50,7 +50,7 @@ public class FileRouterFactory implements RouterFactory {
                 }
             }
             String rule = IOUtils.read(new FileReader(new File(url.getAbsolutePath())));
-            URL script = url.setProtocol(protocol).addParameter(Constants.TYPE_KEY, type).addParameterAndEncoded(Constants.RULE_KEY, rule);
+            EURL script = url.setProtocol(protocol).addParameter(Constants.TYPE_KEY, type).addParameterAndEncoded(Constants.RULE_KEY, rule);
             
             return routerFactory.getRouter(script);
         } catch (IOException e) {

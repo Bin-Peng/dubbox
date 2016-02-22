@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * ClusterUtils
@@ -28,7 +28,7 @@ import com.alibaba.dubbo.common.URL;
  */
 public class ClusterUtils {
     
-    public static URL mergeUrl(URL remoteUrl, Map<String, String> localMap) {
+    public static EURL mergeUrl(EURL remoteUrl, Map<String, String> localMap) {
         Map<String, String> map = new HashMap<String, String>();
         Map<String, String> remoteMap = remoteUrl.getParameters();
         

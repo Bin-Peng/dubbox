@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.cluster;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -46,6 +46,6 @@ public interface LoadBalance {
 	 * @return selected invoker.
 	 */
     @Adaptive("loadbalance")
-	<T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException;
+	<T> Invoker<T> select(List<Invoker<T>> invokers, EURL url, Invocation invocation) throws RpcException;
 
 }

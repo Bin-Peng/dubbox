@@ -17,7 +17,7 @@ package com.alibaba.dubbo.cache.support.lru;
 
 import com.alibaba.dubbo.cache.Cache;
 import com.alibaba.dubbo.cache.support.AbstractCacheFactory;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * LruCacheFactory
@@ -26,7 +26,7 @@ import com.alibaba.dubbo.common.URL;
  */
 public class LruCacheFactory extends AbstractCacheFactory {
 
-    protected Cache createCache(URL url) {
+    protected Cache createCache(EURL url) {
         return new LruCache(url);
     }
 

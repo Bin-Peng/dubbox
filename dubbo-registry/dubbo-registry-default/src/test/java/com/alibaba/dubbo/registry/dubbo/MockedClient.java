@@ -18,7 +18,7 @@ package com.alibaba.dubbo.registry.dubbo;
 import java.net.InetSocketAddress;
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Codec;
@@ -185,7 +185,7 @@ public class MockedClient implements ExchangeClient {
         return 0;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return null;
     }
 
@@ -254,7 +254,7 @@ public class MockedClient implements ExchangeClient {
     public void send(Object message, boolean sent) throws RemotingException {
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
     }
 
     @Deprecated

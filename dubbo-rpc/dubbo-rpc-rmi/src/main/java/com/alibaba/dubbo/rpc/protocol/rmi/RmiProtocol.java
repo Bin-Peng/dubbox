@@ -23,7 +23,7 @@ import org.springframework.remoting.RemoteAccessException;
 import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.protocol.AbstractProxyProtocol;
 
@@ -44,7 +44,7 @@ public class RmiProtocol extends AbstractProxyProtocol {
         return DEFAULT_PORT;
     }
 
-    protected <T> Runnable doExport(final T impl, Class<T> type, URL url) throws RpcException {
+    protected <T> Runnable doExport(final T impl, Class<T> type, EURL url) throws RpcException {
         final RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
         rmiServiceExporter.setRegistryPort(url.getPort());
         rmiServiceExporter.setServiceName(url.getPath());
@@ -67,7 +67,7 @@ public class RmiProtocol extends AbstractProxyProtocol {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T doRefer(final Class<T> serviceType, final URL url) throws RpcException {
+    protected <T> T doRefer(final Class<T> serviceType, final EURL url) throws RpcException {
         final RmiProxyFactoryBean rmiProxyFactoryBean = new RmiProxyFactoryBean();
         rmiProxyFactoryBean.setServiceUrl(url.toIdentityString());
         rmiProxyFactoryBean.setServiceInterface(serviceType);

@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
 import com.alibaba.dubbo.monitor.simple.RegistryContainer;
@@ -32,7 +32,7 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
  */
 public class DependenciesPageHandler implements PageHandler {
     
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String application = url.getParameter("application");
         if (application == null || application.length() == 0) {
             throw new IllegalArgumentException("Please input application parameter.");

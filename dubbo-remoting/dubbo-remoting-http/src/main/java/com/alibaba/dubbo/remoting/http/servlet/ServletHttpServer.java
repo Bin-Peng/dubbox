@@ -15,13 +15,13 @@
  */
 package com.alibaba.dubbo.remoting.http.servlet;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.support.AbstractHttpServer;
 
 public class ServletHttpServer extends AbstractHttpServer {
     
-    public ServletHttpServer(URL url, HttpHandler handler){
+    public ServletHttpServer(EURL url, HttpHandler handler){
         super(url, handler);
         DispatcherServlet.addHttpHandler(url.getPort(), handler);
     }

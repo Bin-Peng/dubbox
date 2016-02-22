@@ -18,7 +18,7 @@ package com.alibaba.dubbo.common.threadpool.support;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 
@@ -34,9 +34,9 @@ public class AbortPolicyWithReport extends ThreadPoolExecutor.AbortPolicy {
     
     private final String threadName;
     
-    private final URL url;
+    private final EURL url;
     
-    public AbortPolicyWithReport(String threadName, URL url) {
+    public AbortPolicyWithReport(String threadName, EURL url) {
         this.threadName = threadName;
         this.url = url;
     }

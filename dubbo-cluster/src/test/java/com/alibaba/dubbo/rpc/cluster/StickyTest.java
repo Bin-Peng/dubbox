@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -65,7 +65,7 @@ public class StickyTest {
         
         clusterinvoker = new StickyClusterInvoker<StickyTest>(dic);
     }
-    URL url = URL.valueOf("test://test:11/test?" 
+    EURL url = EURL.valueOf("test://test:11/test?" 
             +"&loadbalance=roundrobin"
 //            +"&"+Constants.CLUSTER_AVAILABLE_CHECK_KEY+"=true"
             +"&"+Constants.CLUSTER_STICKY_KEY+"=true"
@@ -144,7 +144,7 @@ public class StickyTest {
         public StickyClusterInvoker(Directory<T> directory) {
             super(directory);
         }
-        public StickyClusterInvoker(Directory<T> directory,URL url) {
+        public StickyClusterInvoker(Directory<T> directory,EURL url) {
             super(directory, url);
         }
         @Override

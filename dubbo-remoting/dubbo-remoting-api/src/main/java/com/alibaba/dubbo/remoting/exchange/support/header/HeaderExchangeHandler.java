@@ -18,7 +18,7 @@ package com.alibaba.dubbo.remoting.exchange.support.header;
 import java.net.InetSocketAddress;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -150,7 +150,7 @@ public class HeaderExchangeHandler implements ChannelHandlerDelegate {
 
     private static boolean isClientSide(Channel channel) {
         InetSocketAddress address = channel.getRemoteAddress();
-        URL url = channel.getUrl();
+        EURL url = channel.getUrl();
         return url.getPort() == address.getPort() && 
                     NetUtils.filterLocalHost(url.getIp())
                     .equals(NetUtils.filterLocalHost(address.getAddress().getHostAddress()));

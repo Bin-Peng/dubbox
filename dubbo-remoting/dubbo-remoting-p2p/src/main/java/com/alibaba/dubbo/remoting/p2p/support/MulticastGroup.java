@@ -21,7 +21,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -42,7 +42,7 @@ public class MulticastGroup extends AbstractGroup {
     
     private MulticastSocket mutilcastSocket;
 
-    public MulticastGroup(URL url) {
+    public MulticastGroup(EURL url) {
         super(url);
         if (! isMulticastAddress(url.getHost())) {
             throw new IllegalArgumentException("Invalid multicast address " + url.getHost() + ", scope: 224.0.0.0 - 239.255.255.255");
@@ -97,22 +97,22 @@ public class MulticastGroup extends AbstractGroup {
     private void receive(String msg, InetSocketAddress remoteAddress) throws RemotingException {
         if (msg.startsWith(JOIN)) {
             String url = msg.substring(JOIN.length()).trim();
-            connect(URL.valueOf(url));
+            connect(EURL.valueOf(url));
         } else if (msg.startsWith(LEAVE)) {
             String url = msg.substring(LEAVE.length()).trim();
-            disconnect(URL.valueOf(url));
+            disconnect(EURL.valueOf(url));
         }
     }
     
     @Override
-    public Peer join(URL url, ChannelHandler handler) throws RemotingException {
+    public Peer join(EURL url, ChannelHandler handler) throws RemotingException {
         Peer peer = super.join(url, handler);
         send(JOIN + " " + url.toFullString());
         return peer;
     }
 
     @Override
-    public void leave(URL url) throws RemotingException {
+    public void leave(EURL url) throws RemotingException {
         super.leave(url);
         send(LEAVE + " " + url.toFullString());
     }

@@ -18,7 +18,7 @@ package com.alibaba.dubbo.container.page.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
@@ -33,7 +33,7 @@ import com.alibaba.dubbo.container.page.PageServlet;
 @Menu(name = "Home", desc = "Home page.", order = Integer.MIN_VALUE)
 public class HomePageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         List<List<String>> rows = new ArrayList<List<String>>();
         for (PageHandler handler : PageServlet.getInstance().getMenus()) {
             String uri = ExtensionLoader.getExtensionLoader(PageHandler.class).getExtensionName(handler);

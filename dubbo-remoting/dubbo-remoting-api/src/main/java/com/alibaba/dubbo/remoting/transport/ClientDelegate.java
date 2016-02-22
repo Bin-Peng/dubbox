@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting.transport;
 
 import java.net.InetSocketAddress;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Client;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -49,7 +49,7 @@ public class ClientDelegate implements Client {
         this.client = client;
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         client.reset(url);
     }
     
@@ -58,7 +58,7 @@ public class ClientDelegate implements Client {
         reset(getUrl().addParameters(parameters.getParameters()));
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return client.getUrl();
     }
 

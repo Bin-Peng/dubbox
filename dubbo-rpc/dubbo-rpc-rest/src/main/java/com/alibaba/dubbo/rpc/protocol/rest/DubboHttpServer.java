@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.rest;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.HttpServer;
@@ -49,7 +49,7 @@ public class DubboHttpServer extends BaseRestServer {
         this.httpBinder = httpBinder;
     }
 
-    protected void doStart(URL url) {
+    protected void doStart(EURL url) {
         // TODO jetty will by default enable keepAlive so the xml config has no effect now
         httpServer = httpBinder.bind(url, new RestHandler());
 

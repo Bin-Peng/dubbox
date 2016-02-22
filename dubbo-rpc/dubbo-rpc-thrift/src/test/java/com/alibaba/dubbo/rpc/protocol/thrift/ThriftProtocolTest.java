@@ -13,7 +13,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcInvocation;
@@ -34,7 +34,7 @@ public class ThriftProtocolTest extends AbstractTest {
 
     private Invoker<Demo> invoker;
 
-    private URL url;
+    private EURL url;
 
     @Before
     public void setUp() throws Exception {
@@ -43,7 +43,7 @@ public class ThriftProtocolTest extends AbstractTest {
 
         protocol = new ThriftProtocol();
 
-        url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:" + PORT + "/" + Demo.class.getName() );
+        url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:" + PORT + "/" + Demo.class.getName() );
 
     }
 

@@ -25,7 +25,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.monitor.Monitor;
 import com.alibaba.dubbo.monitor.MonitorFactory;
@@ -45,7 +45,7 @@ import com.alibaba.dubbo.rpc.RpcInvocation;
  */
 public class MonitorFilterTest {
 
-    private volatile URL lastStatistics;
+    private volatile EURL lastStatistics;
     
     private volatile Invocation lastInvocation;
     
@@ -53,9 +53,9 @@ public class MonitorFilterTest {
         public Class<MonitorService> getInterface() {
             return MonitorService.class;
         }
-        public URL getUrl() {
+        public EURL getUrl() {
             try {
-                return URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":20880?" + Constants.APPLICATION_KEY + "=abc&" + Constants.SIDE_KEY + "=" + Constants.CONSUMER_SIDE + "&" + Constants.MONITOR_KEY + "=" + URLEncoder.encode("dubbo://" + NetUtils.getLocalHost() + ":7070", "UTF-8"));
+                return EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":20880?" + Constants.APPLICATION_KEY + "=abc&" + Constants.SIDE_KEY + "=" + Constants.CONSUMER_SIDE + "&" + Constants.MONITOR_KEY + "=" + URLEncoder.encode("dubbo://" + NetUtils.getLocalHost() + ":7070", "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 throw new IllegalStateException(e.getMessage(), e);
             }
@@ -72,9 +72,9 @@ public class MonitorFilterTest {
     };
     
     private MonitorFactory monitorFactory = new MonitorFactory() {
-        public Monitor getMonitor(final URL url) {
+        public Monitor getMonitor(final EURL url) {
             return new Monitor() {
-                public URL getUrl() {
+                public EURL getUrl() {
                     return url;
                 }
                 public boolean isAvailable() {
@@ -82,10 +82,10 @@ public class MonitorFilterTest {
                 }
                 public void destroy() {
                 }
-                public void collect(URL statistics) {
+                public void collect(EURL statistics) {
                     MonitorFilterTest.this.lastStatistics = statistics;
                 }
-				public List<URL> lookup(URL query) {
+				public List<EURL> lookup(EURL query) {
 					return Arrays.asList(MonitorFilterTest.this.lastStatistics);
 				}
             };

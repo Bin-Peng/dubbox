@@ -32,7 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -45,8 +45,8 @@ public class ImplicitCallBackTest{
     protected Exporter<IDemoService> exporter = null;
     protected Invoker<IDemoService> reference = null;
     
-    protected URL serviceURL = null ;
-    protected URL consumerUrl = null ;
+    protected EURL serviceURL = null ;
+    protected EURL consumerUrl = null ;
     Method onReturnMethod;
     Method onThrowMethod ;
     Method onInvokeMethod ;
@@ -90,7 +90,7 @@ public class ImplicitCallBackTest{
     
     public void initOrResetUrl(boolean isAsync) throws Exception {
         int port = NetUtils.getAvailablePort() ;
-        consumerUrl = serviceURL =  URL.valueOf("dubbo://127.0.0.1:"+port+"/"+IDemoService.class.getName()+"?group=test&async="+isAsync+"&timeout=100000&reference.filter=future" );
+        consumerUrl = serviceURL =  EURL.valueOf("dubbo://127.0.0.1:"+port+"/"+IDemoService.class.getName()+"?group=test&async="+isAsync+"&timeout=100000&reference.filter=future" );
         StaticContext.getSystemContext().clear();
     }
     

@@ -18,7 +18,7 @@ import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.governance.service.ConsumerService;
 import com.alibaba.dubbo.governance.service.OverrideService;
@@ -163,7 +163,7 @@ public class Services extends Restful {
 	                if (mock == null || mock.length() == 0) {
 	                    map.remove("mock");
 	                } else {
-	                    map.put("mock", URL.encode(mock));
+	                    map.put("mock", EURL.encode(mock));
 	                }
 	                if (map.size() > 0) {
 	                	override.setParams(StringUtils.toQueryString(map));
@@ -179,7 +179,7 @@ public class Services extends Restful {
 	            Override override = new Override();
 	            override.setService(service);
 	            override.setApplication(application);
-	            override.setParams("mock=" + URL.encode(mock));
+	            override.setParams("mock=" + EURL.encode(mock));
 	            override.setEnabled(true);
 	            override.setOperator(operator);
 	            override.setOperatorAddress(operatorAddress);

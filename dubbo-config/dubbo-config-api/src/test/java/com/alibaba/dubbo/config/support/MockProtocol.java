@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.config.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -48,15 +48,15 @@ public class MockProtocol implements Protocol {
     /* (non-Javadoc)
      * @see com.alibaba.dubbo.rpc.Protocol#refer(java.lang.Class, com.alibaba.dubbo.common.URL)
      */
-    public <T> Invoker<T> refer(Class<T> type, URL url) throws RpcException {
+    public <T> Invoker<T> refer(Class<T> type, EURL url) throws RpcException {
         
-        final URL u = url;
+        final EURL u = url;
         
         return new Invoker<T>(){
             public Class<T> getInterface(){
                 return null;
             }
-            public URL getUrl(){
+            public EURL getUrl(){
                 return u;
             }
             public boolean isAvailable(){

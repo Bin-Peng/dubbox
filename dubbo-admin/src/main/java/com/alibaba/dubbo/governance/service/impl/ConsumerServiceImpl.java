@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.governance.service.ConsumerService;
 import com.alibaba.dubbo.governance.sync.util.Pair;
 import com.alibaba.dubbo.governance.sync.util.SyncUtils;
@@ -42,7 +42,7 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
         return SyncUtils.url2Consumer(findConsumerUrl(id));
     }
     
-    private Pair<Long, URL> findConsumerUrl(Long id) {
+    private Pair<Long, EURL> findConsumerUrl(Long id) {
         return SyncUtils.filterFromCategory(getRegistryCache(), Constants.CONSUMERS_CATEGORY, id);
     }
 
@@ -50,7 +50,7 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
         return SyncUtils.url2ConsumerList(findAllConsumerUrl());
     }
     
-    private Map<Long, URL> findAllConsumerUrl() {
+    private Map<Long, EURL> findAllConsumerUrl() {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY);
         return SyncUtils.filterFromCategory(getRegistryCache(), filter);
@@ -58,13 +58,13 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findAddresses() {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(null == consumerUrls) return ret;
         
-        for(Map.Entry<String, Map<Long, URL>> e1 : consumerUrls.entrySet()) {
-            Map<Long, URL> value = e1.getValue();
-            for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-                URL u = e2.getValue();
+        for(Map.Entry<String, Map<Long, EURL>> e1 : consumerUrls.entrySet()) {
+            Map<Long, EURL> value = e1.getValue();
+            for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+                EURL u = e2.getValue();
                 String app = u.getAddress();
                 if(app != null) ret.add(app);
             }
@@ -75,13 +75,13 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findAddressesByApplication(String application) {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls == null) return ret;
         
-        for(Map.Entry<String, Map<Long, URL>> e1 : consumerUrls.entrySet()) {
-            Map<Long, URL> value = e1.getValue();
-            for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-                URL u = e2.getValue();
+        for(Map.Entry<String, Map<Long, EURL>> e1 : consumerUrls.entrySet()) {
+            Map<Long, EURL> value = e1.getValue();
+            for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+                EURL u = e2.getValue();
                 if(application.equals(u.getParameter(Constants.APPLICATION_KEY))) {
                     String addr = u.getAddress();
                     if(addr != null) ret.add(addr);
@@ -94,11 +94,11 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findAddressesByService(String service) {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(null == consumerUrls) return ret;
         
-        for(Map.Entry<Long, URL> e2 : consumerUrls.get(service).entrySet()) {
-            URL u = e2.getValue();
+        for(Map.Entry<Long, EURL> e2 : consumerUrls.get(service).entrySet()) {
+            EURL u = e2.getValue();
             String app = u.getAddress();
             if(app != null) ret.add(app);
         }
@@ -112,13 +112,13 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findServicesByAddress(String address) {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls == null || address == null || address.length() == 0) return ret;
         
-        for(Map.Entry<String, Map<Long, URL>> e1 : consumerUrls.entrySet()) {
-            Map<Long, URL> value = e1.getValue();
-            for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-                URL u = e2.getValue();
+        for(Map.Entry<String, Map<Long, EURL>> e1 : consumerUrls.entrySet()) {
+            Map<Long, EURL> value = e1.getValue();
+            for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+                EURL u = e2.getValue();
                 if(address.equals(u.getAddress())) {
                     ret.add(e1.getKey());
                     break;
@@ -129,7 +129,7 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
         return ret;
     }
 
-    private Map<Long, URL> findConsumerUrlByAddress(String address) {
+    private Map<Long, EURL> findConsumerUrlByAddress(String address) {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY);
         filter.put(SyncUtils.ADDRESS_FILTER_KEY, address);
@@ -139,13 +139,13 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
     
     public List<String> findApplications() {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls == null) return ret;
         
-        for(Map.Entry<String, Map<Long, URL>> e1 : consumerUrls.entrySet()) {
-            Map<Long, URL> value = e1.getValue();
-            for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-                URL u = e2.getValue();
+        for(Map.Entry<String, Map<Long, EURL>> e1 : consumerUrls.entrySet()) {
+            Map<Long, EURL> value = e1.getValue();
+            for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+                EURL u = e2.getValue();
                 String app = u.getParameter(Constants.APPLICATION_KEY);
                 if(app != null) ret.add(app);
             }
@@ -156,15 +156,15 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findApplicationsByServiceName(String service) {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls == null) return ret;
         
-        Map<Long, URL> value = consumerUrls.get(service);
+        Map<Long, EURL> value = consumerUrls.get(service);
         if(value == null){
         	return ret;
         }
-        for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-            URL u = e2.getValue();
+        for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+            EURL u = e2.getValue();
             String app = u.getParameter(Constants.APPLICATION_KEY);
             if(app != null) ret.add(app);
         }
@@ -176,7 +176,7 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
         return SyncUtils.url2ConsumerList(findConsumerUrlByApplication(application));
     }
     
-    private Map<Long, URL> findConsumerUrlByApplication(String application) {
+    private Map<Long, EURL> findConsumerUrlByApplication(String application) {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY);
         filter.put(Constants.APPLICATION_KEY, application);
@@ -186,13 +186,13 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findServicesByApplication(String application) {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls == null || application == null || application.length() == 0) return ret;
         
-        for(Map.Entry<String, Map<Long, URL>> e1 : consumerUrls.entrySet()) {
-            Map<Long, URL> value = e1.getValue();
-            for(Map.Entry<Long, URL> e2 : value.entrySet()) {
-                URL u = e2.getValue();
+        for(Map.Entry<String, Map<Long, EURL>> e1 : consumerUrls.entrySet()) {
+            Map<Long, EURL> value = e1.getValue();
+            for(Map.Entry<Long, EURL> e2 : value.entrySet()) {
+                EURL u = e2.getValue();
                 if(application.equals(u.getParameter(Constants.APPLICATION_KEY))) {
                     ret.add(e1.getKey());
                     break;
@@ -205,12 +205,12 @@ public class ConsumerServiceImpl extends AbstractService implements ConsumerServ
 
     public List<String> findServices() {
         List<String> ret = new ArrayList<String>();
-        ConcurrentMap<String, Map<Long, URL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
+        ConcurrentMap<String, Map<Long, EURL>> consumerUrls = getRegistryCache().get(Constants.CONSUMERS_CATEGORY);
         if(consumerUrls != null) ret.addAll(consumerUrls.keySet());
         return ret;
     }
     
-    public Map<Long, URL> findConsumerUrlByService(String service) {
+    public Map<Long, EURL> findConsumerUrlByService(String service) {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY);
         filter.put(SyncUtils.SERVICE_FILTER_KEY, service);

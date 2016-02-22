@@ -17,7 +17,7 @@ package com.alibaba.dubbo.common.extensionloader.ext4.impl;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext4.NoUrlParamExt;
 
 /**

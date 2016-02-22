@@ -17,7 +17,7 @@ package com.alibaba.dubbo.common.extensionloader.ext6_wrap.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext6_wrap.WrappedExt;
 
 /**
@@ -32,7 +32,7 @@ public class Ext5Wrapper1 implements WrappedExt {
         this.instance = instance;
     }
     
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         echoCount.incrementAndGet();
         return instance.echo(url, s);
     }

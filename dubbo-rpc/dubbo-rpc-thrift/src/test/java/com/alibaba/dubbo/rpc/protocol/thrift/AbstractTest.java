@@ -13,7 +13,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Protocol;
@@ -119,8 +119,8 @@ public abstract class AbstractTest {
         return Demo.class;
     }
 
-    protected URL getUrl() {
-        return URL.valueOf(
+    protected EURL getUrl() {
+        return EURL.valueOf(
                 "thrift://127.0.0.1:" + PORT + "/" + getInterface().getName() );
     }
 

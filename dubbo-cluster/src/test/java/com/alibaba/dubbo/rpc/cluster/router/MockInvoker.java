@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster.router;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -23,11 +23,11 @@ import com.alibaba.dubbo.rpc.RpcException;
 
 public class MockInvoker<T> implements Invoker<T> {
     private boolean available = false;
-    private URL url ;
+    private EURL url ;
 
     public MockInvoker() {
     }
-    public MockInvoker(URL url) {
+    public MockInvoker(EURL url) {
         super();
         this.url = url;
     }
@@ -39,7 +39,7 @@ public class MockInvoker<T> implements Invoker<T> {
         return null;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

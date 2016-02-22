@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -127,7 +127,7 @@ public class PageServlet extends HttpServlet {
                 Page page = null;
                 try {
                     String query = request.getQueryString();
-                    page = pageHandler.handle(URL.valueOf(request.getRequestURL().toString() 
+                    page = pageHandler.handle(EURL.valueOf(request.getRequestURL().toString() 
                             + (query == null || query.length() == 0 ? "" : "?" + query)));
                 } catch (Throwable t) {
                     logger.warn(t.getMessage(), t);

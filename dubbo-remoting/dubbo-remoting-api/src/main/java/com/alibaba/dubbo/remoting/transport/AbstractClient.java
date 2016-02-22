@@ -27,7 +27,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
@@ -80,7 +80,7 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
     private final long shutdown_timeout ;
     
     
-    public AbstractClient(URL url, ChannelHandler handler) throws RemotingException {
+    public AbstractClient(EURL url, ChannelHandler handler) throws RemotingException {
         super(url, handler);
         
         send_reconnect = url.getParameter(Constants.SEND_RECONNECT_KEY, false);
@@ -125,7 +125,7 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
             .getDefaultExtension().remove(Constants.CONSUMER_SIDE, Integer.toString(url.getPort()));
     }
     
-    protected static ChannelHandler wrapChannelHandler(URL url, ChannelHandler handler){
+    protected static ChannelHandler wrapChannelHandler(EURL url, ChannelHandler handler){
         url = ExecutorUtil.setThreadName(url, CLIENT_THREAD_POOL_NAME);
         url = url.addParameterIfAbsent(Constants.THREADPOOL_KEY, Constants.DEFAULT_CLIENT_THREADPOOL);
         return ChannelHandlers.wrap(handler, url);
@@ -170,7 +170,7 @@ public abstract class AbstractClient extends AbstractEndpoint implements Client 
      * @param url
      * @return 0-false
      */
-    private static int getReconnectParam(URL url){
+    private static int getReconnectParam(EURL url){
         int reconnect ;
         String param = url.getParameter(Constants.RECONNECT_KEY);
         if (param == null || param.length()==0 || "true".equalsIgnoreCase(param)){

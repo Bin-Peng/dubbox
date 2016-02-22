@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
 
@@ -33,14 +33,14 @@ public interface Group {
      * 
      * @return group url.
      */
-    URL getUrl();
+    EURL getUrl();
 
     /**
      * join.
      * 
      * @param url
      */
-    Peer join(URL url, ChannelHandler handler) throws RemotingException;
+    Peer join(EURL url, ChannelHandler handler) throws RemotingException;
     
     /**
      * leave.
@@ -48,7 +48,7 @@ public interface Group {
      * @param url
      * @throws RemotingException
      */
-    void leave(URL url) throws RemotingException;
+    void leave(EURL url) throws RemotingException;
     
     /**
      * close the group.

@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
@@ -65,7 +65,7 @@ public abstract class AbstractRegistry implements Registry {
     // URL地址分隔正则表达式，用于解析文件缓存中服务提供者URL列表
     private static final String URL_SPLIT = "\\s+";
 
-    private URL registryUrl;
+    private EURL registryUrl;
 
     // 本地磁盘缓存文件
     private File file;
@@ -81,13 +81,13 @@ public abstract class AbstractRegistry implements Registry {
     
     private final AtomicLong lastCacheChanged = new AtomicLong();
 
-    private final Set<URL> registered = new ConcurrentHashSet<URL>();
+    private final Set<EURL> registered = new ConcurrentHashSet<EURL>();
 
-    private final ConcurrentMap<URL, Set<NotifyListener>> subscribed = new ConcurrentHashMap<URL, Set<NotifyListener>>();
+    private final ConcurrentMap<EURL, Set<NotifyListener>> subscribed = new ConcurrentHashMap<EURL, Set<NotifyListener>>();
 
-    private final ConcurrentMap<URL, Map<String, List<URL>>> notified = new ConcurrentHashMap<URL, Map<String, List<URL>>>();
+    private final ConcurrentMap<EURL, Map<String, List<EURL>>> notified = new ConcurrentHashMap<EURL, Map<String, List<EURL>>>();
 
-    public AbstractRegistry(URL url) {
+    public AbstractRegistry(EURL url) {
         setUrl(url);
         // 启动文件保存定时器
         syncSaveFile = url.getParameter(Constants.REGISTRY_FILESAVE_SYNC_KEY, false);
@@ -106,26 +106,26 @@ public abstract class AbstractRegistry implements Registry {
         notify(url.getBackupUrls());
     }
 
-    protected void setUrl(URL url) {
+    protected void setUrl(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("registry url == null");
         }
         this.registryUrl = url;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return registryUrl;
     }
 
-    public Set<URL> getRegistered() {
+    public Set<EURL> getRegistered() {
         return registered;
     }
 
-    public Map<URL, Set<NotifyListener>> getSubscribed() {
+    public Map<EURL, Set<NotifyListener>> getSubscribed() {
         return subscribed;
     }
 
-    public Map<URL, Map<String, List<URL>>> getNotified() {
+    public Map<EURL, Map<String, List<EURL>>> getNotified() {
         return notified;
     }
 
@@ -245,7 +245,7 @@ public abstract class AbstractRegistry implements Registry {
         }
     }
 
-    public List<URL> getCacheUrls(URL url) {
+    public List<EURL> getCacheUrls(EURL url) {
         for (Map.Entry<Object, Object> entry : properties.entrySet()) {
             String key = (String) entry.getKey();
             String value = (String) entry.getValue();
@@ -253,9 +253,9 @@ public abstract class AbstractRegistry implements Registry {
                     && (Character.isLetter(key.charAt(0)) || key.charAt(0) == '_')
                     && value != null && value.length() > 0) {
                 String[] arr = value.trim().split(URL_SPLIT);
-                List<URL> urls = new ArrayList<URL>();
+                List<EURL> urls = new ArrayList<EURL>();
                 for (String u : arr) {
-                    urls.add(URL.valueOf(u));
+                    urls.add(EURL.valueOf(u));
                 }
                 return urls;
             }
@@ -263,28 +263,28 @@ public abstract class AbstractRegistry implements Registry {
         return null;
     }
 
-    public List<URL> lookup(URL url) {
-        List<URL> result = new ArrayList<URL>();
-        Map<String, List<URL>> notifiedUrls = getNotified().get(url);
+    public List<EURL> lookup(EURL url) {
+        List<EURL> result = new ArrayList<EURL>();
+        Map<String, List<EURL>> notifiedUrls = getNotified().get(url);
         if (notifiedUrls != null && notifiedUrls.size() > 0) {
-            for (List<URL> urls : notifiedUrls.values()) {
-                for (URL u : urls) {
+            for (List<EURL> urls : notifiedUrls.values()) {
+                for (EURL u : urls) {
                     if (! Constants.EMPTY_PROTOCOL.equals(u.getProtocol())) {
                         result.add(u);
                     }
                 }
             }
         } else {
-            final AtomicReference<List<URL>> reference = new AtomicReference<List<URL>>();
+            final AtomicReference<List<EURL>> reference = new AtomicReference<List<EURL>>();
             NotifyListener listener = new NotifyListener() {
-                public void notify(List<URL> urls) {
+                public void notify(List<EURL> urls) {
                     reference.set(urls);
                 }
             };
             subscribe(url, listener); // 订阅逻辑保证第一次notify后再返回
-            List<URL> urls = reference.get();
+            List<EURL> urls = reference.get();
             if (urls != null && urls.size() > 0) {
-                for (URL u : urls) {
+                for (EURL u : urls) {
                     if (! Constants.EMPTY_PROTOCOL.equals(u.getProtocol())) {
                         result.add(u);
                     }
@@ -294,7 +294,7 @@ public abstract class AbstractRegistry implements Registry {
         return result;
     }
 
-    public void register(URL url) {
+    public void register(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("register url == null");
         }
@@ -304,7 +304,7 @@ public abstract class AbstractRegistry implements Registry {
         registered.add(url);
     }
 
-    public void unregister(URL url) {
+    public void unregister(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("unregister url == null");
         }
@@ -314,7 +314,7 @@ public abstract class AbstractRegistry implements Registry {
         registered.remove(url);
     }
 
-    public void subscribe(URL url, NotifyListener listener) {
+    public void subscribe(EURL url, NotifyListener listener) {
         if (url == null) {
             throw new IllegalArgumentException("subscribe url == null");
         }
@@ -332,7 +332,7 @@ public abstract class AbstractRegistry implements Registry {
         listeners.add(listener);
     }
 
-    public void unsubscribe(URL url, NotifyListener listener) {
+    public void unsubscribe(EURL url, NotifyListener listener) {
         if (url == null) {
             throw new IllegalArgumentException("unsubscribe url == null");
         }
@@ -350,23 +350,23 @@ public abstract class AbstractRegistry implements Registry {
 
     protected void recover() throws Exception {
         // register
-        Set<URL> recoverRegistered = new HashSet<URL>(getRegistered());
+        Set<EURL> recoverRegistered = new HashSet<EURL>(getRegistered());
         if (! recoverRegistered.isEmpty()) {
             if (logger.isInfoEnabled()) {
                 logger.info("Recover register url " + recoverRegistered);
             }
-            for (URL url : recoverRegistered) {
+            for (EURL url : recoverRegistered) {
                 register(url);
             }
         }
         // subscribe
-        Map<URL, Set<NotifyListener>> recoverSubscribed = new HashMap<URL, Set<NotifyListener>>(getSubscribed());
+        Map<EURL, Set<NotifyListener>> recoverSubscribed = new HashMap<EURL, Set<NotifyListener>>(getSubscribed());
         if (! recoverSubscribed.isEmpty()) {
             if (logger.isInfoEnabled()) {
                 logger.info("Recover subscribe url " + recoverSubscribed.keySet());
             }
-            for (Map.Entry<URL, Set<NotifyListener>> entry : recoverSubscribed.entrySet()) {
-                URL url = entry.getKey();
+            for (Map.Entry<EURL, Set<NotifyListener>> entry : recoverSubscribed.entrySet()) {
+                EURL url = entry.getKey();
                 for (NotifyListener listener : entry.getValue()) {
                     subscribe(url, listener);
                 }
@@ -374,20 +374,20 @@ public abstract class AbstractRegistry implements Registry {
         }
     }
 
-    protected static List<URL> filterEmpty(URL url, List<URL> urls) {
+    protected static List<EURL> filterEmpty(EURL url, List<EURL> urls) {
         if (urls == null || urls.size() == 0) {
-            List<URL> result = new ArrayList<URL>(1);
+            List<EURL> result = new ArrayList<EURL>(1);
             result.add(url.setProtocol(Constants.EMPTY_PROTOCOL));
             return result;
         }
         return urls;
     }
 
-    protected void notify(List<URL> urls) {
+    protected void notify(List<EURL> urls) {
         if(urls == null || urls.isEmpty()) return;
         
-        for (Map.Entry<URL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
-            URL url = entry.getKey();
+        for (Map.Entry<EURL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
+            EURL url = entry.getKey();
             
             if(! UrlUtils.isMatch(url, urls.get(0))) {
                 continue;
@@ -406,7 +406,7 @@ public abstract class AbstractRegistry implements Registry {
         }
     }
 
-    protected void notify(URL url, NotifyListener listener, List<URL> urls) {
+    protected void notify(EURL url, NotifyListener listener, List<EURL> urls) {
         if (url == null) {
             throw new IllegalArgumentException("notify url == null");
         }
@@ -421,13 +421,13 @@ public abstract class AbstractRegistry implements Registry {
         if (logger.isInfoEnabled()) {
             logger.info("Notify urls for subscribe url " + url + ", urls: " + urls);
         }
-        Map<String, List<URL>> result = new HashMap<String, List<URL>>();
-        for (URL u : urls) {
+        Map<String, List<EURL>> result = new HashMap<String, List<EURL>>();
+        for (EURL u : urls) {
             if (UrlUtils.isMatch(url, u)) {
             	String category = u.getParameter(Constants.CATEGORY_KEY, Constants.DEFAULT_CATEGORY);
-            	List<URL> categoryList = result.get(category);
+            	List<EURL> categoryList = result.get(category);
             	if (categoryList == null) {
-            		categoryList = new ArrayList<URL>();
+            		categoryList = new ArrayList<EURL>();
             		result.put(category, categoryList);
             	}
             	categoryList.add(u);
@@ -436,31 +436,31 @@ public abstract class AbstractRegistry implements Registry {
         if (result.size() == 0) {
             return;
         }
-        Map<String, List<URL>> categoryNotified = notified.get(url);
+        Map<String, List<EURL>> categoryNotified = notified.get(url);
         if (categoryNotified == null) {
-            notified.putIfAbsent(url, new ConcurrentHashMap<String, List<URL>>());
+            notified.putIfAbsent(url, new ConcurrentHashMap<String, List<EURL>>());
             categoryNotified = notified.get(url);
         }
-        for (Map.Entry<String, List<URL>> entry : result.entrySet()) {
+        for (Map.Entry<String, List<EURL>> entry : result.entrySet()) {
             String category = entry.getKey();
-            List<URL> categoryList = entry.getValue();
+            List<EURL> categoryList = entry.getValue();
             categoryNotified.put(category, categoryList);
             saveProperties(url);
             listener.notify(categoryList);
         }
     }
 
-    private void saveProperties(URL url) {
+    private void saveProperties(EURL url) {
         if (file == null) {
             return;
         }
         
         try {
             StringBuilder buf = new StringBuilder();
-            Map<String, List<URL>> categoryNotified = notified.get(url);
+            Map<String, List<EURL>> categoryNotified = notified.get(url);
             if (categoryNotified != null) {
-                for (List<URL> us : categoryNotified.values()) {
-                    for (URL u : us) {
+                for (List<EURL> us : categoryNotified.values()) {
+                    for (EURL u : us) {
                         if (buf.length() > 0) {
                             buf.append(URL_SEPARATOR);
                         }
@@ -484,9 +484,9 @@ public abstract class AbstractRegistry implements Registry {
         if (logger.isInfoEnabled()){
             logger.info("Destroy registry:" + getUrl());
         }
-        Set<URL> destroyRegistered = new HashSet<URL>(getRegistered());
+        Set<EURL> destroyRegistered = new HashSet<EURL>(getRegistered());
         if (! destroyRegistered.isEmpty()) {
-            for (URL url : new HashSet<URL>(getRegistered())) {
+            for (EURL url : new HashSet<EURL>(getRegistered())) {
                 if (url.getParameter(Constants.DYNAMIC_KEY, true)) {
                     try {
                         unregister(url);
@@ -499,10 +499,10 @@ public abstract class AbstractRegistry implements Registry {
                 }
             }
         }
-        Map<URL, Set<NotifyListener>> destroySubscribed = new HashMap<URL, Set<NotifyListener>>(getSubscribed());
+        Map<EURL, Set<NotifyListener>> destroySubscribed = new HashMap<EURL, Set<NotifyListener>>(getSubscribed());
         if (! destroySubscribed.isEmpty()) {
-            for (Map.Entry<URL, Set<NotifyListener>> entry : destroySubscribed.entrySet()) {
-                URL url = entry.getKey();
+            for (Map.Entry<EURL, Set<NotifyListener>> entry : destroySubscribed.entrySet()) {
+                EURL url = entry.getKey();
                 for (NotifyListener listener : entry.getValue()) {
                     try {
                         unsubscribe(url, listener);

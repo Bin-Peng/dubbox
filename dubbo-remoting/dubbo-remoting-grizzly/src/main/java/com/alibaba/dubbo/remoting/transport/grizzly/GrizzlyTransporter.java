@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport.grizzly;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Client;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -31,11 +31,11 @@ public class GrizzlyTransporter implements Transporter {
 
     public static final String NAME = "grizzly";
 
-    public Server bind(URL url, ChannelHandler listener) throws RemotingException {
+    public Server bind(EURL url, ChannelHandler listener) throws RemotingException {
         return new GrizzlyServer(url, listener);
     }
 
-    public Client connect(URL url, ChannelHandler listener) throws RemotingException {
+    public Client connect(EURL url, ChannelHandler listener) throws RemotingException {
         return new GrizzlyClient(url, listener);
     }
 

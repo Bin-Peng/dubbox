@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.protocol.injvm;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.UrlUtils;
 import com.alibaba.dubbo.rpc.Exporter;
@@ -61,11 +61,11 @@ public class InjvmProtocol extends AbstractProtocol implements Protocol {
         return new InjvmExporter<T>(invoker, invoker.getUrl().getServiceKey(), exporterMap);
     }
 
-    public <T> Invoker<T> refer(Class<T> serviceType, URL url) throws RpcException {
+    public <T> Invoker<T> refer(Class<T> serviceType, EURL url) throws RpcException {
         return new InjvmInvoker<T>(serviceType, url, url.getServiceKey(), exporterMap);
     }
 
-    static Exporter<?> getExporter(Map<String, Exporter<?>> map, URL key) {
+    static Exporter<?> getExporter(Map<String, Exporter<?>> map, EURL key) {
         Exporter<?> result = null;
 
         if (!key.getServiceKey().contains("*")) {
@@ -91,7 +91,7 @@ public class InjvmProtocol extends AbstractProtocol implements Protocol {
         }
     }
     
-    public boolean isInjvmRefer(URL url) {
+    public boolean isInjvmRefer(EURL url) {
     	final boolean isJvmRefer;
     	String scope = url.getParameter(Constants.SCOPE_KEY);
     	//本身已经是jvm协议了，走正常流程就是了.

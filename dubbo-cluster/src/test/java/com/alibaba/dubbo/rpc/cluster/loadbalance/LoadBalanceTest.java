@@ -29,7 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -72,7 +72,7 @@ public class LoadBalanceTest {
         invoker4 = EasyMock.createMock(Invoker.class);
         invoker5 = EasyMock.createMock(Invoker.class);
         
-        URL url = URL.valueOf("test://127.0.0.1/DemoService");
+        EURL url = EURL.valueOf("test://127.0.0.1/DemoService");
         
         EasyMock.expect(invoker1.isAvailable()).andReturn(true).anyTimes();
         EasyMock.expect(invoker1.getInterface()).andReturn(LoadBalanceTest.class).anyTimes();

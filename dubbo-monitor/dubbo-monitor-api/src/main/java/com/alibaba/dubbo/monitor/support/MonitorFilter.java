@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -85,7 +85,7 @@ public class MonitorFilter implements Filter {
             String application = invoker.getUrl().getParameter(Constants.APPLICATION_KEY);
             String service = invoker.getInterface().getName(); // 获取服务名称
             String method = RpcUtils.getMethodName(invocation); // 获取方法名
-            URL url = invoker.getUrl().getUrlParameter(Constants.MONITOR_KEY);
+            EURL url = invoker.getUrl().getUrlParameter(Constants.MONITOR_KEY);
             Monitor monitor = monitorFactory.getMonitor(url);
             int localPort;
             String remoteKey;
@@ -109,7 +109,7 @@ public class MonitorFilter implements Filter {
             if (result != null && result.getAttachment(Constants.OUTPUT_KEY) != null) {
                 output = result.getAttachment(Constants.OUTPUT_KEY);
             }
-            monitor.collect(new URL(Constants.COUNT_PROTOCOL,
+            monitor.collect(new EURL(Constants.COUNT_PROTOCOL,
                                 NetUtils.getLocalHost(), localPort,
                                 service + "/" + method,
                                 MonitorService.APPLICATION, application,

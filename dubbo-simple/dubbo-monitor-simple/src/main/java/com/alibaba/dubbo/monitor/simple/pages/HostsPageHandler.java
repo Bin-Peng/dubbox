@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
@@ -35,7 +35,7 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
 @Menu(name = "Hosts", desc = "Show provider and consumer hosts", order = 3000)
 public class HostsPageHandler implements PageHandler {
     
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         List<List<String>> rows = new ArrayList<List<String>>();
         Set<String> hosts = RegistryContainer.getInstance().getHosts();
         int providersCount = 0;
@@ -45,12 +45,12 @@ public class HostsPageHandler implements PageHandler {
                 List<String> row = new ArrayList<String>();
                 row.add(NetUtils.getHostName(host) + "/" + host);
                 
-                List<URL> providers = RegistryContainer.getInstance().getProvidersByHost(host);
-                List<URL> consumers = RegistryContainer.getInstance().getConsumersByHost(host);
+                List<EURL> providers = RegistryContainer.getInstance().getProvidersByHost(host);
+                List<EURL> consumers = RegistryContainer.getInstance().getConsumersByHost(host);
                 
                 if (providers != null && providers.size() > 0
                         || consumers != null && consumers.size() > 0) {
-                    URL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
+                    EURL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
                     row.add(provider.getParameter(Constants.APPLICATION_KEY, ""));
                     row.add(provider.getParameter("owner", "") + (provider.hasParameter("organization") ?  " (" + provider.getParameter("organization") + ")" : ""));
                 } else {

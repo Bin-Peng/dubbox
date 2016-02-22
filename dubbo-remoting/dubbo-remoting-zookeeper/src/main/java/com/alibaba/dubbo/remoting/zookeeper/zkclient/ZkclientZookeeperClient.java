@@ -10,7 +10,7 @@ import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.I0Itec.zkclient.exception.ZkNodeExistsException;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.zookeeper.ChildListener;
 import com.alibaba.dubbo.remoting.zookeeper.StateListener;
 import com.alibaba.dubbo.remoting.zookeeper.support.AbstractZookeeperClient;
@@ -21,7 +21,7 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
 
 	private volatile KeeperState state = KeeperState.SyncConnected;
 
-	public ZkclientZookeeperClient(URL url) {
+	public ZkclientZookeeperClient(EURL url) {
 		super(url);
 		client = new ZkClient(
                 url.getBackupAddress(),

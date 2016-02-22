@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.governance.service.ConsumerService;
@@ -72,7 +72,7 @@ public class Overrides  extends Restful {
         Map<String, String> parameters = parseQueryString(override.getParams());
 
         if(parameters.get(DEFAULT_MOCK_JSON_KEY) != null) {
-            String mock = URL.decode(parameters.get(DEFAULT_MOCK_JSON_KEY));
+            String mock = EURL.decode(parameters.get(DEFAULT_MOCK_JSON_KEY));
             String[] tokens = parseMock(mock);
             context.put(FORM_DEFAULT_MOCK_METHOD_FORCE, tokens[0]);
             context.put(FORM_DEFAULT_MOCK_METHOD_JSON, tokens[1]);
@@ -150,7 +150,7 @@ public class Overrides  extends Restful {
         Map<String, String> parameters = parseQueryString(override.getParams());
         
         if(parameters.get(DEFAULT_MOCK_JSON_KEY)!=null){
-            String mock = URL.decode(parameters.get(DEFAULT_MOCK_JSON_KEY));
+            String mock = EURL.decode(parameters.get(DEFAULT_MOCK_JSON_KEY));
             String[] tokens = parseMock(mock);
             context.put(FORM_DEFAULT_MOCK_METHOD_FORCE, tokens[0]);
             context.put(FORM_DEFAULT_MOCK_METHOD_JSON, tokens[1]);
@@ -192,7 +192,7 @@ public class Overrides  extends Restful {
     }
     
     private String[] parseMock(String mock) {
-        mock = URL.decode(mock);
+        mock = EURL.decode(mock);
         String force;
         if (mock.startsWith("force:")) {
             force = "force";
@@ -278,20 +278,20 @@ public class Overrides  extends Restful {
         StringBuilder paramters = new StringBuilder();
         boolean isFirst = true;
         if(defaultMockMethodJson != null && defaultMockMethodJson.trim().length() > 0) {
-            paramters.append("mock=").append(URL.encode(defaultMockMethodForce + ":" + defaultMockMethodJson.trim()));
+            paramters.append("mock=").append(EURL.encode(defaultMockMethodForce + ":" + defaultMockMethodJson.trim()));
             isFirst = false;
         }
         for(Map.Entry<String, String> e : method2Json.entrySet()) {
             if(isFirst) isFirst = false;
             else paramters.append("&");
             
-            paramters.append(e.getKey()).append(MOCK_JSON_KEY_POSTFIX).append("=").append(URL.encode(e.getValue()));
+            paramters.append(e.getKey()).append(MOCK_JSON_KEY_POSTFIX).append("=").append(EURL.encode(e.getValue()));
         }
         for(Map.Entry<String, String> e : override2Value.entrySet()) {
             if(isFirst) isFirst = false;
             else paramters.append("&");
             
-            paramters.append(e.getKey()).append("=").append(URL.encode(e.getValue()));
+            paramters.append(e.getKey()).append("=").append(EURL.encode(e.getValue()));
         }
         
         String p = paramters.toString();

@@ -28,7 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -46,7 +46,7 @@ import com.alibaba.dubbo.rpc.cluster.Directory;
 @SuppressWarnings("unchecked")
 public class FailfastClusterInvokerTest {
     List<Invoker<FailfastClusterInvokerTest>> invokers = new ArrayList<Invoker<FailfastClusterInvokerTest>>();
-    URL url = URL.valueOf("test://test:11/test");
+    EURL url = EURL.valueOf("test://test:11/test");
     Invoker<FailfastClusterInvokerTest> invoker1 = EasyMock.createMock(Invoker.class);
     RpcInvocation invocation = new RpcInvocation();
     Directory<FailfastClusterInvokerTest> dic ;

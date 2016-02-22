@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
@@ -55,7 +55,7 @@ public abstract class AbstractClusterInvoker<T> implements Invoker<T> {
         this(directory, directory.getUrl());
     }
     
-    public AbstractClusterInvoker(Directory<T> directory, URL url) {
+    public AbstractClusterInvoker(Directory<T> directory, EURL url) {
         if (directory == null)
             throw new IllegalArgumentException("service directory == null");
         
@@ -68,7 +68,7 @@ public abstract class AbstractClusterInvoker<T> implements Invoker<T> {
         return directory.getInterface();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return directory.getUrl();
     }
 

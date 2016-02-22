@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster.router.condition;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.cluster.Router;
 import com.alibaba.dubbo.rpc.cluster.RouterFactory;
 
@@ -28,7 +28,7 @@ public class ConditionRouterFactory implements RouterFactory {
 
     public static final String NAME = "condition";
 
-    public Router getRouter(URL url) {
+    public Router getRouter(EURL url) {
         return new ConditionRouter(url);
     }
 

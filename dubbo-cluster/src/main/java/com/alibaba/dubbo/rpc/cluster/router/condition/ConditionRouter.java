@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -46,7 +46,7 @@ public class ConditionRouter implements Router, Comparable<Router> {
     
     private static final Logger logger = LoggerFactory.getLogger(ConditionRouter.class);
 
-    private final URL url;
+    private final EURL url;
     
     private final int priority;
 
@@ -56,7 +56,7 @@ public class ConditionRouter implements Router, Comparable<Router> {
     
     private final Map<String, MatchPair> thenCondition;
 
-    public ConditionRouter(URL url) {
+    public ConditionRouter(EURL url) {
         this.url = url;
         this.priority = url.getParameter(Constants.PRIORITY_KEY, 0);
         this.force = url.getParameter(Constants.FORCE_KEY, false);
@@ -79,7 +79,7 @@ public class ConditionRouter implements Router, Comparable<Router> {
         }
     }
 
-    public <T> List<Invoker<T>> route(List<Invoker<T>> invokers, URL url, Invocation invocation)
+    public <T> List<Invoker<T>> route(List<Invoker<T>> invokers, EURL url, Invocation invocation)
             throws RpcException {
         if (invokers == null || invokers.size() == 0) {
             return invokers;
@@ -110,7 +110,7 @@ public class ConditionRouter implements Router, Comparable<Router> {
         return invokers;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
@@ -122,15 +122,15 @@ public class ConditionRouter implements Router, Comparable<Router> {
         return this.priority == c.priority ? url.toFullString().compareTo(c.url.toFullString()) : (this.priority > c.priority ? 1 : -1);
     }
 
-    public boolean matchWhen(URL url) {
+    public boolean matchWhen(EURL url) {
         return matchCondition(whenCondition, url, null);
     }
 
-    public boolean matchThen(URL url, URL param) {
+    public boolean matchThen(EURL url, EURL param) {
         return thenCondition != null && matchCondition(thenCondition, url, param);
     }
     
-    private boolean matchCondition(Map<String, MatchPair> condition, URL url, URL param) {
+    private boolean matchCondition(Map<String, MatchPair> condition, EURL url, EURL param) {
         Map<String, String> sample = url.toMap();
         for (Map.Entry<String, String> entry : sample.entrySet()) {
             String key = entry.getKey();
@@ -214,7 +214,7 @@ public class ConditionRouter implements Router, Comparable<Router> {
     private static final class MatchPair {
         final Set<String> matches = new HashSet<String>();
         final Set<String> mismatches = new HashSet<String>();
-        public boolean isMatch(String value, URL param) {
+        public boolean isMatch(String value, EURL param) {
             for (String match : matches) {
                 if (! UrlUtils.isMatchGlobPattern(match, value, param)) {
                     return false;

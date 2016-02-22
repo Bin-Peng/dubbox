@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext2.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext2.Ext2;
 import com.alibaba.dubbo.common.extensionloader.ext2.UrlHolder;
 
@@ -28,7 +28,7 @@ public class Ext2Impl3 implements Ext2 {
         return "Ext2Impl3-echo";
     }
 
-    public String bang(URL url, int i) {
+    public String bang(EURL url, int i) {
         return "bang3";
     }
     

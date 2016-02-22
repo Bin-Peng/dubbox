@@ -27,7 +27,7 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.Codec2;
 import com.alibaba.dubbo.remoting.buffer.ChannelBuffer;
@@ -52,13 +52,13 @@ public class TelnetCodecTest {
         codec = new TelnetCodec();
     }
     
-    protected AbstractMockChannel getServerSideChannel(URL url){
+    protected AbstractMockChannel getServerSideChannel(EURL url){
         url = url.addParameter(AbstractMockChannel.LOCAL_ADDRESS, url.getAddress())
         .addParameter(AbstractMockChannel.REMOTE_ADDRESS, "127.0.0.1:12345");
         AbstractMockChannel channel = new AbstractMockChannel(url);
         return channel;
     }
-    protected AbstractMockChannel getCliendSideChannel(URL url){
+    protected AbstractMockChannel getCliendSideChannel(EURL url){
         url = url.addParameter(AbstractMockChannel.LOCAL_ADDRESS, "127.0.0.1:12345")
         .addParameter(AbstractMockChannel.REMOTE_ADDRESS, url.getAddress());
         AbstractMockChannel channel = new AbstractMockChannel(url);
@@ -228,7 +228,7 @@ public class TelnetCodecTest {
     
     
     //======================================================
-    URL url = URL.valueOf("dubbo://10.20.30.40:20880");
+    EURL url = EURL.valueOf("dubbo://10.20.30.40:20880");
     
     @Test
     public void testDecode_String_ClientSide() throws IOException{

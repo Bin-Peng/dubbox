@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.monitor.simple.pages;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
 import com.alibaba.dubbo.monitor.simple.RegistryContainer;
@@ -27,12 +27,12 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
  */
 public class UnregisterPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String provider = url.getParameterAndDecoded("provider");
         if (provider == null || provider.length() == 0) {
             throw new IllegalArgumentException("Please input provider parameter.");
         }
-        URL providerUrl = URL.valueOf(provider);
+        EURL providerUrl = EURL.valueOf(provider);
         RegistryContainer.getInstance().getRegistry().unregister(providerUrl);
         String parameter;
         if (url.hasParameter("service")) {

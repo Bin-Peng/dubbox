@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.serialize.ObjectInput;
 import com.alibaba.dubbo.common.serialize.ObjectOutput;
 import com.alibaba.dubbo.common.serialize.Serialization;
@@ -39,11 +39,11 @@ public class Hessian2Serialization implements Serialization {
         return "x-application/hessian2";
     }
 
-    public ObjectOutput serialize(URL url, OutputStream out) throws IOException {
+    public ObjectOutput serialize(EURL url, OutputStream out) throws IOException {
         return new Hessian2ObjectOutput(out);
     }
 
-    public ObjectInput deserialize(URL url, InputStream is) throws IOException {
+    public ObjectInput deserialize(EURL url, InputStream is) throws IOException {
         return new Hessian2ObjectInput(is);
     }
 

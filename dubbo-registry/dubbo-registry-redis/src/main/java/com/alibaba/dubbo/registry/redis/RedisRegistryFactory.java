@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.registry.redis;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.Registry;
 import com.alibaba.dubbo.registry.RegistryFactory;
 
@@ -26,7 +26,7 @@ import com.alibaba.dubbo.registry.RegistryFactory;
  */
 public class RedisRegistryFactory implements RegistryFactory {
 
-    public Registry getRegistry(URL url) {
+    public Registry getRegistry(EURL url) {
         return new RedisRegistry(url);
     }
 

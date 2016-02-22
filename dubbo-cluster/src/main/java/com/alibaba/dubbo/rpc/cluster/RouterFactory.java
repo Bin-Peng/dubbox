@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -39,6 +39,6 @@ public interface RouterFactory {
      * @return router
      */
     @Adaptive("protocol")
-    Router getRouter(URL url);
+    Router getRouter(EURL url);
     
 }

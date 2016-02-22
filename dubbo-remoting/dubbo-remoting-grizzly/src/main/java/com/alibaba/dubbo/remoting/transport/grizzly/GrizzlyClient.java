@@ -26,7 +26,7 @@ import org.glassfish.grizzly.strategies.SameThreadIOStrategy;
 import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.Channel;
@@ -47,7 +47,7 @@ public class GrizzlyClient extends AbstractClient {
 
     private volatile Connection<?> connection; // volatile, please copy reference to use
 
-    public GrizzlyClient(URL url, ChannelHandler handler) throws RemotingException {
+    public GrizzlyClient(EURL url, ChannelHandler handler) throws RemotingException {
         super(url, handler);
     }
 

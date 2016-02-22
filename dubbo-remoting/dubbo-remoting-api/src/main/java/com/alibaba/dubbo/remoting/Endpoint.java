@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting;
 
 import java.net.InetSocketAddress;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Endpoint. (API/SPI, Prototype, ThreadSafe)
@@ -34,7 +34,7 @@ public interface Endpoint {
      * 
      * @return url
      */
-    URL getUrl();
+    EURL getUrl();
 
     /**
      * get channel handler.

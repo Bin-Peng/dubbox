@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Protocol;
@@ -50,8 +50,8 @@ public class RmiProtocolTest
     {
         System.setProperty("sun.rmi.transport.tcp.responseTimeout", "1000");
         DemoService service = new DemoServiceImpl();
-        Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, URL.valueOf("rmi://127.0.0.1:9001/TestService")));
-        service = proxy.getProxy(protocol.refer(DemoService.class, URL.valueOf("rmi://127.0.0.1:9001/TestService")));
+        Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, EURL.valueOf("rmi://127.0.0.1:9001/TestService")));
+        service = proxy.getProxy(protocol.refer(DemoService.class, EURL.valueOf("rmi://127.0.0.1:9001/TestService")));
         try {
             try {
                 service.throwTimeout();
@@ -69,9 +69,9 @@ public class RmiProtocolTest
 	{
 	    {
     		DemoService service = new DemoServiceImpl();
-    		Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, URL.valueOf("rmi://127.0.0.1:9001/TestService")));
+    		Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, EURL.valueOf("rmi://127.0.0.1:9001/TestService")));
     		
-    		service = proxy.getProxy(protocol.refer(DemoService.class, URL.valueOf("rmi://127.0.0.1:9001/TestService")));
+    		service = proxy.getProxy(protocol.refer(DemoService.class, EURL.valueOf("rmi://127.0.0.1:9001/TestService")));
     		assertEquals(service.getSize(null), -1);
     		assertEquals(service.getSize(new String[]{"", "", ""}), 3);
     		Object result = service.invoke("rmi://127.0.0.1:9001/TestService", "invoke");
@@ -82,9 +82,9 @@ public class RmiProtocolTest
 
 	    {
     		RemoteService remoteService = new RemoteServiceImpl();
-    		Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(remoteService, RemoteService.class, URL.valueOf("rmi://127.0.0.1:9002/remoteService")));
+    		Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(remoteService, RemoteService.class, EURL.valueOf("rmi://127.0.0.1:9002/remoteService")));
     		
-    		remoteService = proxy.getProxy(protocol.refer(RemoteService.class, URL.valueOf("rmi://127.0.0.1:9002/remoteService")));
+    		remoteService = proxy.getProxy(protocol.refer(RemoteService.class, EURL.valueOf("rmi://127.0.0.1:9002/remoteService")));
     		remoteService.getThreadName();
     		for(int i=0;i<100;i++) {
                 String say = remoteService.sayHello("abcd");
@@ -100,10 +100,10 @@ public class RmiProtocolTest
 	public void testRmiProtocol_echoService() throws Exception
     {
 	    DemoService service = new DemoServiceImpl();
-	    Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, URL.valueOf("rmi://127.0.0.1:9002/TestService")));
+	    Exporter<?> rpcExporter = protocol.export(proxy.getInvoker(service, DemoService.class, EURL.valueOf("rmi://127.0.0.1:9002/TestService")));
         
 	    // cast to EchoService
-        EchoService echo = proxy.getProxy(protocol.refer(EchoService.class, URL.valueOf("rmi://127.0.0.1:9002/TestService")));
+        EchoService echo = proxy.getProxy(protocol.refer(EchoService.class, EURL.valueOf("rmi://127.0.0.1:9002/TestService")));
         assertEquals(echo.$echo("test"), "test");
         assertEquals(echo.$echo("abcdefg"), "abcdefg");
         assertEquals(echo.$echo(1234), 1234);
@@ -111,10 +111,10 @@ public class RmiProtocolTest
         rpcExporter.unexport();
         
         RemoteService remoteService = new RemoteServiceImpl();
-        rpcExporter = protocol.export(proxy.getInvoker(remoteService, RemoteService.class, URL.valueOf("rmi://127.0.0.1:9002/remoteService")));
+        rpcExporter = protocol.export(proxy.getInvoker(remoteService, RemoteService.class, EURL.valueOf("rmi://127.0.0.1:9002/remoteService")));
         
         // cast to EchoService
-        echo = proxy.getProxy(protocol.refer(EchoService.class, URL.valueOf("rmi://127.0.0.1:9002/remoteService")));
+        echo = proxy.getProxy(protocol.refer(EchoService.class, EURL.valueOf("rmi://127.0.0.1:9002/remoteService")));
         assertEquals(echo.$echo("test"), "test");
         assertEquals(echo.$echo("abcdefg"), "abcdefg");
         assertEquals(echo.$echo(1234), 1234);

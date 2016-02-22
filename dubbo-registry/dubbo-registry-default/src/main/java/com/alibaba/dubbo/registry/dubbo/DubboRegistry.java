@@ -23,7 +23,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
+import cn.sunline.ltts.apm.api.registry.base.monitor.entity.support.AppNode;
+import cn.sunline.ltts.apm.api.registry.base.monitor.entity.support.CategoryNode;
+import cn.sunline.ltts.apm.api.registry.base.monitor.entity.support.PathNode;
+import cn.sunline.ltts.apm.api.registry.base.monitor.entity.support.TreeNode;
+
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -31,7 +36,8 @@ import com.alibaba.dubbo.common.utils.NamedThreadFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.registry.NotifyListener;
 import com.alibaba.dubbo.registry.RegistryService;
-import com.alibaba.dubbo.registry.support.FailbackRegistry;
+//import com.alibaba.dubbo.registry.support.FailbackRegistry;
+import cn.sunline.ltts.apm.api.registry.base.support.FailbackRegistry;
 import com.alibaba.dubbo.rpc.Invoker;
 
 /**
@@ -84,7 +90,7 @@ public class DubboRegistry extends FailbackRegistry {
                 return;
             }
             if (logger.isInfoEnabled()) {
-                logger.info("Reconnect to registry " + getUrl());
+                logger.info("Reconnect to registry " + getEurl());
             }
             clientLock.lock();
             try {
@@ -97,13 +103,13 @@ public class DubboRegistry extends FailbackRegistry {
                 clientLock.unlock();
             }
         } catch (Throwable t) { // 忽略所有异常，等待下次重试
-             if (getUrl().getParameter(Constants.CHECK_KEY, true)) {
+             if (getEurl().getParameter(Constants.CHECK_KEY, true)) {
                  if (t instanceof RuntimeException) {
                      throw (RuntimeException) t;
                  }
                  throw new RuntimeException(t.getMessage(), t);
              }
-             logger.error("Failed to connect to registry " + getUrl().getAddress() + " from provider/consumer " + NetUtils.getLocalHost() + " use dubbo " + Version.getVersion() + ", cause: " + t.getMessage(), t);
+             logger.error("Failed to connect to registry " + getEurl().getAddress() + " from provider/consumer " + NetUtils.getLocalHost() + " use dubbo " + Version.getVersion() + ", cause: " + t.getMessage(), t);
         }
     }
     
@@ -126,24 +132,65 @@ public class DubboRegistry extends FailbackRegistry {
         registryInvoker.destroy();
     }
     
-    protected void doRegister(URL url) {
+    protected void doRegister(EURL url) {
         registryService.register(url);
     }
     
-    protected void doUnregister(URL url) {
+    protected void doUnregister(EURL url) {
         registryService.unregister(url);
     }
 
-    protected void doSubscribe(URL url, NotifyListener listener) {
+    protected void doSubscribe(EURL url, NotifyListener listener) {
         registryService.subscribe(url, listener);
     }
     
-    protected void doUnsubscribe(URL url, NotifyListener listener) {
+    protected void doUnsubscribe(EURL url, NotifyListener listener) {
         registryService.unsubscribe(url, listener);
     }
 
-    public List<URL> lookup(URL url) {
+    public List<EURL> lookup(EURL url) {
         return registryService.lookup(url);
     }
+
+    
+   /**sunline - mod PB  20150217
+    *  整合APM-API项目 进行注册
+    *     
+    **/ 
+	@Override
+	public List<TreeNode> getTreeNodes(String rootNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PathNode> getPathNodes(String rootNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CategoryNode> getCategoryNodes(String root, String pathNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AppNode> getAppNodes(String root, String pathNode, String categoryNode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void doSubscribe(EURL eurl, cn.sunline.ltts.apm.api.registry.base.NotifyListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void doUnsubscribe(EURL eurl, cn.sunline.ltts.apm.api.registry.base.NotifyListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

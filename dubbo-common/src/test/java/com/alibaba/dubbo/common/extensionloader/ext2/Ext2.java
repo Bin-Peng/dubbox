@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext2;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -30,5 +30,5 @@ public interface Ext2 {
     @Adaptive
     String echo(UrlHolder holder, String s);
 
-    String bang(URL url, int i);
+    String bang(EURL url, int i);
 }

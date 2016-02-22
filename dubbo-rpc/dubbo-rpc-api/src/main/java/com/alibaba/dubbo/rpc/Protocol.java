@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -61,7 +61,7 @@ public interface Protocol {
      * @throws RpcException 当连接服务提供方失败时抛出
      */
     @Adaptive
-    <T> Invoker<T> refer(Class<T> type, URL url) throws RpcException;
+    <T> Invoker<T> refer(Class<T> type, EURL url) throws RpcException;
 
     /**
      * 释放协议：<br>

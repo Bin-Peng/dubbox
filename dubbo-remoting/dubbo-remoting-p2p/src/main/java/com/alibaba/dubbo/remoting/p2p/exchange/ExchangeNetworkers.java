@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p.exchange;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.exchange.ExchangeHandler;
@@ -28,18 +28,18 @@ import com.alibaba.dubbo.remoting.exchange.ExchangeHandler;
 public class ExchangeNetworkers {
     
     public static ExchangePeer join(String group, String peer, ExchangeHandler handler) throws RemotingException {
-        return join(URL.valueOf(group), URL.valueOf(peer), handler);
+        return join(EURL.valueOf(group), EURL.valueOf(peer), handler);
     }
 
-    public static ExchangePeer join(URL group, URL peer, ExchangeHandler handler) throws RemotingException {
+    public static ExchangePeer join(EURL group, EURL peer, ExchangeHandler handler) throws RemotingException {
         return lookup(group).join(peer, handler);
     }
     
     public static ExchangeGroup lookup(String group) throws RemotingException {
-        return lookup(URL.valueOf(group));
+        return lookup(EURL.valueOf(group));
     }
     
-    public static ExchangeGroup lookup(URL group) throws RemotingException {
+    public static ExchangeGroup lookup(EURL group) throws RemotingException {
         ExchangeNetworker networker = ExtensionLoader.getExtensionLoader(ExchangeNetworker.class).getExtension(group.getProtocol());
         return networker.lookup(group);
     }

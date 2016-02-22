@@ -48,7 +48,7 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ConfigUtils;
@@ -77,7 +77,7 @@ public class SimpleMonitorService implements MonitorService {
 
     private final Thread writeThread;
     
-    private final BlockingQueue<URL> queue;
+    private final BlockingQueue<EURL> queue;
     
     private String statisticsDirectory = "statistics";
 
@@ -112,7 +112,7 @@ public class SimpleMonitorService implements MonitorService {
     }
     
     public SimpleMonitorService() {
-        queue = new LinkedBlockingQueue<URL>(Integer.parseInt(ConfigUtils.getProperty("dubbo.monitor.queue", "100000")));
+        queue = new LinkedBlockingQueue<EURL>(Integer.parseInt(ConfigUtils.getProperty("dubbo.monitor.queue", "100000")));
         writeThread = new Thread(new Runnable() {
             public void run() {
                 while (running) {
@@ -146,7 +146,7 @@ public class SimpleMonitorService implements MonitorService {
     public void close() {
         try {
             running = false;
-            queue.offer(new URL(POISON_PROTOCOL, NetUtils.LOCALHOST, 0));
+            queue.offer(new EURL(POISON_PROTOCOL, NetUtils.LOCALHOST, 0));
         } catch (Throwable t) {
             logger.warn(t.getMessage(), t);
         }
@@ -158,7 +158,7 @@ public class SimpleMonitorService implements MonitorService {
     }
     
     private void write() throws Exception {
-        URL statistics = queue.take();
+        EURL statistics = queue.take();
         if (POISON_PROTOCOL.equals(statistics.getProtocol())) {
             return;
         }
@@ -416,18 +416,18 @@ public class SimpleMonitorService implements MonitorService {
         }
     }
 
-    public void count(URL statistics) {
+    public void count(EURL statistics) {
         collect(statistics);
     }
 
-    public void collect(URL statistics) {
+    public void collect(EURL statistics) {
         queue.offer(statistics);
         if (logger.isInfoEnabled()) {
             logger.info("collect statistics: " + statistics);
         }
     }
 
-	public List<URL> lookup(URL query) {
+	public List<EURL> lookup(EURL query) {
 		// TODO Auto-generated method stub
 		return null;
 	}

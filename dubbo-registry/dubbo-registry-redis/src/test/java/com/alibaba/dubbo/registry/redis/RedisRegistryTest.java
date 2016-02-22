@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.NotifyListener;
 
 /**
@@ -30,10 +30,10 @@ import com.alibaba.dubbo.registry.NotifyListener;
 public class RedisRegistryTest {
 
     String            service     = "com.alibaba.dubbo.test.injvmServie";
-    URL               registryUrl = URL.valueOf("redis://239.255.255.255/");
-    URL               serviceUrl  = URL.valueOf("redis://redis/" + service
+    EURL               registryUrl = EURL.valueOf("redis://239.255.255.255/");
+    EURL               serviceUrl  = EURL.valueOf("redis://redis/" + service
                                                 + "?notify=false&methods=test1,test2");
-    URL               consumerUrl = URL.valueOf("redis://consumer/" + service + "?notify=false&methods=test1,test2");
+    EURL               consumerUrl = EURL.valueOf("redis://consumer/" + service + "?notify=false&methods=test1,test2");
     // RedisRegistry registry    = new RedisRegistry(registryUrl);
 
     /**

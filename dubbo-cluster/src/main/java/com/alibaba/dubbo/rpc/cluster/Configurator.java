@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Configurator. (SPI, Prototype, ThreadSafe)
@@ -29,7 +29,7 @@ public interface Configurator extends Comparable<Configurator> {
      * 
      * @return configurator url.
      */
-    URL getUrl();
+    EURL getUrl();
 
     /**
      * Configure the provider url.
@@ -37,6 +37,6 @@ public interface Configurator extends Comparable<Configurator> {
      * @param url - old rovider url.
      * @return new provider url.
      */
-    URL configure(URL url);
+    EURL configure(EURL url);
 
 }

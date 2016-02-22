@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p.exchange;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 
 /**
@@ -31,6 +31,6 @@ public interface ExchangeNetworker {
      * @param url group url
      * @return group.
      */
-    ExchangeGroup lookup(URL url) throws RemotingException;
+    ExchangeGroup lookup(EURL url) throws RemotingException;
 
 }

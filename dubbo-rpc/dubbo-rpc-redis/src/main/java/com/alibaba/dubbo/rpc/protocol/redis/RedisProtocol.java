@@ -30,7 +30,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisDataException;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.serialize.ObjectInput;
 import com.alibaba.dubbo.common.serialize.ObjectOutput;
@@ -62,11 +62,11 @@ public class RedisProtocol extends AbstractProtocol {
         throw new UnsupportedOperationException("Unsupported export redis service. url: " + invoker.getUrl());
     }
     
-    private Serialization getSerialization(URL url) {
+    private Serialization getSerialization(EURL url) {
         return ExtensionLoader.getExtensionLoader(Serialization.class).getExtension(url.getParameter(Constants.SERIALIZATION_KEY, "java"));
     }
 
-    public <T> Invoker<T> refer(final Class<T> type, final URL url) throws RpcException {
+    public <T> Invoker<T> refer(final Class<T> type, final EURL url) throws RpcException {
         try {
             GenericObjectPool.Config config = new GenericObjectPool.Config();
             config.testOnBorrow = url.getParameter("test.on.borrow", true);

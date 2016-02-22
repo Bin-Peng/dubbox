@@ -18,7 +18,7 @@ package com.alibaba.dubbo.monitor.simple.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
@@ -31,19 +31,19 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
  */
 public class ConsumersPageHandler implements PageHandler {
     
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String service = url.getParameter("service");
         String host = url.getParameter("host");
         String application = url.getParameter("application");
         if (service != null && service.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> consumers = RegistryContainer.getInstance().getConsumersByService(service);
+            List<EURL> consumers = RegistryContainer.getInstance().getConsumersByService(service);
             if (consumers != null && consumers.size() > 0) {
-                for (URL u : consumers) {
+                for (EURL u : consumers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?service=" + service + "&consumer=" + URL.encode(s) + "';}\">Unsubscribe</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?service=" + service + "&consumer=" + EURL.encode(s) + "';}\">Unsubscribe</button>");
                     rows.add(row);
                 }
             }
@@ -55,13 +55,13 @@ public class ConsumersPageHandler implements PageHandler {
                     new String[] { "Consumer URL:", "Unsubscribe" }, rows);
         } else if (host != null && host.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> consumers = RegistryContainer.getInstance().getConsumersByHost(host);
+            List<EURL> consumers = RegistryContainer.getInstance().getConsumersByHost(host);
             if (consumers != null && consumers.size() > 0) {
-                for (URL u : consumers) {
+                for (EURL u : consumers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?host=" + host + "&consumer=" + URL.encode(s) + "';}\">Unsubscribe</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?host=" + host + "&consumer=" + EURL.encode(s) + "';}\">Unsubscribe</button>");
                     rows.add(row);
                 }
             }
@@ -69,13 +69,13 @@ public class ConsumersPageHandler implements PageHandler {
                     new String[] { "Consumer URL:", "Unsubscribe" }, rows);
         } else if (application != null && application.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> consumers = RegistryContainer.getInstance().getConsumersByApplication(application);
+            List<EURL> consumers = RegistryContainer.getInstance().getConsumersByApplication(application);
             if (consumers != null && consumers.size() > 0) {
-                for (URL u : consumers) {
+                for (EURL u : consumers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?application=" + application + "&consumer=" + URL.encode(s) + "';}\">Unsubscribe</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unsubscribe consumer?')){window.location.href='unsubscribe.html?application=" + application + "&consumer=" + EURL.encode(s) + "';}\">Unsubscribe</button>");
                     rows.add(row);
                 }
             }

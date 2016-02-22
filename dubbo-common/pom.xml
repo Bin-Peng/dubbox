@@ -86,5 +86,12 @@
             <artifactId>jackson-databind</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>cn.sunline.ltts.apm.api</groupId>
+	        <artifactId>ltts-apm-api</artifactId>
+	        <version>1.0.0-SNAPSHOT</version>
+		</dependency>
+        
     </dependencies>
 </project>

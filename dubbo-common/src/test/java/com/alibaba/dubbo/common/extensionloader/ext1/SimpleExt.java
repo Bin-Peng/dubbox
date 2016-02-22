@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext1;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -29,11 +29,11 @@ import com.alibaba.dubbo.common.extension.SPI;
 public interface SimpleExt {
     // 没有使用key的@Adaptive ！
     @Adaptive
-    String echo(URL url, String s);
+    String echo(EURL url, String s);
     
     @Adaptive({"key1", "key2"})
-    String yell(URL url, String s);
+    String yell(EURL url, String s);
 
     // 无@Adaptive ！
-    String bang(URL url, int i);
+    String bang(EURL url, int i);
 }

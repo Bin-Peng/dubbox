@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -71,7 +71,7 @@ public class FileRouterEngineTest {
     @Test
     public void testRouteNotAvailable() {
         if (isScriptUnsupported) return;
-        URL url = initUrl("notAvailablerule.javascript");
+        EURL url = initUrl("notAvailablerule.javascript");
         initInvocation("method1");
         initDic(url);
         initInvokers(url, true, false);
@@ -88,7 +88,7 @@ public class FileRouterEngineTest {
     @Test
     public void testRouteAvailable() {
         if (isScriptUnsupported) return;
-        URL url = initUrl("availablerule.javascript");
+        EURL url = initUrl("availablerule.javascript");
         initInvocation("method1");
         initDic(url);
         initInvokers(url);
@@ -105,7 +105,7 @@ public class FileRouterEngineTest {
     @Test
     public void testRouteByMethodName() {
         if (isScriptUnsupported) return;
-        URL url = initUrl("methodrule.javascript");
+        EURL url = initUrl("methodrule.javascript");
         {
             initInvocation("method1");
             initDic(url);
@@ -133,9 +133,9 @@ public class FileRouterEngineTest {
         }
     }
 
-    private URL initUrl(String filename) {
+    private EURL initUrl(String filename) {
         filename = getClass().getClassLoader().getResource(getClass().getPackage().getName().replace('.', '/') + "/" + filename).toString();
-        URL url = URL.valueOf(filename);
+        EURL url = EURL.valueOf(filename);
         return url;
     }
 
@@ -144,11 +144,11 @@ public class FileRouterEngineTest {
         ((RpcInvocation)invocation).setMethodName(methodName);
     }
 
-    private void initInvokers(URL url) {
+    private void initInvokers(EURL url) {
         initInvokers(url, true, false);
     }
 
-    private void initInvokers(URL url, boolean invoker1Status, boolean invoker2Status) {
+    private void initInvokers(EURL url, boolean invoker1Status, boolean invoker2Status) {
         EasyMock.reset(invoker1);
         EasyMock.expect(invoker1.invoke(invocation)).andReturn(result).anyTimes();
         EasyMock.expect(invoker1.isAvailable()).andReturn(invoker1Status).anyTimes();
@@ -164,7 +164,7 @@ public class FileRouterEngineTest {
         EasyMock.replay(invoker2);
     }
 
-    private void initDic(URL url) {
+    private void initDic(EURL url) {
         dic = new StaticDirectory<FileRouterEngineTest>(url, invokers, Arrays.asList(routerFactory.getRouter(url)));
     }
 
@@ -175,7 +175,7 @@ public class FileRouterEngineTest {
             super(directory);
         }
 
-        public MockClusterInvoker(Directory<T> directory, URL url) {
+        public MockClusterInvoker(Directory<T> directory, EURL url) {
             super(directory, url);
         }
 

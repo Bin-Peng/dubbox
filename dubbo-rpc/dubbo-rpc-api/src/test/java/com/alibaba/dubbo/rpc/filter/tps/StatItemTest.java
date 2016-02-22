@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.RpcInvocation;
 
@@ -34,7 +34,7 @@ public class StatItemTest {
 
     private StatItem statItem;
 
-    private URL        url        = URL.valueOf("test://localhost");
+    private EURL        url        = EURL.valueOf("test://localhost");
 
     private Invocation invocation = new RpcInvocation();
 

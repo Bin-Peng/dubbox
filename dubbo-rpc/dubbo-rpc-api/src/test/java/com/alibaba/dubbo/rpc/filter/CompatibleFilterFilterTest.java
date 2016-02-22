@@ -22,7 +22,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -60,7 +60,7 @@ public class CompatibleFilterFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);
@@ -81,7 +81,7 @@ public class CompatibleFilterFilterTest {
         result.setException(new RuntimeException());
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);
@@ -101,7 +101,7 @@ public class CompatibleFilterFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1&serialization=json");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1&serialization=json");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);
@@ -121,7 +121,7 @@ public class CompatibleFilterFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);
@@ -141,7 +141,7 @@ public class CompatibleFilterFilterTest {
         RpcResult result = new RpcResult();
         result.setValue(new String[]{"High"});
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);
@@ -161,7 +161,7 @@ public class CompatibleFilterFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("hello");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = compatibleFilter.invoke(invoker, invocation);

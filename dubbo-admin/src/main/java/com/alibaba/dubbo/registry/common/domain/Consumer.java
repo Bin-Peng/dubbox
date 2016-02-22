@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
 /**
@@ -200,7 +200,7 @@ public class Consumer extends Entity {
                 + ", expired=" + expired + ", alived=" + alived + "]";
     }
     
-    public URL toUrl() {
+    public EURL toUrl() {
         String group = null;
         String version = null;
         String path = service;
@@ -222,7 +222,7 @@ public class Consumer extends Entity {
         if (version != null) {
             param.put(Constants.VERSION_KEY, version);
         }
-        return URL.valueOf(Constants.CONSUMER_PROTOCOL + "://" + address + "/" + path 
+        return EURL.valueOf(Constants.CONSUMER_PROTOCOL + "://" + address + "/" + path 
                 + "?" + StringUtils.toQueryString(param));
     }
 

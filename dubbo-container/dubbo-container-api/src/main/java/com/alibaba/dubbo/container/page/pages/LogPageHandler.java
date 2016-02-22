@@ -31,7 +31,7 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
@@ -70,7 +70,7 @@ public class LogPageHandler implements PageHandler {
 	    }
     }
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         long size = 0;
 		String content = "";
 		String modified = "Not exist";

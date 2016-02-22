@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.cluster.Configurator;
 
 /**
@@ -30,20 +30,20 @@ import com.alibaba.dubbo.rpc.cluster.Configurator;
  */
 public abstract class AbstractConfigurator implements Configurator {
     
-    private final URL configuratorUrl;
+    private final EURL configuratorUrl;
 
-    public AbstractConfigurator(URL url) {
+    public AbstractConfigurator(EURL url) {
         if (url == null) {
             throw new IllegalArgumentException("configurator url == null");
         }
         this.configuratorUrl = url;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return configuratorUrl;
     }
 
-    public URL configure(URL url) {
+    public EURL configure(EURL url) {
         if (configuratorUrl == null || configuratorUrl.getHost() == null
                 || url == null || url.getHost() == null) {
             return url;
@@ -86,10 +86,10 @@ public abstract class AbstractConfigurator implements Configurator {
         return getUrl().getHost().compareTo(o.getUrl().getHost());
     }
     
-    protected abstract URL doConfigure(URL currentUrl, URL configUrl);
+    protected abstract EURL doConfigure(EURL currentUrl, EURL configUrl);
     
     public static void main(String[] args) {
-        System.out.println(URL.encode("timeout=100"));
+        System.out.println(EURL.encode("timeout=100"));
     }
 
 }

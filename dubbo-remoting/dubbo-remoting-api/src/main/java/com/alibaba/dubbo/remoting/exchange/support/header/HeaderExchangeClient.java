@@ -23,7 +23,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NamedThreadFactory;
@@ -79,7 +79,7 @@ public class HeaderExchangeClient implements ExchangeClient {
         return channel.request(request);
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return channel.getUrl();
     }
 
@@ -129,7 +129,7 @@ public class HeaderExchangeClient implements ExchangeClient {
         channel.close(timeout);
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         client.reset(url);
     }
     

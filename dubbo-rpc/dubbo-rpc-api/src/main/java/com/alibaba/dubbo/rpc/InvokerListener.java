@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.SPI;
 
 /**
@@ -29,7 +29,7 @@ public interface InvokerListener {
     /**
      * The invoker referred
      * 
-     * @see com.alibaba.dubbo.rpc.Protocol#refer(Class, URL)
+     * @see com.alibaba.dubbo.rpc.Protocol#refer(Class, EURL)
      * @param invoker
      * @throws RpcException
      */

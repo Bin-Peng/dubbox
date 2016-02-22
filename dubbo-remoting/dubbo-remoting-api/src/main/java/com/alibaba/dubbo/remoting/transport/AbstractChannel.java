@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -27,7 +27,7 @@ import com.alibaba.dubbo.remoting.RemotingException;
  */
 public abstract class AbstractChannel extends AbstractPeer implements Channel {
 
-    public AbstractChannel(URL url, ChannelHandler handler){
+    public AbstractChannel(EURL url, ChannelHandler handler){
         super(url, handler);
     }
 

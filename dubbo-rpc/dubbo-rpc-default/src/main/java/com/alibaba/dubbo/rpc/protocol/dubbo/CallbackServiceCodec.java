@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.bytecode.Wrapper;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
@@ -51,7 +51,7 @@ class CallbackServiceCodec {
     private static final byte CALLBACK_DESTROY = 0x2;
     private static final String INV_ATT_CALLBACK_KEY  = "sys_callback_arg-";
     
-    private static byte isCallBack(URL url, String methodName ,int argIndex){
+    private static byte isCallBack(EURL url, String methodName ,int argIndex){
         //参数callback的规则是 方法名称.参数index(0开始).callback
         byte isCallback = CALLBACK_NONE;
         if (url != null ) {
@@ -77,7 +77,7 @@ class CallbackServiceCodec {
      * @throws IOException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static String exportOrunexportCallbackService(Channel channel, URL url, Class clazz, Object inst, Boolean export) throws IOException{
+    private static String exportOrunexportCallbackService(Channel channel, EURL url, Class clazz, Object inst, Boolean export) throws IOException{
         int instid = System.identityHashCode(inst);
         
         Map<String,String> params = new HashMap<String,String>(3);
@@ -96,7 +96,7 @@ class CallbackServiceCodec {
         tmpmap.putAll(params);
         tmpmap.remove(Constants.VERSION_KEY);//callback不需要区分version
         tmpmap.put(Constants.INTERFACE_KEY, clazz.getName());
-        URL exporturl = new URL(DubboProtocol.NAME, channel.getLocalAddress().getAddress().getHostAddress(), channel.getLocalAddress().getPort(), clazz.getName()+"."+instid, tmpmap);
+        EURL exporturl = new EURL(DubboProtocol.NAME, channel.getLocalAddress().getAddress().getHostAddress(), channel.getLocalAddress().getPort(), clazz.getName()+"."+instid, tmpmap);
         
         //同一个jvm不需要对不同的channel产生多个exporter cache key不会碰撞 
         String cacheKey = getClientSideCallbackServiceCacheKey(instid);
@@ -130,7 +130,7 @@ class CallbackServiceCodec {
      * @param url 
      */
     @SuppressWarnings("unchecked")
-    private static Object referOrdestroyCallbackService(Channel channel, URL url, Class<?> clazz ,Invocation inv ,int instid, boolean isRefer){
+    private static Object referOrdestroyCallbackService(Channel channel, EURL url, Class<?> clazz ,Invocation inv ,int instid, boolean isRefer){
         Object proxy = null;
         String invokerCacheKey = getServerSideCallbackInvokerCacheKey(channel, clazz.getName(), instid);
         String proxyCacheKey = getServerSideCallbackServiceCacheKey(channel, clazz.getName(), instid);
@@ -138,7 +138,7 @@ class CallbackServiceCodec {
         String countkey = getServerSideCountKey(channel, clazz.getName());
         if (isRefer){
             if( proxy == null ){
-            	URL referurl = URL.valueOf("callback://" + url.getAddress() + "/" + clazz.getName() + "?" + Constants.INTERFACE_KEY + "=" + clazz.getName());
+            	EURL referurl = EURL.valueOf("callback://" + url.getAddress() + "/" + clazz.getName() + "?" + Constants.INTERFACE_KEY + "=" + clazz.getName());
             	referurl = referurl.addParametersIfAbsent(url.getParameters()).removeParameter(Constants.METHODS_KEY);
             	if (!isInstancesOverLimit(channel, referurl, clazz.getName(), instid, true)){
                     @SuppressWarnings("rawtypes")
@@ -196,7 +196,7 @@ class CallbackServiceCodec {
     private static String getServerSideCountKey(Channel channel, String interfaceClass){
         return Constants.CALLBACK_SERVICE_PROXY_KEY+"."+System.identityHashCode(channel)+"."+interfaceClass+".COUNT";
     }
-    private static boolean isInstancesOverLimit(Channel channel, URL url ,String interfaceClass, int instid, boolean isServer){
+    private static boolean isInstancesOverLimit(Channel channel, EURL url ,String interfaceClass, int instid, boolean isServer){
         Integer count = (Integer)channel.getAttribute(isServer ? getServerSideCountKey(channel,interfaceClass) : getClientSideCountKey(interfaceClass));
         int limit = url.getParameter(Constants.CALLBACK_INSTANCES_LIMIT_KEY, Constants.DEFAULT_CALLBACK_INSTANCES);
         if (count != null && count >= limit){
@@ -237,7 +237,7 @@ class CallbackServiceCodec {
     
     public static Object encodeInvocationArgument(Channel channel, RpcInvocation inv, int paraIndex) throws IOException{
         //encode时可直接获取url
-        URL url = inv.getInvoker() == null ? null : inv.getInvoker().getUrl();
+        EURL url = inv.getInvoker() == null ? null : inv.getInvoker().getUrl();
         byte callbackstatus = isCallBack(url, inv.getMethodName(), paraIndex);
         Object[] args = inv.getArguments();
         Class<?>[] pts = inv.getParameterTypes();
@@ -257,7 +257,7 @@ class CallbackServiceCodec {
     public static Object decodeInvocationArgument(Channel channel, RpcInvocation inv, Class<?>[] pts, int paraIndex, Object inObject) throws IOException{
         //如果是callback，则创建proxy到客户端，方法的执行可通过channel调用到client端的callback接口
         //decode时需要根据channel及env获取url
-        URL url = null ;
+        EURL url = null ;
         try {
             url = DubboProtocol.getDubboProtocol().getInvoker(channel, inv).getUrl();
         } catch (RemotingException e) {

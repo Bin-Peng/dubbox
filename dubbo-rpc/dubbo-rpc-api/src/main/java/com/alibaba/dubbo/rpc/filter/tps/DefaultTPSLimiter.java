@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 
 /**
@@ -31,7 +31,7 @@ public class DefaultTPSLimiter implements TPSLimiter {
     private final ConcurrentMap<String, StatItem> stats
         = new ConcurrentHashMap<String, StatItem>();
     
-    public boolean isAllowable(URL url, Invocation invocation) {
+    public boolean isAllowable(EURL url, Invocation invocation) {
         int rate = url.getParameter(Constants.TPS_LIMIT_RATE_KEY, -1);
         long interval = url.getParameter(Constants.TPS_LIMIT_INTERVAL_KEY,
                                          Constants.DEFAULT_TPS_LIMIT_INTERVAL);

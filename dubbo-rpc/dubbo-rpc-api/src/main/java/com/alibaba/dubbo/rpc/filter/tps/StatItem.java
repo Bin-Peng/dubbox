@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.filter.tps;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 
 /**
@@ -44,7 +44,7 @@ class StatItem {
         this.token = new AtomicInteger(rate);
     }
 
-    public boolean isAllowable(URL url, Invocation invocation) {
+    public boolean isAllowable(EURL url, Invocation invocation) {
         long now = System.currentTimeMillis();
         if (now > lastResetTime + interval) {
             token.set(rate);

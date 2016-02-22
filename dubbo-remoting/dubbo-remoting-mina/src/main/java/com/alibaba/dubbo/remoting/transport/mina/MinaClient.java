@@ -32,7 +32,7 @@ import org.apache.mina.transport.socket.nio.SocketConnector;
 import org.apache.mina.transport.socket.nio.SocketConnectorConfig;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -61,7 +61,7 @@ public class MinaClient extends AbstractClient {
     
     private volatile IoSession session; // volatile, please copy reference to use
 
-    public MinaClient(final URL url, final ChannelHandler handler) throws RemotingException {
+    public MinaClient(final EURL url, final ChannelHandler handler) throws RemotingException {
         super(url, wrapChannelHandler(url, handler));
     }
     

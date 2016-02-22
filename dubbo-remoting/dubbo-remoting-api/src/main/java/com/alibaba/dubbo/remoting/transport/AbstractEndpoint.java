@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting.transport;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.Resetable;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -41,14 +41,14 @@ public abstract class AbstractEndpoint extends AbstractPeer implements Resetable
 
     private int                   connectTimeout;
     
-    public AbstractEndpoint(URL url, ChannelHandler handler) {
+    public AbstractEndpoint(EURL url, ChannelHandler handler) {
         super(url, handler);
         this.codec = getChannelCodec(url);
         this.timeout = url.getPositiveParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT);
         this.connectTimeout = url.getPositiveParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT);
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         if (isClosed()) {
             throw new IllegalStateException("Failed to reset parameters "
                                         + url + ", cause: Channel closed. channel: " + getLocalAddress());
@@ -99,7 +99,7 @@ public abstract class AbstractEndpoint extends AbstractPeer implements Resetable
         return connectTimeout;
     }
 
-    protected static Codec2 getChannelCodec(URL url) {
+    protected static Codec2 getChannelCodec(EURL url) {
         String codecName = url.getParameter(Constants.CODEC_KEY, "telnet");
         if (ExtensionLoader.getExtensionLoader(Codec2.class).hasExtension(codecName)) {
             return ExtensionLoader.getExtensionLoader(Codec2.class).getExtension(codecName);

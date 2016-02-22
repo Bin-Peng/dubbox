@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 
@@ -116,7 +116,7 @@ public class ExecutorUtil {
      * append thread name with url address
      * @return new url with updated thread name
      */
-    public static URL setThreadName(URL url, String defaultName) {
+    public static EURL setThreadName(EURL url, String defaultName) {
         String name = url.getParameter(Constants.THREAD_NAME_KEY, defaultName);
         name = new StringBuilder(32).append(name).append("-").append(url.getAddress()).toString();
         url = url.addParameter(Constants.THREAD_NAME_KEY, name);

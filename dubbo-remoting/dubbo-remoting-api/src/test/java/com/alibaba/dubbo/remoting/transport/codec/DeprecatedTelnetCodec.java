@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.serialize.ObjectOutput;
@@ -20,7 +20,6 @@ import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.Codec;
 import com.alibaba.dubbo.remoting.RemotingException;
-import com.alibaba.dubbo.remoting.buffer.ChannelBufferOutputStream;
 import com.alibaba.dubbo.remoting.transport.CodecSupport;
 
 /**
@@ -62,7 +61,7 @@ public class DeprecatedTelnetCodec implements Codec {
             return false;
         } else {
             InetSocketAddress address = channel.getRemoteAddress();
-            URL url = channel.getUrl();
+            EURL url = channel.getUrl();
             boolean client = url.getPort() == address.getPort()
                 && NetUtils.filterLocalHost(url.getIp()).equals(
                 NetUtils.filterLocalHost(address.getAddress()
@@ -241,7 +240,7 @@ public class DeprecatedTelnetCodec implements Codec {
             } else if (attribute instanceof Charset) {
                 return (Charset) attribute;
             }
-            URL url = channel.getUrl();
+            EURL url = channel.getUrl();
             if (url != null) {
                 String parameter = url.getParameter(Constants.CHARSET_KEY);
                 if (parameter != null && parameter.length() > 0) {

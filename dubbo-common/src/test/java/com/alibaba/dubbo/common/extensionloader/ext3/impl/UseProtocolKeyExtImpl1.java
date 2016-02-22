@@ -15,18 +15,18 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext3.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext3.UseProtocolKeyExt;
 
 /**
  * @author ding.lid
  */
 public class UseProtocolKeyExtImpl1 implements UseProtocolKeyExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return "Ext3Impl1-echo";
     }
     
-    public String yell(URL url, String s) {
+    public String yell(EURL url, String s) {
         return "Ext3Impl1-yell";
     }
 }

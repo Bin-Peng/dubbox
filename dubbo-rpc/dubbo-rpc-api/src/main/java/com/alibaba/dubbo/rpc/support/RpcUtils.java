@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ReflectUtils;
@@ -91,13 +91,13 @@ public class RpcUtils {
      * @param url
      * @param inv
      */
-    public static void attachInvocationIdIfAsync(URL url, Invocation inv){
+    public static void attachInvocationIdIfAsync(EURL url, Invocation inv){
     	if (isAttachInvocationId(url, inv) && getInvocationId(inv) == null && inv instanceof RpcInvocation) {
     		((RpcInvocation)inv).setAttachment(Constants.ID_KEY, String.valueOf(INVOKE_ID.getAndIncrement()));
         }
     }
     
-    private static boolean isAttachInvocationId(URL url , Invocation invocation) {
+    private static boolean isAttachInvocationId(EURL url , Invocation invocation) {
     	String value = url.getMethodParameter(invocation.getMethodName(), Constants.AUTO_ATTACH_INVOCATIONID_KEY);
     	if ( value == null ) {
     		//异步操作默认添加invocationid
@@ -149,7 +149,7 @@ public class RpcUtils {
     	return invocation.getParameterTypes();
     }
     
-    public static boolean isAsync(URL url, Invocation inv) {
+    public static boolean isAsync(EURL url, Invocation inv) {
     	boolean isAsync ;
     	//如果Java代码中设置优先.
     	if (Boolean.TRUE.toString().equals(inv.getAttachment(Constants.ASYNC_KEY))) {
@@ -160,7 +160,7 @@ public class RpcUtils {
     	return isAsync;
     }
     
-    public static boolean isOneway(URL url, Invocation inv) {
+    public static boolean isOneway(EURL url, Invocation inv) {
     	boolean isOneway ;
     	//如果Java代码中设置优先.
     	if (Boolean.FALSE.toString().equals(inv.getAttachment(Constants.RETURN_KEY))) {

@@ -17,7 +17,7 @@ package com.alibaba.dubbo.registry;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * NotifyListener. (API, Prototype, ThreadSafe)
@@ -39,6 +39,6 @@ public interface NotifyListener {
      * 
      * @param urls 已注册信息列表，总不为空，含义同{@link com.alibaba.dubbo.registry.RegistryService#lookup(URL)}的返回值。
      */
-    void notify(List<URL> urls);
+    void notify(List<EURL> urls);
 
 }

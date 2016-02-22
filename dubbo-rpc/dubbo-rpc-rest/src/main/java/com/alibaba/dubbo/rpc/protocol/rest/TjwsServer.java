@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.rest;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 
 /**
@@ -25,7 +25,7 @@ public class TjwsServer extends BaseRestServer {
 
 //    private final TJWSEmbeddedJaxrsServer server = new TJWSEmbeddedJaxrsServer();
 
-    protected void doStart(URL url) {
+    protected void doStart(EURL url) {
         throw new UnsupportedOperationException("TJWS server is now unsupported");
 //        server.setPort(url.getPort());
 //        // below config is useless due to a resteasy bug

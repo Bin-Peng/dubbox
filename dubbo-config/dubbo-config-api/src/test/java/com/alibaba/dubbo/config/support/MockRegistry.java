@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.NotifyListener;
 import com.alibaba.dubbo.registry.Registry;
 
@@ -30,16 +30,16 @@ import com.alibaba.dubbo.registry.Registry;
  */
 public class MockRegistry implements Registry {
 
-    static URL subscribedUrl = new URL("null", "0.0.0.0", 0);
+    static EURL subscribedUrl = new EURL("null", "0.0.0.0", 0);
     
-    public static URL getSubscribedUrl(){
+    public static EURL getSubscribedUrl(){
         return subscribedUrl;
     }
     
     /* 
      * @see com.alibaba.dubbo.common.Node#getUrl()
      */
-    public URL getUrl() {
+    public EURL getUrl() {
         return null;
     }
 
@@ -60,23 +60,23 @@ public class MockRegistry implements Registry {
     /* 
      * @see com.alibaba.dubbo.registry.RegistryService#register(com.alibaba.dubbo.common.URL)
      */
-    public void register(URL url) {
+    public void register(EURL url) {
         
     }
 
     /* 
      * @see com.alibaba.dubbo.registry.RegistryService#unregister(com.alibaba.dubbo.common.URL)
      */
-    public void unregister(URL url) {
+    public void unregister(EURL url) {
         
     }
 
     /* 
      * @see com.alibaba.dubbo.registry.RegistryService#subscribe(com.alibaba.dubbo.common.URL, com.alibaba.dubbo.registry.NotifyListener)
      */
-    public void subscribe(URL url, NotifyListener listener) {
+    public void subscribe(EURL url, NotifyListener listener) {
         this.subscribedUrl = url;
-        List<URL> urls = new ArrayList<URL>();
+        List<EURL> urls = new ArrayList<EURL>();
         
         urls.add(url.setProtocol("mockprotocol")
                     .removeParameter(Constants.CATEGORY_KEY)
@@ -88,14 +88,14 @@ public class MockRegistry implements Registry {
     /* 
      * @see com.alibaba.dubbo.registry.RegistryService#unsubscribe(com.alibaba.dubbo.common.URL, com.alibaba.dubbo.registry.NotifyListener)
      */
-    public void unsubscribe(URL url, NotifyListener listener) {
+    public void unsubscribe(EURL url, NotifyListener listener) {
         
     }
 
     /* 
      * @see com.alibaba.dubbo.registry.RegistryService#lookup(com.alibaba.dubbo.common.URL)
      */
-    public List<URL> lookup(URL url) {
+    public List<EURL> lookup(EURL url) {
         return null;
     }
 

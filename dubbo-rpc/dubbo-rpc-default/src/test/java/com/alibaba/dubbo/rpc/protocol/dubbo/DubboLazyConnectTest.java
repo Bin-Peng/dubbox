@@ -22,7 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.protocol.dubbo.support.ProtocolUtils;
@@ -44,19 +44,19 @@ public class DubboLazyConnectTest {
     
     @Test(expected = RpcException.class)
     public void testSticky1(){
-        URL url = URL.valueOf("dubbo://127.0.0.1:9090/hi");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:9090/hi");
         ProtocolUtils.refer(IDemoService.class, url);
     }
     
     @Test
     public void testSticky2(){
-        URL url = URL.valueOf("dubbo://127.0.0.1:9090/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:9090/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
         ProtocolUtils.refer(IDemoService.class, url);
     }
     
     @Test(expected = RpcException.class)
     public void testSticky3() {
-        URL url = URL.valueOf("dubbo://127.0.0.1:9090/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:9090/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
         IDemoService service = (IDemoService)ProtocolUtils.refer(IDemoService.class, url);
         service.get();
     }
@@ -64,7 +64,7 @@ public class DubboLazyConnectTest {
     @Test
     public void testSticky4() {
         int port = NetUtils.getAvailablePort();
-        URL url = URL.valueOf("dubbo://127.0.0.1:"+port+"/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
+        EURL url = EURL.valueOf("dubbo://127.0.0.1:"+port+"/hi?"+Constants.LAZY_CONNECT_KEY+"=true");
         
         ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, url);
         

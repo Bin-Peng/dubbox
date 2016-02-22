@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.container.page;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.SPI;
 
 /**
@@ -32,6 +32,6 @@ public interface PageHandler {
      * @param url
      * @return the page.
      */
-    Page handle(URL url);
+    Page handle(EURL url);
 
 }

@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.cluster;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -38,7 +38,7 @@ public interface Router extends Comparable<Router> {
      * 
      * @return url
      */
-    URL getUrl();
+    EURL getUrl();
 
     /**
      * route.
@@ -49,6 +49,6 @@ public interface Router extends Comparable<Router> {
      * @return routed invokers
      * @throws RpcException
      */
-	<T> List<Invoker<T>> route(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException;
+	<T> List<Invoker<T>> route(List<Invoker<T>> invokers, EURL url, Invocation invocation) throws RpcException;
 
 }

@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster.configurator.override;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.cluster.configurator.AbstractConfigurator;
 
 /**
@@ -25,11 +25,11 @@ import com.alibaba.dubbo.rpc.cluster.configurator.AbstractConfigurator;
  */
 public class OverrideConfigurator extends AbstractConfigurator {
     
-    public OverrideConfigurator(URL url) {
+    public OverrideConfigurator(EURL url) {
         super(url);
     }
 
-    public URL doConfigure(URL currentUrl, URL configUrl) {
+    public EURL doConfigure(EURL currentUrl, EURL configUrl) {
         return currentUrl.addParameters(configUrl.getParameters());
     }
 

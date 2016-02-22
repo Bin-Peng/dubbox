@@ -25,7 +25,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.IOUtils;
 import com.alibaba.dubbo.common.utils.NamedThreadFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -50,7 +50,7 @@ public class FileGroup extends AbstractGroup {
     // 重连定时器，定时检查连接是否可用，不可用时，无限次重连
     private final ScheduledFuture<?> checkModifiedFuture;
 
-    public FileGroup(URL url){
+    public FileGroup(EURL url){
         super(url);
         String path = url.getAbsolutePath();
         file = new File(path);
@@ -89,14 +89,14 @@ public class FileGroup extends AbstractGroup {
         try {
             String[] lines = IOUtils.readLines(file);
             for (String line : lines) {
-                connect(URL.valueOf(line));
+                connect(EURL.valueOf(line));
             }
         } catch (IOException e) {
             throw new RemotingException(new InetSocketAddress(NetUtils.getLocalHost(), 0), getUrl().toInetSocketAddress(), e.getMessage(), e);
         }
     }
 
-    public Peer join(URL url, ChannelHandler handler) throws RemotingException {
+    public Peer join(EURL url, ChannelHandler handler) throws RemotingException {
         Peer peer = super.join(url, handler);
         try {
             String full = url.toFullString();
@@ -114,7 +114,7 @@ public class FileGroup extends AbstractGroup {
     }
     
     @Override
-    public void leave(URL url) throws RemotingException {
+    public void leave(EURL url) throws RemotingException {
         super.leave(url);
         try {
             String full = url.toFullString();

@@ -28,7 +28,7 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -74,7 +74,7 @@ public class NettyClient extends AbstractClient {
 
     private volatile Channel channel; // volatile, please copy reference to use
     
-    public NettyClient(final URL url, final ChannelHandler handler) throws RemotingException{
+    public NettyClient(final EURL url, final ChannelHandler handler) throws RemotingException{
         super(url, wrapChannelHandler(url, handler));
     }
     

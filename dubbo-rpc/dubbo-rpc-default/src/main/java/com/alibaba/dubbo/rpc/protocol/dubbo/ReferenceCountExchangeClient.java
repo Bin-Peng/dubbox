@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.Parameters;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.exchange.ExchangeClient;
@@ -38,7 +38,7 @@ final class ReferenceCountExchangeClient implements ExchangeClient {
 
     private ExchangeClient client;
     
-    private final URL url;
+    private final EURL url;
     
 //    private final ExchangeHandler handler;
     
@@ -57,7 +57,7 @@ final class ReferenceCountExchangeClient implements ExchangeClient {
         this.ghostClientMap = ghostClientMap;
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         client.reset(url);
     }
 
@@ -65,7 +65,7 @@ final class ReferenceCountExchangeClient implements ExchangeClient {
         return client.request(request);
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return client.getUrl();
     }
 
@@ -145,7 +145,7 @@ final class ReferenceCountExchangeClient implements ExchangeClient {
     //幽灵client,
     private LazyConnectExchangeClient replaceWithLazyClient(){
         //这个操作只为了防止程序bug错误关闭client做的防御措施，初始client必须为false状态
-        URL lazyUrl = url.addParameter(Constants.LAZY_CONNECT_INITIAL_STATE_KEY, Boolean.FALSE)
+        EURL lazyUrl = url.addParameter(Constants.LAZY_CONNECT_INITIAL_STATE_KEY, Boolean.FALSE)
                 .addParameter(Constants.RECONNECT_KEY, Boolean.FALSE)
                 .addParameter(Constants.SEND_RECONNECT_KEY, Boolean.TRUE.toString())
                 .addParameter("warning", Boolean.TRUE.toString())

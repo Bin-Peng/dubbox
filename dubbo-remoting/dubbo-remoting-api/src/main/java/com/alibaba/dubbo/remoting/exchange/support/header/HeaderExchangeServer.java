@@ -25,7 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -183,7 +183,7 @@ public class HeaderExchangeServer implements ExchangeServer {
         return server.getLocalAddress();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return server.getUrl();
     }
 
@@ -191,7 +191,7 @@ public class HeaderExchangeServer implements ExchangeServer {
         return server.getChannelHandler();
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         server.reset(url);
         try {
             if (url.hasParameter(Constants.HEARTBEAT_KEY)

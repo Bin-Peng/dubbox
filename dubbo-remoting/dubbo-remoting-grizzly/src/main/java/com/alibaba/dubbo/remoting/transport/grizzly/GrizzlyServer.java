@@ -29,7 +29,7 @@ import org.glassfish.grizzly.strategies.SameThreadIOStrategy;
 import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -51,7 +51,7 @@ public class GrizzlyServer extends AbstractServer {
     
     private TCPNIOTransport transport;
 
-    public GrizzlyServer(URL url, ChannelHandler handler) throws RemotingException {
+    public GrizzlyServer(EURL url, ChannelHandler handler) throws RemotingException {
         super(url, handler);
     }
 

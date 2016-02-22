@@ -18,7 +18,7 @@ package com.alibaba.dubbo.monitor;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * MonitorService. (SPI, Prototype, ThreadSafe)
@@ -72,7 +72,7 @@ public interface MonitorService {
      * 
      * @param statistics
      */
-    void collect(URL statistics);
+    void collect(EURL statistics);
 
     /**
      * 监控数据查询. 
@@ -85,6 +85,6 @@ public interface MonitorService {
      * @param query
      * @return statistics
      */
-    List<URL> lookup(URL query);
+    List<EURL> lookup(EURL query);
 
 }

@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
 import com.alibaba.dubbo.remoting.exchange.Exchangers;
 import com.alibaba.dubbo.remoting.exchange.ResponseFuture;
@@ -53,12 +53,12 @@ public class Main
 				return new StringMessage("hello world");
 			}
 		});
-		Exchangers.bind(URL.valueOf("dubbo://localhost:" + port), dispatcher);
+		Exchangers.bind(EURL.valueOf("dubbo://localhost:" + port), dispatcher);
 	}
 
 	static void dataPackageTest(int port) throws Exception
 	{
-		ExchangeChannel client = Exchangers.connect(URL.valueOf("dubbo://localhost:" + port));
+		ExchangeChannel client = Exchangers.connect(EURL.valueOf("dubbo://localhost:" + port));
 		Random random = new Random();
 		for(int i=5;i<100;i++)
 		{
@@ -85,7 +85,7 @@ public class Main
 
 	private static void test(int port) throws Exception
 	{
-	    ExchangeChannel client = Exchangers.connect(URL.valueOf("dubbo://localhost:" + port));
+	    ExchangeChannel client = Exchangers.connect(EURL.valueOf("dubbo://localhost:" + port));
 		MockResult result = (MockResult)client.request(new RpcMessage(DemoService.class.getName(),"plus",new Class<?>[]{int.class, int.class},new Object[]{55,25})).get();
 		System.out.println("55+25="+result.getResult());
 

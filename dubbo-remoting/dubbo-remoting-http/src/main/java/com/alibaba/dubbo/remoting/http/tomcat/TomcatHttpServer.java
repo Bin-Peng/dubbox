@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting.http.tomcat;
 
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
@@ -40,9 +40,9 @@ public class TomcatHttpServer extends AbstractHttpServer {
 
     private final Tomcat tomcat;
 
-    private final URL url;
+    private final EURL url;
 
-    public TomcatHttpServer(URL url, final HttpHandler handler) {
+    public TomcatHttpServer(EURL url, final HttpHandler handler) {
         super(url, handler);
 
         this.url = url;

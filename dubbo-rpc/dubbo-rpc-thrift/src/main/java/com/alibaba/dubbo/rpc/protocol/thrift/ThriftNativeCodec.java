@@ -11,7 +11,7 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TStruct;
 import org.apache.thrift.transport.TIOStreamTransport;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.Codec2;
 import com.alibaba.dubbo.remoting.buffer.ChannelBuffer;
@@ -67,7 +67,7 @@ public class ThriftNativeCodec implements Codec2 {
         return null;
     }
 
-    protected static TProtocol newProtocol(URL url, ChannelBuffer buffer) throws IOException {
+    protected static TProtocol newProtocol(EURL url, ChannelBuffer buffer) throws IOException {
         String protocol = url.getParameter(ThriftConstants.THRIFT_PROTOCOL_KEY,
                                            ThriftConstants.DEFAULT_PROTOCOL);
         if (ThriftConstants.BINARY_THRIFT_PROTOCOL.equals(protocol)) {

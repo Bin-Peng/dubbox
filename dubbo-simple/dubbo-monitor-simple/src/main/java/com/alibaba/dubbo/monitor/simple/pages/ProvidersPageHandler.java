@@ -18,7 +18,7 @@ package com.alibaba.dubbo.monitor.simple.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
@@ -31,19 +31,19 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
  */
 public class ProvidersPageHandler implements PageHandler {
     
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String service = url.getParameter("service");
         String host = url.getParameter("host");
         String application = url.getParameter("application");
         if (service != null && service.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> providers = RegistryContainer.getInstance().getProvidersByService(service);
+            List<EURL> providers = RegistryContainer.getInstance().getProvidersByService(service);
             if (providers != null && providers.size() > 0) {
-                for (URL u : providers) {
+                for (EURL u : providers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?service=" + service + "&provider=" + URL.encode(s) + "';}\">Unregister</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?service=" + service + "&provider=" + EURL.encode(s) + "';}\">Unregister</button>");
                     rows.add(row);
                 }
             }
@@ -55,13 +55,13 @@ public class ProvidersPageHandler implements PageHandler {
                     new String[] { "Provider URL:", "Unregister" }, rows);
         } else if (host != null && host.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> providers = RegistryContainer.getInstance().getProvidersByHost(host);
+            List<EURL> providers = RegistryContainer.getInstance().getProvidersByHost(host);
             if (providers != null && providers.size() > 0) {
-                for (URL u : providers) {
+                for (EURL u : providers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?host=" + host + "&provider=" + URL.encode(s) + "';}\">Unregister</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?host=" + host + "&provider=" + EURL.encode(s) + "';}\">Unregister</button>");
                     rows.add(row);
                 }
             }
@@ -69,13 +69,13 @@ public class ProvidersPageHandler implements PageHandler {
                     new String[] { "Provider URL:", "Unregister" }, rows);
         } else if (application != null && application.length() > 0) {
             List<List<String>> rows = new ArrayList<List<String>>();
-            List<URL> providers = RegistryContainer.getInstance().getProvidersByApplication(application);
+            List<EURL> providers = RegistryContainer.getInstance().getProvidersByApplication(application);
             if (providers != null && providers.size() > 0) {
-                for (URL u : providers) {
+                for (EURL u : providers) {
                     List<String> row = new ArrayList<String>();
                     String s = u.toFullString();
                     row.add(s.replace("&", "&amp;"));
-                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?application=" + application + "&provider=" + URL.encode(s) + "';}\">Unregister</button>");
+                    row.add("<button onclick=\"if(confirm('Confirm unregister provider?')){window.location.href='unregister.html?application=" + application + "&provider=" + EURL.encode(s) + "';}\">Unregister</button>");
                     rows.add(row);
                 }
             }

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 
 /**
@@ -72,9 +72,9 @@ public class RpcContext {
 
     private Future<?> future;
 
-    private List<URL> urls;
+    private List<EURL> urls;
 
-    private URL url;
+    private EURL url;
 
     private String methodName;
 
@@ -160,7 +160,7 @@ public class RpcContext {
      * @return provider side.
      */
     public boolean isProviderSide() {
-        URL url = getUrl();
+        EURL url = getUrl();
         if (url == null) {
             return false;
         }
@@ -184,7 +184,7 @@ public class RpcContext {
      * @return consumer side.
      */
     public boolean isConsumerSide() {
-        URL url = getUrl();
+        EURL url = getUrl();
         if (url == null) {
             return false;
         }
@@ -222,19 +222,19 @@ public class RpcContext {
         this.future = future;
     }
 
-    public List<URL> getUrls() {
-        return urls == null && url != null ? (List<URL>) Arrays.asList(url) : urls;
+    public List<EURL> getUrls() {
+        return urls == null && url != null ? (List<EURL>) Arrays.asList(url) : urls;
     }
 
-    public void setUrls(List<URL> urls) {
+    public void setUrls(List<EURL> urls) {
         this.urls = urls;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(EURL url) {
         this.url = url;
     }
 
@@ -539,7 +539,7 @@ public class RpcContext {
     public RpcContext setInvokers(List<Invoker<?>> invokers) {
         this.invokers = invokers;
         if (invokers != null && invokers.size() > 0) {
-            List<URL> urls = new ArrayList<URL>(invokers.size());
+            List<EURL> urls = new ArrayList<EURL>(invokers.size());
             for (Invoker<?> invoker : invokers) {
                 urls.add(invoker.getUrl());
             }

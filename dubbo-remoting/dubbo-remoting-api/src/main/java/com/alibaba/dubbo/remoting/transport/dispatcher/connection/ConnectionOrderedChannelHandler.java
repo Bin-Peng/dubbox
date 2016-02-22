@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.threadpool.support.AbortPolicyWithReport;
 import com.alibaba.dubbo.common.utils.NamedThreadFactory;
 import com.alibaba.dubbo.remoting.Channel;
@@ -37,7 +37,7 @@ public class ConnectionOrderedChannelHandler extends WrappedChannelHandler {
     protected final ThreadPoolExecutor connectionExecutor;
     private final int queuewarninglimit ;
     
-    public ConnectionOrderedChannelHandler(ChannelHandler handler, URL url) {
+    public ConnectionOrderedChannelHandler(ChannelHandler handler, EURL url) {
         super(handler, url);
         String threadName = url.getParameter(Constants.THREAD_NAME_KEY,Constants.DEFAULT_THREAD_NAME);
         connectionExecutor = new ThreadPoolExecutor(1, 1,

@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.LogUtil;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.support.DemoService;
@@ -38,7 +38,7 @@ public class DeprecatedFilterTest {
 
     @Test
     public void testDeprecatedFilter() {
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1&echo." + Constants.DEPRECATED_KEY + "=true");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1&echo." + Constants.DEPRECATED_KEY + "=true");
         LogUtil.start();
         deprecatedFilter.invoke(new MyInvoker<DemoService>(url), new MockInvocation());
         assertEquals(1,

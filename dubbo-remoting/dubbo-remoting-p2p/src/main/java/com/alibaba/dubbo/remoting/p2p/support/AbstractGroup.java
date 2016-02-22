@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -41,34 +41,34 @@ public abstract class AbstractGroup implements Group {
     // 日志输出
     protected static final Logger logger = LoggerFactory.getLogger(AbstractGroup.class);
     
-    protected final URL url;
+    protected final EURL url;
     
-    protected final Map<URL, Server> servers = new ConcurrentHashMap<URL, Server>();
+    protected final Map<EURL, Server> servers = new ConcurrentHashMap<EURL, Server>();
 
-    protected final Map<URL, Client> clients = new ConcurrentHashMap<URL, Client>();
+    protected final Map<EURL, Client> clients = new ConcurrentHashMap<EURL, Client>();
     
     protected final ChannelHandlerDispatcher dispatcher = new ChannelHandlerDispatcher();
 
-    public AbstractGroup(URL url){
+    public AbstractGroup(EURL url){
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
         this.url = url;
     }
     
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
     public void close() {
-        for (URL url : new ArrayList<URL>(servers.keySet())) {
+        for (EURL url : new ArrayList<EURL>(servers.keySet())) {
             try {
                 leave(url);
             } catch (Throwable t) {
                 logger.error(t.getMessage(), t);
             }
         }
-        for (URL url : new ArrayList<URL>(clients.keySet())) {
+        for (EURL url : new ArrayList<EURL>(clients.keySet())) {
             try {
                 disconnect(url);
             } catch (Throwable t) {
@@ -77,7 +77,7 @@ public abstract class AbstractGroup implements Group {
         }
     }
     
-    public Peer join(URL url, ChannelHandler handler) throws RemotingException {
+    public Peer join(EURL url, ChannelHandler handler) throws RemotingException {
         Server server = servers.get(url);
         if (server == null) { // TODO 有并发间隙
             server = Transporters.bind(url, handler);
@@ -87,14 +87,14 @@ public abstract class AbstractGroup implements Group {
         return new ServerPeer(server, clients, this);
     }
 
-    public void leave(URL url) throws RemotingException {
+    public void leave(EURL url) throws RemotingException {
         Server server = servers.remove(url);
         if (server != null) {
             server.close();
         }
     }
 
-    protected Client connect(URL url) throws RemotingException {
+    protected Client connect(EURL url) throws RemotingException {
         if (servers.containsKey(url)) {
             return null;
         }
@@ -106,7 +106,7 @@ public abstract class AbstractGroup implements Group {
         return client;
     }
 
-    protected void disconnect(URL url) throws RemotingException {
+    protected void disconnect(EURL url) throws RemotingException {
         Client client = clients.remove(url);
         if (client != null) {
             client.close();

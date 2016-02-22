@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.p2p.exchange.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.p2p.exchange.ExchangeGroup;
 import com.alibaba.dubbo.remoting.p2p.exchange.ExchangeNetworker;
@@ -27,7 +27,7 @@ import com.alibaba.dubbo.remoting.p2p.exchange.ExchangeNetworker;
  */
 public class MulticastExchangeNetworker implements ExchangeNetworker {
 
-    public ExchangeGroup lookup(URL url) throws RemotingException {
+    public ExchangeGroup lookup(EURL url) throws RemotingException {
         return new MulticastExchangeGroup(url);
     }
 

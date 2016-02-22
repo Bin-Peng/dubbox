@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
 /**
@@ -59,7 +59,7 @@ public class StaticContext extends ConcurrentHashMap<Object, Object>{
         return context_map.remove(name);
     }
     
-    public static String getKey(URL url, String methodName, String suffix) {
+    public static String getKey(EURL url, String methodName, String suffix) {
         return getKey(url.getServiceKey(), methodName, suffix);
     }
     public static String getKey(Map<String, String> paras, String methodName, String suffix) {

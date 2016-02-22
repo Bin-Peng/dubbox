@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.governance.service.RouteService;
 import com.alibaba.dubbo.governance.sync.util.Pair;
 import com.alibaba.dubbo.governance.sync.util.SyncUtils;
@@ -42,7 +42,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
         if(id == null) {
             throw new IllegalStateException("no route id");
         }
-        URL oldRoute = findRouteUrl(id);
+        EURL oldRoute = findRouteUrl(id);
         if(oldRoute == null) {
             throw new IllegalStateException("Route was changed!");
         }
@@ -52,7 +52,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
     }
 
     public void deleteRoute(Long id) {
-        URL oldRoute = findRouteUrl(id);
+        EURL oldRoute = findRouteUrl(id);
         if(oldRoute == null) {
             throw new IllegalStateException("Route was changed!");
         }
@@ -64,7 +64,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
             throw new IllegalStateException("no route id");
         }
         
-        URL oldRoute = findRouteUrl(id);
+        EURL oldRoute = findRouteUrl(id);
         if(oldRoute == null) {
             throw new IllegalStateException("Route was changed!");
         }
@@ -73,7 +73,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
         }
 
 		registryService.unregister(oldRoute);
-        URL newRoute= oldRoute.addParameter("enabled", true);
+        EURL newRoute= oldRoute.addParameter("enabled", true);
         registryService.register(newRoute);
         
     }
@@ -83,7 +83,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
             throw new IllegalStateException("no route id");
         }
         
-        URL oldRoute = findRouteUrl(id);
+        EURL oldRoute = findRouteUrl(id);
         if(oldRoute == null) {
             throw new IllegalStateException("Route was changed!");
         }
@@ -91,7 +91,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
             return;
         }
 
-        URL newRoute = oldRoute.addParameter("enabled", false);
+        EURL newRoute = oldRoute.addParameter("enabled", false);
         registryService.unregister(oldRoute);
         registryService.register(newRoute);
         
@@ -101,7 +101,7 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
         return SyncUtils.url2RouteList(findAllUrl());
     }
     
-    private Map<Long, URL> findAllUrl() {
+    private Map<Long, EURL> findAllUrl() {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.ROUTERS_CATEGORY);
         
@@ -112,15 +112,15 @@ public class RouteServiceImpl extends AbstractService implements RouteService {
         return SyncUtils.url2Route(findRouteUrlPair(id));
     }
     
-    public Pair<Long, URL> findRouteUrlPair(Long id) {
+    public Pair<Long, EURL> findRouteUrlPair(Long id) {
         return SyncUtils.filterFromCategory(getRegistryCache(), Constants.ROUTERS_CATEGORY, id);
     }
     
-    private URL findRouteUrl(Long id){
+    private EURL findRouteUrl(Long id){
         return findRoute(id).toUrl();
     }
 
-    private Map<Long, URL> findRouteUrl(String service, String address, boolean force) {
+    private Map<Long, EURL> findRouteUrl(String service, String address, boolean force) {
         Map<String, String> filter = new HashMap<String, String>();
         filter.put(Constants.CATEGORY_KEY, Constants.ROUTERS_CATEGORY);
         if (service != null && service.length() > 0) {

@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.exchange.support.header;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.Transporters;
 import com.alibaba.dubbo.remoting.exchange.ExchangeClient;
@@ -33,11 +33,11 @@ public class HeaderExchanger implements Exchanger {
     
     public static final String NAME = "header";
 
-    public ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException {
+    public ExchangeClient connect(EURL url, ExchangeHandler handler) throws RemotingException {
         return new HeaderExchangeClient(Transporters.connect(url, new DecodeHandler(new HeaderExchangeHandler(handler))));
     }
 
-    public ExchangeServer bind(URL url, ExchangeHandler handler) throws RemotingException {
+    public ExchangeServer bind(EURL url, ExchangeHandler handler) throws RemotingException {
         return new HeaderExchangeServer(Transporters.bind(url, new DecodeHandler(new HeaderExchangeHandler(handler))));
     }
 

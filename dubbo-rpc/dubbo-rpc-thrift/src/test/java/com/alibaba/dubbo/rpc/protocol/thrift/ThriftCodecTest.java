@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.buffer.ChannelBuffer;
 import com.alibaba.dubbo.remoting.buffer.ChannelBuffers;
@@ -45,7 +45,7 @@ import com.alibaba.dubbo.rpc.protocol.thrift.io.RandomAccessByteArrayOutputStrea
 public class ThriftCodecTest {
 
     private ThriftCodec codec = new ThriftCodec();
-    private Channel channel = new MockedChannel(URL.valueOf("thrift://127.0.0.1"));
+    private Channel channel = new MockedChannel(EURL.valueOf("thrift://127.0.0.1"));
 
     @Test
     public void testEncodeRequest() throws Exception {
@@ -114,7 +114,7 @@ public class ThriftCodecTest {
     @Test
     public void testDecodeReplyResponse() throws Exception {
 
-        URL url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
+        EURL url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
 
         Channel channel = new MockedChannel( url );
 
@@ -189,7 +189,7 @@ public class ThriftCodecTest {
     @Test
     public void testDecodeExceptionResponse() throws Exception {
 
-        URL url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.class.getName() );
+        EURL url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.class.getName() );
 
         Channel channel = new MockedChannel( url );
 
@@ -257,7 +257,7 @@ public class ThriftCodecTest {
     @Test
     public void testEncodeReplyResponse() throws Exception {
 
-        URL url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
+        EURL url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
 
         Channel channel = new MockedChannel( url );
 
@@ -315,7 +315,7 @@ public class ThriftCodecTest {
     @Test
     public void testEncodeExceptionResponse() throws Exception {
 
-        URL url = URL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
+        EURL url = EURL.valueOf( ThriftProtocol.NAME + "://127.0.0.1:40880/" + Demo.Iface.class.getName() );
 
         Channel channel = new MockedChannel( url );
 

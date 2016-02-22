@@ -21,7 +21,7 @@ import org.apache.mina.common.IoSession;
 import org.apache.mina.common.WriteFuture;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -42,7 +42,7 @@ final class MinaChannel extends AbstractChannel {
 
     private final IoSession     session;
 
-    private MinaChannel(IoSession session, URL url, ChannelHandler handler){
+    private MinaChannel(IoSession session, EURL url, ChannelHandler handler){
         super(url, handler);
         if (session == null) {
             throw new IllegalArgumentException("mina session == null");
@@ -50,7 +50,7 @@ final class MinaChannel extends AbstractChannel {
         this.session = session;
     }
 
-    static MinaChannel getOrAddChannel(IoSession session, URL url, ChannelHandler handler) {
+    static MinaChannel getOrAddChannel(IoSession session, EURL url, ChannelHandler handler) {
         if (session == null) {
             return null;
         }

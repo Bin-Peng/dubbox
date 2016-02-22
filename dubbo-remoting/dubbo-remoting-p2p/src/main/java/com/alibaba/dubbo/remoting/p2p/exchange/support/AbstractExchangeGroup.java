@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -45,34 +45,34 @@ public abstract class AbstractExchangeGroup implements ExchangeGroup {
     // 日志输出
     protected static final Logger logger = LoggerFactory.getLogger(AbstractExchangeGroup.class);
     
-    protected final URL url;
+    protected final EURL url;
     
-    protected final Map<URL, ExchangeServer> servers = new ConcurrentHashMap<URL, ExchangeServer>();
+    protected final Map<EURL, ExchangeServer> servers = new ConcurrentHashMap<EURL, ExchangeServer>();
 
-    protected final Map<URL, ExchangeClient> clients = new ConcurrentHashMap<URL, ExchangeClient>();
+    protected final Map<EURL, ExchangeClient> clients = new ConcurrentHashMap<EURL, ExchangeClient>();
     
     protected final ExchangeHandlerDispatcher dispatcher = new ExchangeHandlerDispatcher();
 
-    public AbstractExchangeGroup(URL url){
+    public AbstractExchangeGroup(EURL url){
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
         this.url = url;
     }
     
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
     public void close() {
-        for (URL url : new ArrayList<URL>(servers.keySet())) {
+        for (EURL url : new ArrayList<EURL>(servers.keySet())) {
             try {
                 leave(url);
             } catch (Throwable t) {
                 logger.error(t.getMessage(), t);
             }
         }
-        for (URL url : new ArrayList<URL>(clients.keySet())) {
+        for (EURL url : new ArrayList<EURL>(clients.keySet())) {
             try {
                 disconnect(url);
             } catch (Throwable t) {
@@ -81,11 +81,11 @@ public abstract class AbstractExchangeGroup implements ExchangeGroup {
         }
     }
     
-    public Peer join(URL url, ChannelHandler handler) throws RemotingException {
+    public Peer join(EURL url, ChannelHandler handler) throws RemotingException {
         return join(url, (ExchangeHandler) handler);
     }
     
-    public ExchangePeer join(URL url, ExchangeHandler handler) throws RemotingException {
+    public ExchangePeer join(EURL url, ExchangeHandler handler) throws RemotingException {
         ExchangeServer server = servers.get(url);
         if (server == null) { // TODO 有并发间隙
             server = Exchangers.bind(url, handler);
@@ -95,14 +95,14 @@ public abstract class AbstractExchangeGroup implements ExchangeGroup {
         return new ExchangeServerPeer(server, clients, this);
     }
 
-    public void leave(URL url) throws RemotingException {
+    public void leave(EURL url) throws RemotingException {
         Server server = servers.remove(url);
         if (server != null) {
             server.close();
         }
     }
 
-    protected Client connect(URL url) throws RemotingException {
+    protected Client connect(EURL url) throws RemotingException {
         if (servers.containsKey(url)) {
             return null;
         }
@@ -114,7 +114,7 @@ public abstract class AbstractExchangeGroup implements ExchangeGroup {
         return client;
     }
 
-    protected void disconnect(URL url) throws RemotingException {
+    protected void disconnect(EURL url) throws RemotingException {
         Client client = clients.remove(url);
         if (client != null) {
             client.close();

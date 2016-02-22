@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.protocol.dubbo;
 import java.net.InetSocketAddress;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -43,7 +43,7 @@ class ChannelWrappedInvoker<T> extends AbstractInvoker<T> {
     private final Channel channel;
     private final String serviceKey ; 
 
-    public ChannelWrappedInvoker(Class<T> serviceType, Channel channel, URL url, String serviceKey) {
+    public ChannelWrappedInvoker(Class<T> serviceType, Channel channel, EURL url, String serviceKey) {
 
         super(serviceType, url, new String[] { Constants.GROUP_KEY,
                 Constants.TOKEN_KEY, Constants.TIMEOUT_KEY });
@@ -86,14 +86,14 @@ class ChannelWrappedInvoker<T> extends AbstractInvoker<T> {
     public static class ChannelWrapper extends ClientDelegate {
 
         private final Channel channel;
-        private final URL     url;
+        private final EURL     url;
 
         public ChannelWrapper(Channel channel) {
             this.channel = channel;
             this.url = channel.getUrl().addParameter("codec", DubboCodec.NAME);
         }
 
-        public URL getUrl() {
+        public EURL getUrl() {
             return url;
         }
 
@@ -113,7 +113,7 @@ class ChannelWrappedInvoker<T> extends AbstractInvoker<T> {
             return channel == null ? true : channel.isClosed();
         }
 
-        public void reset(URL url) {
+        public void reset(EURL url) {
             throw new RpcException("ChannelInvoker can not reset.");
         }
 

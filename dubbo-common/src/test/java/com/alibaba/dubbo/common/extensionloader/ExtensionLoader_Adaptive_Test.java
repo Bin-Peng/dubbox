@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.extensionloader.adaptive.HasAdaptiveExt;
 import com.alibaba.dubbo.common.extensionloader.adaptive.impl.HasAdaptiveExt_ManualAdaptive;
@@ -55,7 +55,7 @@ public class ExtensionLoader_Adaptive_Test {
             SimpleExt ext = ExtensionLoader.getExtensionLoader(SimpleExt.class).getAdaptiveExtension();
 
             Map<String, String> map = new HashMap<String, String>();
-            URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+            EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
 
             String echo = ext.echo(url, "haha");
             assertEquals("Ext1Impl1-echo", echo);
@@ -66,7 +66,7 @@ public class ExtensionLoader_Adaptive_Test {
 
             Map<String, String> map = new HashMap<String, String>();
             map.put("simple.ext", "impl2");
-            URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+            EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
 
             String echo = ext.echo(url, "haha");
             assertEquals("Ext1Impl2-echo", echo);
@@ -79,7 +79,7 @@ public class ExtensionLoader_Adaptive_Test {
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("key2", "impl2");
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
 
         String echo = ext.yell(url, "haha");
         assertEquals("Ext1Impl2-yell", echo);
@@ -94,11 +94,11 @@ public class ExtensionLoader_Adaptive_Test {
         UseProtocolKeyExt ext = ExtensionLoader.getExtensionLoader(UseProtocolKeyExt.class).getAdaptiveExtension();
 
         {
-            String echo = ext.echo(URL.valueOf("1.2.3.4:20880"), "s");
+            String echo = ext.echo(EURL.valueOf("1.2.3.4:20880"), "s");
             assertEquals("Ext3Impl1-echo", echo); // 缺省值
 
             Map<String, String> map = new HashMap<String, String>();
-            URL url = new URL("impl3", "1.2.3.4", 1010, "path1", map);
+            EURL url = new EURL("impl3", "1.2.3.4", 1010, "path1", map);
 
             echo = ext.echo(url, "s");
             assertEquals("Ext3Impl3-echo", echo); // 使用第2Key， Protocol
@@ -111,7 +111,7 @@ public class ExtensionLoader_Adaptive_Test {
         {
 
             Map<String, String> map = new HashMap<String, String>();
-            URL url = new URL(null, "1.2.3.4", 1010, "path1", map);
+            EURL url = new EURL(null, "1.2.3.4", 1010, "path1", map);
             String yell = ext.yell(url, "s");
             assertEquals("Ext3Impl1-yell", yell); // 缺省值
 
@@ -163,7 +163,7 @@ public class ExtensionLoader_Adaptive_Test {
         SimpleExt ext = ExtensionLoader.getExtensionLoader(SimpleExt.class).getAdaptiveExtension();
 
         Map<String, String> map = new HashMap<String, String>();
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
 
         try {
             ext.bang(url, 33);
@@ -193,7 +193,7 @@ public class ExtensionLoader_Adaptive_Test {
         
         Map<String, String> map = new HashMap<String, String>();
         map.put("ext2", "impl1");
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
         
         UrlHolder holder = new UrlHolder();
         holder.setUrl(url);
@@ -206,7 +206,7 @@ public class ExtensionLoader_Adaptive_Test {
     public void test_urlHolder_getAdaptiveExtension_noExtension() throws Exception {
         Ext2 ext = ExtensionLoader.getExtensionLoader(Ext2.class).getAdaptiveExtension();
 
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1");
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1");
 
         UrlHolder holder = new UrlHolder();
         holder.setUrl(url);
@@ -252,7 +252,7 @@ public class ExtensionLoader_Adaptive_Test {
         Ext2 ext = ExtensionLoader.getExtensionLoader(Ext2.class).getAdaptiveExtension();
 
         Map<String, String> map = new HashMap<String, String>();
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1", map);
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1", map);
 
         try {
             ext.bang(url, 33);
@@ -269,7 +269,7 @@ public class ExtensionLoader_Adaptive_Test {
     public void test_urlHolder_getAdaptiveExtension_ExceptionWhenNameNotProvided() throws Exception {
         Ext2 ext = ExtensionLoader.getExtensionLoader(Ext2.class).getAdaptiveExtension();
 
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1");
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1");
 
         UrlHolder holder = new UrlHolder();
         holder.setUrl(url);
@@ -296,7 +296,7 @@ public class ExtensionLoader_Adaptive_Test {
         LogUtil.start();
         Ext6 ext = ExtensionLoader.getExtensionLoader(Ext6.class).getAdaptiveExtension();
 
-        URL url = new URL("p1", "1.2.3.4", 1010, "path1");
+        EURL url = new EURL("p1", "1.2.3.4", 1010, "path1");
         url = url.addParameters("ext6", "impl1");
         
         assertEquals("Ext6Impl1-echo-Ext1Impl1-echo", ext.echo(url, "ha"));

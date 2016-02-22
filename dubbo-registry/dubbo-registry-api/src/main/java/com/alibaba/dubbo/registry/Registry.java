@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.registry;
 
 import com.alibaba.dubbo.common.Node;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Registry. (SPI, Prototype, ThreadSafe)

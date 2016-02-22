@@ -29,7 +29,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -55,13 +55,13 @@ public class ScriptRouter implements Router {
 
     private final String rule;
 
-    private final URL url;
+    private final EURL url;
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
-    public ScriptRouter(URL url) {
+    public ScriptRouter(EURL url) {
         this.url = url;
         String type = url.getParameter(Constants.TYPE_KEY);
         this.priority = url.getParameter(Constants.PRIORITY_KEY, 0);
@@ -85,7 +85,7 @@ public class ScriptRouter implements Router {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> List<Invoker<T>> route(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException {
+    public <T> List<Invoker<T>> route(List<Invoker<T>> invokers, EURL url, Invocation invocation) throws RpcException {
         try {
             List<Invoker<T>> invokersCopy = new ArrayList<Invoker<T>>(invokers);
             Compilable compilable = (Compilable) engine;

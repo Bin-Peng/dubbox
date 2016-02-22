@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.governance.web.util.WebConstants;
 import com.alibaba.dubbo.registry.common.domain.User;
 import com.alibaba.fastjson.JSON;
@@ -35,12 +35,12 @@ public abstract class Restful {
     protected String            operator        = null;
     protected User              currentUser     = null;
     protected String            operatorAddress = null;
-    protected URL               url = null;
+    protected EURL               url = null;
 
     public void execute(Map<String, Object> context) throws Exception {
         Result result = new Result();
         if(request.getParameter("url")!=null){
-            url = URL.valueOf(URL.decode(request.getParameter("url")));
+            url = EURL.valueOf(EURL.decode(request.getParameter("url")));
         }
         if (context.get(WebConstants.CURRENT_USER_KEY) != null) {
             User user = (User) context.get(WebConstants.CURRENT_USER_KEY);

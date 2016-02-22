@@ -13,7 +13,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -25,9 +25,9 @@ import java.net.InetSocketAddress;
  */
 public class MockedChannel implements Channel {
 
-    private URL url;
+    private EURL url;
 
-    public MockedChannel( URL url ) {
+    public MockedChannel( EURL url ) {
         this.url = url;
     }
 
@@ -59,7 +59,7 @@ public class MockedChannel implements Channel {
 
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

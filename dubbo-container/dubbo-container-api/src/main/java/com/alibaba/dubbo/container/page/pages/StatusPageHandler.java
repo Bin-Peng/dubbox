@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.status.Status;
 import com.alibaba.dubbo.common.status.StatusChecker;
@@ -38,7 +38,7 @@ import com.alibaba.dubbo.container.page.PageHandler;
 @Menu(name = "Status", desc = "Show system status.", order = Integer.MAX_VALUE - 12000)
 public class StatusPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         List<List<String>> rows = new ArrayList<List<String>>();
         Set<String> names = ExtensionLoader.getExtensionLoader(StatusChecker.class).getSupportedExtensions();
         Map<String, Status> statuses = new HashMap<String, Status>();

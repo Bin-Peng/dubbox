@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.http.jetty;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.HttpServer;
@@ -27,7 +27,7 @@ import com.alibaba.dubbo.remoting.http.HttpServer;
  */
 public class JettyHttpBinder implements HttpBinder {
 
-    public HttpServer bind(URL url, HttpHandler handler) {
+    public HttpServer bind(EURL url, HttpHandler handler) {
         return new JettyHttpServer(url, handler);
     }
 

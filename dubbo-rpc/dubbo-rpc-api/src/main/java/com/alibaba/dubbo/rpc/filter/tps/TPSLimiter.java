@@ -16,7 +16,7 @@
 
 package com.alibaba.dubbo.rpc.filter.tps;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 
 /**
@@ -31,6 +31,6 @@ public interface TPSLimiter {
      * @param invocation invocation
      * @return true 则允许调用，否则不允许
      */
-    boolean isAllowable(URL url, Invocation invocation);
+    boolean isAllowable(EURL url, Invocation invocation);
 
 }

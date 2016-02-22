@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.cache;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -28,6 +28,6 @@ import com.alibaba.dubbo.common.extension.SPI;
 public interface CacheFactory {
 
     @Adaptive("cache")
-    Cache getCache(URL url);
+    Cache getCache(EURL url);
 
 }

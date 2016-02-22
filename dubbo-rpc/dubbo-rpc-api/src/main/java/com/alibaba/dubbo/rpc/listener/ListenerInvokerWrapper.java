@@ -17,7 +17,7 @@ package com.alibaba.dubbo.rpc.listener;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -62,7 +62,7 @@ public class ListenerInvokerWrapper<T> implements Invoker<T> {
         return invoker.getInterface();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return invoker.getUrl();
     }
 

@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.rpc;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 
@@ -47,6 +47,6 @@ public interface ProxyFactory {
      * @return invoker
      */
     @Adaptive({Constants.PROXY_KEY})
-    <T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws RpcException;
+    <T> Invoker<T> getInvoker(T proxy, Class<T> type, EURL url) throws RpcException;
 
 }

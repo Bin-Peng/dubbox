@@ -1,12 +1,12 @@
 package com.alibaba.dubbo.remoting.zookeeper.zkclient;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.zookeeper.ZookeeperClient;
 import com.alibaba.dubbo.remoting.zookeeper.ZookeeperTransporter;
 
 public class ZkclientZookeeperTransporter implements ZookeeperTransporter {
 
-	public ZookeeperClient connect(URL url) {
+	public ZookeeperClient connect(EURL url) {
 		return new ZkclientZookeeperClient(url);
 	}
 

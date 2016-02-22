@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.cluster.configurator.absent;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.cluster.configurator.AbstractConfigurator;
 
 /**
@@ -25,11 +25,11 @@ import com.alibaba.dubbo.rpc.cluster.configurator.AbstractConfigurator;
  */
 public class AbsentConfigurator extends AbstractConfigurator {
 
-    public AbsentConfigurator(URL url) {
+    public AbsentConfigurator(EURL url) {
         super(url);
     }
 
-    public URL doConfigure(URL currentUrl, URL configUrl) {
+    public EURL doConfigure(EURL currentUrl, EURL configUrl) {
         return currentUrl.addParametersIfAbsent(configUrl.getParameters());
     }
 

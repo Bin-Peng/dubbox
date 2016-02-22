@@ -15,14 +15,14 @@
  */
 package com.alibaba.dubbo.rpc.protocol.rest;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * @author lishen
  */
 public interface RestServer {
 
-    void start(URL url);
+    void start(EURL url);
 
     /**
      * @param resourceDef it could be either resource interface or resource impl

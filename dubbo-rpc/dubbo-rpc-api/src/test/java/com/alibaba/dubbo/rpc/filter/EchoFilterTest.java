@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -52,7 +52,7 @@ public class EchoFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = echoFilter.invoke(invoker, invocation);
@@ -74,7 +74,7 @@ public class EchoFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         Result filterResult = echoFilter.invoke(invoker, invocation);

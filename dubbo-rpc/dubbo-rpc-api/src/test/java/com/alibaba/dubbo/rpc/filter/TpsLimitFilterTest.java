@@ -17,7 +17,7 @@
 package com.alibaba.dubbo.rpc.filter;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -38,7 +38,7 @@ public class TpsLimitFilterTest {
 
     @Test
     public void testWithoutCount() throws Exception {
-        URL url = URL.valueOf("test://test");
+        EURL url = EURL.valueOf("test://test");
         url = url.addParameter(Constants.INTERFACE_KEY,
                                "com.alibaba.dubbo.rpc.file.TpsService");
         url = url.addParameter(Constants.TPS_LIMIT_RATE_KEY, 5);
@@ -49,7 +49,7 @@ public class TpsLimitFilterTest {
     
     @Test(expected = RpcException.class)
     public void testFail() throws Exception {
-        URL url = URL.valueOf("test://test");
+        EURL url = EURL.valueOf("test://test");
         url = url.addParameter(Constants.INTERFACE_KEY,
                                "com.alibaba.dubbo.rpc.file.TpsService");
         url = url.addParameter(Constants.TPS_LIMIT_RATE_KEY, 5);

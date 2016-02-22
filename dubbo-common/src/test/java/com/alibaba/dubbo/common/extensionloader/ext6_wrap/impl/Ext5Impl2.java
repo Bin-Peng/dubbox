@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext6_wrap.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext6_wrap.WrappedExt;
 
 /**
@@ -23,7 +23,7 @@ import com.alibaba.dubbo.common.extensionloader.ext6_wrap.WrappedExt;
  *
  */
 public class Ext5Impl2 implements WrappedExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return "Ext5Impl2-echo";
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 
@@ -88,11 +88,11 @@ public class Tool {
     }
     
     public static String encodeUrl(String url) {
-    	return URL.encode(url);
+    	return EURL.encode(url);
     }
     
     public static String decodeUrl(String url) {
-        return URL.decode(url);
+        return EURL.decode(url);
     }
     
     public static String encodeHtml(String html) {

@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -42,23 +42,23 @@ public abstract class AbstractDirectory<T> implements Directory<T> {
     // 日志输出
     private static final Logger logger = LoggerFactory.getLogger(AbstractDirectory.class);
 
-    private final URL url ;
+    private final EURL url ;
     
     private volatile boolean destroyed = false;
 
-    private volatile URL consumerUrl ;
+    private volatile EURL consumerUrl ;
     
 	private volatile List<Router> routers;
     
-    public AbstractDirectory(URL url) {
+    public AbstractDirectory(EURL url) {
         this(url, null);
     }
     
-    public AbstractDirectory(URL url, List<Router> routers) {
+    public AbstractDirectory(EURL url, List<Router> routers) {
     	this(url, url, routers);
     }
     
-    public AbstractDirectory(URL url, URL consumerUrl, List<Router> routers) {
+    public AbstractDirectory(EURL url, EURL consumerUrl, List<Router> routers) {
         if (url == null)
             throw new IllegalArgumentException("url == null");
         this.url = url;
@@ -86,7 +86,7 @@ public abstract class AbstractDirectory<T> implements Directory<T> {
         return invokers;
     }
     
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
     
@@ -94,11 +94,11 @@ public abstract class AbstractDirectory<T> implements Directory<T> {
         return routers;
     }
 
-	public URL getConsumerUrl() {
+	public EURL getConsumerUrl() {
 		return consumerUrl;
 	}
 
-	public void setConsumerUrl(URL consumerUrl) {
+	public void setConsumerUrl(EURL consumerUrl) {
 		this.consumerUrl = consumerUrl;
 	}
 

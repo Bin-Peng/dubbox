@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
@@ -42,23 +42,23 @@ import com.alibaba.dubbo.rpc.RpcContext;
  */
 public class SimpleRegistryService extends AbstractRegistry {
 
-    private final ConcurrentMap<String, Set<URL>> remoteRegistered = new ConcurrentHashMap<String, Set<URL>>();
+    private final ConcurrentMap<String, Set<EURL>> remoteRegistered = new ConcurrentHashMap<String, Set<EURL>>();
 
-    private final ConcurrentMap<String, ConcurrentMap<URL, Set<NotifyListener>>> remoteSubscribed = new ConcurrentHashMap<String, ConcurrentMap<URL, Set<NotifyListener>>>();
+    private final ConcurrentMap<String, ConcurrentMap<EURL, Set<NotifyListener>>> remoteSubscribed = new ConcurrentHashMap<String, ConcurrentMap<EURL, Set<NotifyListener>>>();
     
     private final static Logger logger = LoggerFactory.getLogger(SimpleRegistryService.class);
 
     public SimpleRegistryService() {
-        super(new URL("dubbo", NetUtils.getLocalHost(), 0, RegistryService.class.getName(), "file", "N/A"));
+        super(new EURL("dubbo", NetUtils.getLocalHost(), 0, RegistryService.class.getName(), "file", "N/A"));
     }
 
     public boolean isAvailable() {
         return true;
     }
 
-    public List<URL> lookup(URL url) {
-    	List<URL> urls = new ArrayList<URL>();
-    	for (URL u: getRegistered()) {
+    public List<EURL> lookup(EURL url) {
+    	List<EURL> urls = new ArrayList<EURL>();
+    	for (EURL u: getRegistered()) {
             if (UrlUtils.isMatch(url, u)) {
                 urls.add(u);
             }
@@ -66,11 +66,11 @@ public class SimpleRegistryService extends AbstractRegistry {
     	return urls;
     }
 
-    public void register(URL url) {
+    public void register(EURL url) {
         String client = RpcContext.getContext().getRemoteAddressString();
-        Set<URL> urls = remoteRegistered.get(client);
+        Set<EURL> urls = remoteRegistered.get(client);
         if (urls == null) {
-            remoteRegistered.putIfAbsent(client, new ConcurrentHashSet<URL>());
+            remoteRegistered.putIfAbsent(client, new ConcurrentHashSet<EURL>());
             urls = remoteRegistered.get(client);
         }
         urls.add(url);
@@ -78,9 +78,9 @@ public class SimpleRegistryService extends AbstractRegistry {
         registered(url);
     }
 
-    public void unregister(URL url) {
+    public void unregister(EURL url) {
         String client = RpcContext.getContext().getRemoteAddressString();
-        Set<URL> urls = remoteRegistered.get(client);
+        Set<EURL> urls = remoteRegistered.get(client);
         if (urls != null && urls.size() > 0) {
             urls.remove(url);
         }
@@ -88,9 +88,9 @@ public class SimpleRegistryService extends AbstractRegistry {
         unregistered(url);
     }
 
-    public void subscribe(URL url, NotifyListener listener) {
+    public void subscribe(EURL url, NotifyListener listener) {
         if (getUrl().getPort() == 0) {
-            URL registryUrl = RpcContext.getContext().getUrl();
+            EURL registryUrl = RpcContext.getContext().getUrl();
             if (registryUrl != null && registryUrl.getPort() > 0
             		&& RegistryService.class.getName().equals(registryUrl.getPath())) {
                 super.setUrl(registryUrl);
@@ -98,9 +98,9 @@ public class SimpleRegistryService extends AbstractRegistry {
             }
         }
         String client = RpcContext.getContext().getRemoteAddressString();
-        ConcurrentMap<URL, Set<NotifyListener>> clientListeners = remoteSubscribed.get(client);
+        ConcurrentMap<EURL, Set<NotifyListener>> clientListeners = remoteSubscribed.get(client);
         if (clientListeners == null) {
-            remoteSubscribed.putIfAbsent(client, new ConcurrentHashMap<URL, Set<NotifyListener>>());
+            remoteSubscribed.putIfAbsent(client, new ConcurrentHashMap<EURL, Set<NotifyListener>>());
             clientListeners = remoteSubscribed.get(client);
         }
         Set<NotifyListener> listeners = clientListeners.get(url);
@@ -113,13 +113,13 @@ public class SimpleRegistryService extends AbstractRegistry {
         subscribed(url, listener);
     }
 
-    public void unsubscribe(URL url, NotifyListener listener) {
+    public void unsubscribe(EURL url, NotifyListener listener) {
         if (! Constants.ANY_VALUE.equals(url.getServiceInterface())
                 && url.getParameter(Constants.REGISTER_KEY, true)) {
             unregister(url);
         }
         String client = RpcContext.getContext().getRemoteAddressString();
-        Map<URL, Set<NotifyListener>> clientListeners = remoteSubscribed.get(client);
+        Map<EURL, Set<NotifyListener>> clientListeners = remoteSubscribed.get(client);
         if (clientListeners != null && clientListeners.size() > 0) {
             Set<NotifyListener> listeners = clientListeners.get(url);
             if (listeners != null && listeners.size() > 0) {
@@ -128,11 +128,11 @@ public class SimpleRegistryService extends AbstractRegistry {
         }
     }
 
-    protected void registered(URL url) {
-        for (Map.Entry<URL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
-            URL key = entry.getKey();
+    protected void registered(EURL url) {
+        for (Map.Entry<EURL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
+            EURL key = entry.getKey();
             if (UrlUtils.isMatch(key, url)) {
-                List<URL> list = lookup(key);
+                List<EURL> list = lookup(key);
                 for (NotifyListener listener : entry.getValue()) {
                 	listener.notify(list);
                 }
@@ -140,11 +140,11 @@ public class SimpleRegistryService extends AbstractRegistry {
         }
     }
 
-    protected void unregistered(URL url) {
-        for (Map.Entry<URL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
-            URL key = entry.getKey();
+    protected void unregistered(EURL url) {
+        for (Map.Entry<EURL, Set<NotifyListener>> entry : getSubscribed().entrySet()) {
+            EURL key = entry.getKey();
             if (UrlUtils.isMatch(key, url)) {
-                List<URL> list = lookup(key);
+                List<EURL> list = lookup(key);
                 for (NotifyListener listener : entry.getValue()) {
                 	listener.notify(list);
                 }
@@ -152,23 +152,23 @@ public class SimpleRegistryService extends AbstractRegistry {
         }
     }
 
-    protected void subscribed(final URL url, final NotifyListener listener) {
+    protected void subscribed(final EURL url, final NotifyListener listener) {
         if (Constants.ANY_VALUE.equals(url.getServiceInterface())) {
         	new Thread(new Runnable() {
 				public void run() {
-					Map<String, List<URL>> map = new HashMap<String, List<URL>>();
-		        	for (URL u: getRegistered()) {
+					Map<String, List<EURL>> map = new HashMap<String, List<EURL>>();
+		        	for (EURL u: getRegistered()) {
 		                if (UrlUtils.isMatch(url, u)) {
 		                	String service = u.getServiceInterface();
-		                	List<URL> list = map.get(service);
+		                	List<EURL> list = map.get(service);
 		                	if (list == null) {
-		                		list = new ArrayList<URL>();
+		                		list = new ArrayList<EURL>();
 		                		map.put(service, list);
 		                	}
 		                	list.add(u);
 		                }
 		            }
-		        	for (List<URL> list : map.values()) {
+		        	for (List<EURL> list : map.values()) {
 		        		try {
 		            		listener.notify(list);
 		            	} catch (Throwable e) {
@@ -178,7 +178,7 @@ public class SimpleRegistryService extends AbstractRegistry {
 				}
 			}, "DubboMonitorNotifier").start();
         } else {
-        	List<URL> list = lookup(url);
+        	List<EURL> list = lookup(url);
         	try {
         		listener.notify(list);
         	} catch (Throwable e) {
@@ -192,16 +192,16 @@ public class SimpleRegistryService extends AbstractRegistry {
         if (logger.isInfoEnabled()) {
             logger.info("Disconnected " + client);
         }
-        Set<URL> urls = remoteRegistered.get(client);
+        Set<EURL> urls = remoteRegistered.get(client);
         if (urls != null && urls.size() > 0) {
-            for (URL url : urls) {
+            for (EURL url : urls) {
                 unregister(url);
             }
         }
-        Map<URL, Set<NotifyListener>> listeners = remoteSubscribed.get(client);
+        Map<EURL, Set<NotifyListener>> listeners = remoteSubscribed.get(client);
         if (listeners != null && listeners.size() > 0) {
-            for (Map.Entry<URL, Set<NotifyListener>> entry : listeners.entrySet()) {
-            	URL url = entry.getKey();
+            for (Map.Entry<EURL, Set<NotifyListener>> entry : listeners.entrySet()) {
+            	EURL url = entry.getKey();
                 for (NotifyListener listener : entry.getValue()) {
                     unsubscribe(url, listener);
                 }

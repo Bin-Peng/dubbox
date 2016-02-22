@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.governance.service.ConsumerService;
 import com.alibaba.dubbo.registry.RegistryService;
 
@@ -60,20 +60,20 @@ public class Lookup extends Restful{
             url += parameters.trim();
         }
         
-        URL u = URL.valueOf(url);
+        EURL u = EURL.valueOf(url);
         if(group != null) {
             u.addParameter("group", group);
         }
         
         if(version != null) u.addParameter("version", version);
         
-        List<URL> lookup = registryService.lookup(u);
+        List<EURL> lookup = registryService.lookup(u);
         
         Map<String, Map<String, String>> serviceUrl = new HashMap<String, Map<String,String>>();
         Map<String, String> urls = new HashMap<String, String>();
         serviceUrl.put(request.getParameter("interface").trim(), urls);
         
-        for(URL u2 : lookup) {
+        for(EURL u2 : lookup) {
             urls.put(u2.toIdentityString(), u2.toParameterString());
         }
         

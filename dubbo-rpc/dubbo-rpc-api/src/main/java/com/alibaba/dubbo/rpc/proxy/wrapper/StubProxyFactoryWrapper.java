@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.proxy.wrapper;
 import java.lang.reflect.Constructor;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.bytecode.Wrapper;
 import com.alibaba.dubbo.common.logger.Logger;
@@ -78,7 +78,7 @@ public class StubProxyFactoryWrapper implements ProxyFactory {
                         Constructor<?> constructor = ReflectUtils.findConstructor(stubClass, serviceType);
                         proxy = (T) constructor.newInstance(new Object[] {proxy});
                         //export stub service
-                        URL url = invoker.getUrl();
+                        EURL url = invoker.getUrl();
                         if (url.getParameter(Constants.STUB_EVENT_KEY, Constants.DEFAULT_STUB_EVENT)){
                             url = url.addParameter(Constants.STUB_EVENT_METHODS_KEY, StringUtils.join(Wrapper.getWrapper(proxy.getClass()).getDeclaredMethodNames(), ","));
                             url = url.addParameter(Constants.IS_SERVER_KEY, Boolean.FALSE.toString());
@@ -100,11 +100,11 @@ public class StubProxyFactoryWrapper implements ProxyFactory {
         return proxy;
     }
     
-    public <T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws RpcException {
+    public <T> Invoker<T> getInvoker(T proxy, Class<T> type, EURL url) throws RpcException {
         return proxyFactory.getInvoker(proxy, type, url);
     }
     
-    private <T> Exporter<T> export(T instance, Class<T> type, URL url) {
+    private <T> Exporter<T> export(T instance, Class<T> type, EURL url) {
         return protocol.export(proxyFactory.getInvoker(instance, type, url));
     }
     

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.bytecode.Wrapper;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
@@ -81,7 +81,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
     private ProviderConfig provider;
 
-    private final List<URL> urls = new ArrayList<URL>();
+    private final List<EURL> urls = new ArrayList<EURL>();
     
     private final List<Exporter<?>> exporters = new ArrayList<Exporter<?>>();
 
@@ -98,11 +98,11 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         appendAnnotation(Service.class, service);
     }
 
-    public URL toUrl() {
+    public EURL toUrl() {
         return urls == null || urls.size() == 0 ? null : urls.iterator().next();
     }
 
-    public List<URL> toUrls() {
+    public List<EURL> toUrls() {
         return urls;
     }
     
@@ -280,13 +280,13 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void doExportUrls() {
-        List<URL> registryURLs = loadRegistries(true);
+        List<EURL> registryURLs = loadRegistries(true);
         for (ProtocolConfig protocolConfig : protocols) {
             doExportUrlsFor1Protocol(protocolConfig, registryURLs);
         }
     }
 
-    private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<URL> registryURLs) {
+    private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<EURL> registryURLs) {
         String name = protocolConfig.getName();
         if (name == null || name.length() == 0) {
             name = "dubbo";
@@ -306,7 +306,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             }
             if (NetUtils.isInvalidLocalHost(host)) {
                 if (registryURLs != null && registryURLs.size() > 0) {
-                    for (URL registryURL : registryURLs) {
+                    for (EURL registryURL : registryURLs) {
                         try {
                             Socket socket = new Socket();
                             try {
@@ -452,7 +452,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         if ((contextPath == null || contextPath.length() == 0) && provider != null) {
             contextPath = provider.getContextpath();
         }
-        URL url = new URL(name, host, port, (contextPath == null || contextPath.length() == 0 ? "" : contextPath + "/") + path, map);
+        EURL url = new EURL(name, host, port, (contextPath == null || contextPath.length() == 0 ? "" : contextPath + "/") + path, map);
 
         if (ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class)
                 .hasExtension(url.getProtocol())) {
@@ -475,9 +475,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
                 }
                 if (registryURLs != null && registryURLs.size() > 0
                         && url.getParameter("register", true)) {
-                    for (URL registryURL : registryURLs) {
+                    for (EURL registryURL : registryURLs) {
                         url = url.addParameterIfAbsent("dynamic", registryURL.getParameter("dynamic"));
-                        URL monitorUrl = loadMonitor(registryURL);
+                        EURL monitorUrl = loadMonitor(registryURL);
                         if (monitorUrl != null) {
                             url = url.addParameterAndEncoded(Constants.MONITOR_KEY, monitorUrl.toFullString());
                         }
@@ -502,9 +502,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void exportLocal(URL url) {
+    private void exportLocal(EURL url) {
         if (!Constants.LOCAL_PROTOCOL.equalsIgnoreCase(url.getProtocol())) {
-            URL local = URL.valueOf(url.toFullString())
+            EURL local = EURL.valueOf(url.toFullString())
                     .setProtocol(Constants.LOCAL_PROTOCOL)
                     .setHost(NetUtils.LOCALHOST)
                     .setPort(0);
@@ -641,7 +641,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         this.provider = provider;
     }
     
-    public List<URL> getExportedUrls(){
+    public List<EURL> getExportedUrls(){
         return urls;
     }
     

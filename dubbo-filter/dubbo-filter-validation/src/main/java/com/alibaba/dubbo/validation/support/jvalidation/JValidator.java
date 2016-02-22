@@ -55,7 +55,7 @@ import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.groups.Default;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.bytecode.ClassGenerator;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -76,7 +76,7 @@ public class JValidator implements Validator {
     private final javax.validation.Validator validator;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public JValidator(URL url) {
+    public JValidator(EURL url) {
         this.clazz = ReflectUtils.forName(url.getServiceInterface());
         String jvalidation = url.getParameter("jvalidation");
         ValidatorFactory factory;

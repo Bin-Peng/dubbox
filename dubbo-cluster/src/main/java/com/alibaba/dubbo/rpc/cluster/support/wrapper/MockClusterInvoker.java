@@ -18,7 +18,7 @@ package com.alibaba.dubbo.rpc.cluster.support.wrapper;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -47,7 +47,7 @@ public class MockClusterInvoker<T> implements Invoker<T>{
        	this.invoker = invoker;
     }
 
-	public URL getUrl() {
+	public EURL getUrl() {
 		return directory.getUrl();
 	}
 

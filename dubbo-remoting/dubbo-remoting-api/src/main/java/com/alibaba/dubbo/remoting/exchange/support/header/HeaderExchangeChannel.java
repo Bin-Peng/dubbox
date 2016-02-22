@@ -18,7 +18,7 @@ package com.alibaba.dubbo.remoting.exchange.support.header;
 import java.net.InetSocketAddress;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.Channel;
@@ -157,7 +157,7 @@ final class HeaderExchangeChannel implements ExchangeChannel {
         return channel.getRemoteAddress();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return channel.getUrl();
     }
 

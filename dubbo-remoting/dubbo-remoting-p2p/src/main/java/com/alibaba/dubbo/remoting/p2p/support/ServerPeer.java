@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.Channel;
@@ -41,11 +41,11 @@ public class ServerPeer extends ServerDelegate implements Peer {
     
     private static final Logger logger = LoggerFactory.getLogger(ServerPeer.class);
 
-    private final Map<URL, Client> clients;
+    private final Map<EURL, Client> clients;
 
     private final Group group;
     
-    public ServerPeer(Server server, Map<URL, Client> clients, Group group){
+    public ServerPeer(Server server, Map<EURL, Client> clients, Group group){
         super(server);
         this.clients = clients;
         this.group = group;
@@ -80,8 +80,8 @@ public class ServerPeer extends ServerDelegate implements Peer {
         int port = remoteAddress.getPort();
         Channel channel = super.getChannel(remoteAddress);
         if (channel == null) {
-            for (Map.Entry<URL, Client> entry : clients.entrySet()) {
-                URL url = entry.getKey();
+            for (Map.Entry<EURL, Client> entry : clients.entrySet()) {
+                EURL url = entry.getKey();
                 if (url.getIp().equals(host) && url.getPort() == port) {
                     return entry.getValue();
                 }

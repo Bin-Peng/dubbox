@@ -27,15 +27,15 @@ import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.alibaba.dubbo.registry.NotifyListener;
-import com.alibaba.dubbo.registry.Registry;
+
+
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Protocol;
@@ -52,6 +52,10 @@ import com.alibaba.dubbo.rpc.cluster.support.ClusterUtils;
 import com.alibaba.dubbo.rpc.protocol.InvokerWrapper;
 import com.alibaba.dubbo.rpc.support.RpcUtils;
 
+//import com.alibaba.dubbo.registry.NotifyListener;
+import cn.sunline.ltts.apm.api.registry.base.NotifyListener;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 /**
  * RegistryDirectory
  * 
@@ -78,7 +82,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
     
     private final Map<String, String> queryMap; // 构造时初始化，断言不为null
 
-    private final URL directoryUrl; // 构造时初始化，断言不为null，并且总是赋非null值
+    private final EURL directoryUrl; // 构造时初始化，断言不为null，并且总是赋非null值
     
     private final String[] serviceMethods;
 
@@ -86,7 +90,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
 
     private volatile boolean forbidden = false;
     
-    private volatile URL overrideDirectoryUrl; // 构造时初始化，断言不为null，并且总是赋非null值
+    private volatile EURL overrideDirectoryUrl; // 构造时初始化，断言不为null，并且总是赋非null值
 
     /*override规则 
      * 优先级：override>-D>consumer>provider
@@ -102,9 +106,9 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
     private volatile Map<String, List<Invoker<T>>> methodInvokerMap; // 初始为null以及中途可能被赋为null，请使用局部变量引用
     
     // Set<invokerUrls> cache invokeUrls to invokers mapping.
-    private volatile Set<URL> cachedInvokerUrls; // 初始为null以及中途可能被赋为null，请使用局部变量引用
+    private volatile Set<EURL> cachedInvokerUrls; // 初始为null以及中途可能被赋为null，请使用局部变量引用
 
-    public RegistryDirectory(Class<T> serviceType, URL url) {
+    public RegistryDirectory(Class<T> serviceType, EURL url) {
         super(url);
         if(serviceType == null )
             throw new IllegalArgumentException("service type is null.");
@@ -128,7 +132,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
         this.registry = registry;
     }
     
-    public void subscribe(URL url) {
+    public void subscribe(EURL url) {
         setConsumerUrl(url);
         registry.subscribe(url, this);
     }
@@ -143,7 +147,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
                 registry.unsubscribe(getConsumerUrl(), this);
             }
         } catch (Throwable t) {
-            logger.warn("unexpeced error when unsubscribe service " + serviceKey + "from registry" + registry.getUrl(), t);
+            logger.warn("unexpeced error when unsubscribe service " + serviceKey + "from registry" + registry.getEurl(), t);
         }
         super.destroy(); // 必须在unsubscribe之后执行
         try {
@@ -153,11 +157,11 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
         }
     }
 
-    public synchronized void notify(List<URL> urls) {
-        List<URL> invokerUrls = new ArrayList<URL>();
-        List<URL> routerUrls = new ArrayList<URL>();
-        List<URL> configuratorUrls = new ArrayList<URL>();
-        for (URL url : urls) {
+    public synchronized void notify(List<EURL> urls) {
+        List<EURL> invokerUrls = new ArrayList<EURL>();
+        List<EURL> routerUrls = new ArrayList<EURL>();
+        List<EURL> configuratorUrls = new ArrayList<EURL>();
+        for (EURL url : urls) {
             String protocol = url.getProtocol();
             String category = url.getParameter(Constants.CATEGORY_KEY, Constants.DEFAULT_CATEGORY);
             if (Constants.ROUTERS_CATEGORY.equals(category) 
@@ -203,7 +207,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * 3.如果传入的invokerUrl列表是空，则表示只是下发的override规则或route规则，需要重新交叉对比，决定是否需要重新引用。
      * @param invokerUrls 传入的参数不能为null
      */
-    private void refreshInvoker(List<URL> invokerUrls){
+    private void refreshInvoker(List<EURL> invokerUrls){
         if (invokerUrls != null && invokerUrls.size() == 1 && invokerUrls.get(0) != null
                 && Constants.EMPTY_PROTOCOL.equals(invokerUrls.get(0).getProtocol())) {
             this.forbidden = true; // 禁止访问
@@ -215,7 +219,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
             if (invokerUrls.size() == 0 && this.cachedInvokerUrls != null){
                 invokerUrls.addAll(this.cachedInvokerUrls);
             } else {
-                this.cachedInvokerUrls = new HashSet<URL>();
+                this.cachedInvokerUrls = new HashSet<EURL>();
                 this.cachedInvokerUrls.addAll(invokerUrls);//缓存invokerUrls列表，便于交叉对比
             }
             if (invokerUrls.size() ==0 ){
@@ -280,12 +284,12 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * </br>4.不带参数的override://0.0.0.0/ 表示清除override 
      * @return
      */
-    public static List<Configurator> toConfigurators(List<URL> urls){
+    public static List<Configurator> toConfigurators(List<EURL> urls){
         List<Configurator> configurators = new ArrayList<Configurator>(urls.size());
         if (urls == null || urls.size() == 0){
             return configurators;
         }
-        for(URL url : urls){
+        for(EURL url : urls){
             if (Constants.EMPTY_PROTOCOL.equals(url.getProtocol())) {
                 configurators.clear();
                 break;
@@ -309,13 +313,13 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * @return null : no routers ,do nothing
      *         else :routers list
      */
-    private List<Router> toRouters(List<URL> urls) {
+    private List<Router> toRouters(List<EURL> urls) {
         List<Router> routers = new ArrayList<Router>();
         if(urls == null || urls.size() < 1){
             return routers ;
         }
         if (urls != null && urls.size() > 0) {
-            for (URL url : urls) {
+            for (EURL url : urls) {
                 if (Constants.EMPTY_PROTOCOL.equals(url.getProtocol())) {
                     continue;
                 }
@@ -343,14 +347,14 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * @param query
      * @return invokers
      */
-    private Map<String, Invoker<T>> toInvokers(List<URL> urls) {
+    private Map<String, Invoker<T>> toInvokers(List<EURL> urls) {
         Map<String, Invoker<T>> newUrlInvokerMap = new HashMap<String, Invoker<T>>();
         if(urls == null || urls.size() == 0){
             return newUrlInvokerMap;
         }
         Set<String> keys = new HashSet<String>();
         String queryProtocols = this.queryMap.get(Constants.PROTOCOL_KEY);
-        for (URL providerUrl : urls) {
+        for (EURL providerUrl : urls) {
         	//如果reference端配置了protocol，则只选择匹配的protocol
         	if (queryProtocols != null && queryProtocols.length() >0) {
         		boolean accept = false;
@@ -373,7 +377,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
                         + ", supported protocol: "+ExtensionLoader.getExtensionLoader(Protocol.class).getSupportedExtensions()));
                 continue;
             }
-            URL url = mergeUrl(providerUrl);
+            EURL url = mergeUrl(providerUrl);
             
             String key = url.toFullString(); // URL参数是排序的
             if (keys.contains(key)) { // 重复URL
@@ -414,7 +418,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * @param overrides
      * @return
      */
-    private URL mergeUrl(URL providerUrl){
+    private EURL mergeUrl(EURL providerUrl){
         providerUrl = ClusterUtils.mergeUrl(providerUrl, queryMap); // 合并消费端参数
         
         List<Configurator> localConfigurators = this.configurators; // local reference
@@ -607,7 +611,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
         return serviceType;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
     	return this.overrideDirectoryUrl;
     }
 
@@ -664,12 +668,12 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
      * @param <T>
      */
     private static class InvokerDelegete<T> extends InvokerWrapper<T>{
-        private URL providerUrl;
-        public InvokerDelegete(Invoker<T> invoker, URL url, URL providerUrl) {
+        private EURL providerUrl;
+        public InvokerDelegete(Invoker<T> invoker, EURL url, EURL providerUrl) {
             super(invoker, url);
             this.providerUrl = providerUrl;
         }
-        public URL getProviderUrl() {
+        public EURL getProviderUrl() {
             return providerUrl;
         }
     }

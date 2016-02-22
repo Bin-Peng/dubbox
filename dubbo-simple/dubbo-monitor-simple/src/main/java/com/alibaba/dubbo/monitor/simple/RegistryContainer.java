@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
 import com.alibaba.dubbo.common.utils.ConfigUtils;
@@ -56,9 +56,9 @@ public class RegistryContainer implements Container {
 
     private final Set<String> services = new ConcurrentHashSet<String>();
 
-    private final Map<String, List<URL>> serviceProviders = new ConcurrentHashMap<String, List<URL>>();
+    private final Map<String, List<EURL>> serviceProviders = new ConcurrentHashMap<String, List<EURL>>();
 
-    private final Map<String, List<URL>> serviceConsumers = new ConcurrentHashMap<String, List<URL>>();
+    private final Map<String, List<EURL>> serviceConsumers = new ConcurrentHashMap<String, List<EURL>>();
 
     private RegistryService registry;
     
@@ -115,20 +115,20 @@ public class RegistryContainer implements Container {
         return Collections.unmodifiableSet(services);
     }
 
-    public Map<String, List<URL>> getServiceProviders() {
+    public Map<String, List<EURL>> getServiceProviders() {
         return Collections.unmodifiableMap(serviceProviders);
     }
 
-    public List<URL> getProvidersByService(String service) {
-        List<URL> urls = serviceProviders.get(service);
+    public List<EURL> getProvidersByService(String service) {
+        List<EURL> urls = serviceProviders.get(service);
         return urls == null ? null : Collections.unmodifiableList(urls);
     }
 
-    public List<URL> getProvidersByHost(String host) {
-        List<URL> urls = new ArrayList<URL>();
+    public List<EURL> getProvidersByHost(String host) {
+        List<EURL> urls = new ArrayList<EURL>();
         if (host != null && host.length() > 0) {
-            for (List<URL> providers : serviceProviders.values()) {
-                for (URL url : providers) {
+            for (List<EURL> providers : serviceProviders.values()) {
+                for (EURL url : providers) {
                     if (host.equals(url.getHost())) {
                         urls.add(url);
                     }
@@ -138,11 +138,11 @@ public class RegistryContainer implements Container {
         return urls;
     }
 
-    public List<URL> getProvidersByApplication(String application) {
-        List<URL> urls = new ArrayList<URL>();
+    public List<EURL> getProvidersByApplication(String application) {
+        List<EURL> urls = new ArrayList<EURL>();
         if (application != null && application.length() > 0) {
-            for (List<URL> providers : serviceProviders.values()) {
-                for (URL url : providers) {
+            for (List<EURL> providers : serviceProviders.values()) {
+                for (EURL url : providers) {
                     if (application.equals(url.getParameter(Constants.APPLICATION_KEY))) {
                         urls.add(url);
                     }
@@ -154,33 +154,33 @@ public class RegistryContainer implements Container {
 
     public Set<String> getHosts() {
         Set<String> addresses = new HashSet<String>();
-        for (List<URL> providers : serviceProviders.values()) {
-            for (URL url : providers) {
+        for (List<EURL> providers : serviceProviders.values()) {
+            for (EURL url : providers) {
                 addresses.add(url.getHost());
             }
         }
-        for (List<URL> providers : serviceConsumers.values()) {
-            for (URL url : providers) {
+        for (List<EURL> providers : serviceConsumers.values()) {
+            for (EURL url : providers) {
                 addresses.add(url.getHost());
             }
         }
         return addresses;
     }
 
-    public Map<String, List<URL>> getServiceConsumers() {
+    public Map<String, List<EURL>> getServiceConsumers() {
         return Collections.unmodifiableMap(serviceConsumers);
     }
 
-    public List<URL> getConsumersByService(String service) {
-        List<URL> urls = serviceConsumers.get(service);
+    public List<EURL> getConsumersByService(String service) {
+        List<EURL> urls = serviceConsumers.get(service);
         return urls == null ? null : Collections.unmodifiableList(urls);
     }
 
-    public List<URL> getConsumersByHost(String host) {
-        List<URL> urls = new ArrayList<URL>();
+    public List<EURL> getConsumersByHost(String host) {
+        List<EURL> urls = new ArrayList<EURL>();
         if (host != null && host.length() > 0) {
-            for (List<URL> consumers : serviceConsumers.values()) {
-                for (URL url : consumers) {
+            for (List<EURL> consumers : serviceConsumers.values()) {
+                for (EURL url : consumers) {
                     if (host.equals(url.getHost())) {
                         urls.add(url);
                     }
@@ -190,11 +190,11 @@ public class RegistryContainer implements Container {
         return Collections.unmodifiableList(urls);
     }
 
-    public List<URL> getConsumersByApplication(String application) {
-        List<URL> urls = new ArrayList<URL>();
+    public List<EURL> getConsumersByApplication(String application) {
+        List<EURL> urls = new ArrayList<EURL>();
         if (application != null && application.length() > 0) {
-            for (List<URL> consumers : serviceConsumers.values()) {
-                for (URL url : consumers) {
+            for (List<EURL> consumers : serviceConsumers.values()) {
+                for (EURL url : consumers) {
                     if (application.equals(url.getParameter(Constants.APPLICATION_KEY))) {
                         urls.add(url);
                     }
@@ -210,7 +210,7 @@ public class RegistryContainer implements Container {
             throw new IllegalArgumentException("Please set java start argument: -D" + REGISTRY_ADDRESS + "=zookeeper://127.0.0.1:2181");
         }
         registry = (RegistryService) SpringContainer.getContext().getBean("registryService");
-        URL subscribeUrl = new URL(Constants.ADMIN_PROTOCOL, NetUtils.getLocalHost(), 0, "",
+        EURL subscribeUrl = new EURL(Constants.ADMIN_PROTOCOL, NetUtils.getLocalHost(), 0, "",
                                     Constants.INTERFACE_KEY, Constants.ANY_VALUE, 
                                     Constants.GROUP_KEY, Constants.ANY_VALUE, 
                                     Constants.VERSION_KEY, Constants.ANY_VALUE,
@@ -219,13 +219,13 @@ public class RegistryContainer implements Container {
                                             + Constants.CONSUMERS_CATEGORY,
                                     Constants.CHECK_KEY, String.valueOf(false));
         registry.subscribe(subscribeUrl, new NotifyListener() {
-            public void notify(List<URL> urls) {
+            public void notify(List<EURL> urls) {
                 if (urls == null || urls.size() == 0) {
                     return;
                 }
-                Map<String, List<URL>> proivderMap = new HashMap<String, List<URL>>();
-                Map<String, List<URL>> consumerMap = new HashMap<String, List<URL>>();
-                for (URL url : urls) {
+                Map<String, List<EURL>> proivderMap = new HashMap<String, List<EURL>>();
+                Map<String, List<EURL>> consumerMap = new HashMap<String, List<EURL>>();
+                for (EURL url : urls) {
                     String application = url.getParameter(Constants.APPLICATION_KEY);
                     if (application != null && application.length() > 0) {
                         applications.add(application);
@@ -237,9 +237,9 @@ public class RegistryContainer implements Container {
                         if (Constants.EMPTY_PROTOCOL.equals(url.getProtocol())) {
                             serviceProviders.remove(service);
                         } else {
-                            List<URL> list = proivderMap.get(service);
+                            List<EURL> list = proivderMap.get(service);
                             if (list == null) {
-                                list = new ArrayList<URL>();
+                                list = new ArrayList<EURL>();
                                 proivderMap.put(service, list);
                             }
                             list.add(url);
@@ -263,9 +263,9 @@ public class RegistryContainer implements Container {
                         if (Constants.EMPTY_PROTOCOL.equals(url.getProtocol())) {
                             serviceConsumers.remove(service);
                         } else {
-                            List<URL> list = consumerMap.get(service);
+                            List<EURL> list = consumerMap.get(service);
                             if (list == null) {
-                                list = new ArrayList<URL>();
+                                list = new ArrayList<EURL>();
                                 consumerMap.put(service, list);
                             }
                             list.add(url);

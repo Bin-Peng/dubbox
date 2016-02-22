@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.ConfigUtils;
@@ -155,9 +155,9 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
         }
     }
     
-    protected List<URL> loadRegistries(boolean provider) {
+    protected List<EURL> loadRegistries(boolean provider) {
         checkRegistry();
-        List<URL> registryList = new ArrayList<URL>();
+        List<EURL> registryList = new ArrayList<EURL>();
         if (registries != null && registries.size() > 0) {
             for (RegistryConfig config : registries) {
                 String address = config.getAddress();
@@ -186,8 +186,8 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
                             map.put("protocol", "dubbo");
                         }
                     }
-                    List<URL> urls = UrlUtils.parseURLs(address, map);
-                    for (URL url : urls) {
+                    List<EURL> urls = UrlUtils.parseURLs(address, map);
+                    for (EURL url : urls) {
                         url = url.addParameter(Constants.REGISTRY_KEY, url.getProtocol());
                         url = url.setProtocol(Constants.REGISTRY_PROTOCOL);
                         if ((provider && url.getParameter(Constants.REGISTER_KEY, true))
@@ -201,7 +201,7 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
         return registryList;
     }
     
-    protected URL loadMonitor(URL registryURL) {
+    protected EURL loadMonitor(EURL registryURL) {
         if (monitor == null) {
             String monitorAddress = ConfigUtils.getProperty("dubbo.monitor.address");
             String monitorProtocol = ConfigUtils.getProperty("dubbo.monitor.protocol");

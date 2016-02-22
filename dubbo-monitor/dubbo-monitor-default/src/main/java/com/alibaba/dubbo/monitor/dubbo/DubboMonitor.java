@@ -25,7 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NamedThreadFactory;
@@ -97,7 +97,7 @@ public class DubboMonitor implements Monitor {
             long maxConcurrent = numbers[9];
              
             // 发送汇总信息
-            URL url = statistics.getUrl()
+            EURL url = statistics.getUrl()
                     .addParameters(MonitorService.TIMESTAMP, timestamp,
                             MonitorService.SUCCESS, String.valueOf(success),
                             MonitorService.FAILURE, String.valueOf(failure), 
@@ -136,7 +136,7 @@ public class DubboMonitor implements Monitor {
         }
     }
     
-    public void collect(URL url) {
+    public void collect(EURL url) {
         // 读写统计变量
         int success = url.getParameter(MonitorService.SUCCESS, 0);
         int failure = url.getParameter(MonitorService.FAILURE, 0);
@@ -182,11 +182,11 @@ public class DubboMonitor implements Monitor {
         } while (! reference.compareAndSet(current, update));
     }
 
-	public List<URL> lookup(URL query) {
+	public List<EURL> lookup(EURL query) {
 		return monitorService.lookup(query);
 	}
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return monitorInvoker.getUrl();
     }
 

@@ -39,7 +39,7 @@ import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.HttpServer;
@@ -101,7 +101,7 @@ public class WebServiceProtocol extends AbstractProxyProtocol {
 
     }
 
-    protected <T> Runnable doExport(T impl, Class<T> type, URL url) throws RpcException {
+    protected <T> Runnable doExport(T impl, Class<T> type, EURL url) throws RpcException {
     	String addr = url.getIp() + ":" + url.getPort();
         HttpServer httpServer = serverMap.get(addr);
         if (httpServer == null) {
@@ -123,7 +123,7 @@ public class WebServiceProtocol extends AbstractProxyProtocol {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T doRefer(final Class<T> serviceType, final URL url) throws RpcException {
+    protected <T> T doRefer(final Class<T> serviceType, final EURL url) throws RpcException {
     	ClientProxyFactoryBean proxyFactoryBean = new ClientProxyFactoryBean();
     	proxyFactoryBean.setAddress(url.setProtocol("http").toIdentityString());
     	proxyFactoryBean.setServiceClass(serviceType);

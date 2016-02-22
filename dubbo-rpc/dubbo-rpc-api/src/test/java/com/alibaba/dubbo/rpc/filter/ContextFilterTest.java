@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNull;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -57,7 +57,7 @@ public class ContextFilterTest {
         RpcResult result = new RpcResult();
         result.setValue("High");
         EasyMock.expect(invoker.invoke(invocation)).andReturn(result).anyTimes();
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         EasyMock.expect(invoker.getUrl()).andReturn(url).anyTimes();
         EasyMock.replay(invoker);
         contextFilter.invoke(invoker, invocation);
@@ -66,7 +66,7 @@ public class ContextFilterTest {
 
     @Test
     public void testWithAttachments() {
-        URL url = URL.valueOf("test://test:11/test?group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?group=dubbo&version=1.1");
         Invoker<DemoService> invoker = new MyInvoker<DemoService>(url);
         Invocation invocation = new MockInvocation();
         Result result = contextFilter.invoke(invoker, invocation);

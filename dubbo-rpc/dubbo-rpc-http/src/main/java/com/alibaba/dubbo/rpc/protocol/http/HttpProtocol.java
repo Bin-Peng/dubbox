@@ -32,7 +32,7 @@ import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 import org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.HttpHandler;
 import com.alibaba.dubbo.remoting.http.HttpServer;
@@ -87,7 +87,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
         
     }
 
-    protected <T> Runnable doExport(final T impl, Class<T> type, URL url) throws RpcException {
+    protected <T> Runnable doExport(final T impl, Class<T> type, EURL url) throws RpcException {
         String addr = url.getIp() + ":" + url.getPort();
         HttpServer server = serverMap.get(addr);
         if (server == null) {
@@ -112,7 +112,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T doRefer(final Class<T> serviceType, final URL url) throws RpcException {
+    protected <T> T doRefer(final Class<T> serviceType, final EURL url) throws RpcException {
         final HttpInvokerProxyFactoryBean httpProxyFactoryBean = new HttpInvokerProxyFactoryBean();
         httpProxyFactoryBean.setServiceUrl(url.toIdentityString());
         httpProxyFactoryBean.setServiceInterface(serviceType);

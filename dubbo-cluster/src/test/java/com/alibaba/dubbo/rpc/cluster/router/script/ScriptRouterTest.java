@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcInvocation;
 import com.alibaba.dubbo.rpc.cluster.Router;
@@ -43,9 +43,9 @@ public class ScriptRouterTest {
     public void setUp() throws Exception {
     }
     
-    private URL SCRIPT_URL = URL.valueOf("script://javascript?type=javascript");
+    private EURL SCRIPT_URL = EURL.valueOf("script://javascript?type=javascript");
     
-    private URL getRouteUrl(String rule) {
+    private EURL getRouteUrl(String rule) {
         return SCRIPT_URL.addParameterAndEncoded(Constants.RULE_KEY, rule);
     }
     

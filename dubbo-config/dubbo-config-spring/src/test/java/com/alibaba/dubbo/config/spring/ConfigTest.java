@@ -32,7 +32,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -191,7 +191,7 @@ public class ConfigTest {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(ConfigTest.class.getPackage().getName().replace('.', '/') + "/multi-protocol-register.xml");
         ctx.start();
         try {
-            List<URL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
+            List<EURL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
             assertNotNull(urls);
             assertEquals(1, urls.size());
             assertEquals("dubbo://" + NetUtils.getLocalHost() + ":20824/com.alibaba.dubbo.config.spring.api.DemoService", urls.get(0).toIdentityString());
@@ -211,9 +211,9 @@ public class ConfigTest {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(ConfigTest.class.getPackage().getName().replace('.', '/') + "/multi-registry.xml");
         ctx.start();
         try {
-            List<URL> urls1 = registryService1.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
+            List<EURL> urls1 = registryService1.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
             assertNull(urls1);
-            List<URL> urls2 = registryService2.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
+            List<EURL> urls2 = registryService2.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
             assertNotNull(urls2);
             assertEquals(1, urls2.size());
             assertEquals("dubbo://" + NetUtils.getLocalHost() + ":20880/com.alibaba.dubbo.config.spring.api.DemoService", urls2.get(0).toIdentityString());
@@ -232,7 +232,7 @@ public class ConfigTest {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(ConfigTest.class.getPackage().getName().replace('.', '/') + "/delay-fixed-time.xml");
         ctx.start();
         try {
-            List<URL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
+            List<EURL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
             assertNull(urls);
             int i = 0;
             while ((i ++) < 60 && urls == null) {
@@ -256,7 +256,7 @@ public class ConfigTest {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(ConfigTest.class.getPackage().getName().replace('.', '/') + "/delay-on-initialized.xml");
         //ctx.start();
         try {
-            List<URL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
+            List<EURL> urls = registryService.getRegistered().get("com.alibaba.dubbo.config.spring.api.DemoService");
             assertNotNull(urls);
             assertEquals(1, urls.size());
             assertEquals("dubbo://" + NetUtils.getLocalHost() + ":20883/com.alibaba.dubbo.config.spring.api.DemoService", urls.get(0).toIdentityString());
@@ -330,7 +330,7 @@ public class ConfigTest {
         service.setRef(new DemoServiceImpl());
         try {
             service.export();
-            List<URL> urls = service.toUrls();
+            List<EURL> urls = service.toUrls();
             assertNotNull(urls);
             assertEquals(1, urls.size());
             assertEquals("classloader,monitor,accesslog,trace", urls.get(0).getParameter("service.filter"));
@@ -385,9 +385,9 @@ public class ConfigTest {
         ctx.start();
         try {
             ServiceBean bean = (ServiceBean) ctx.getBean("service");
-            List<URL> urls = bean.getExportedUrls();
+            List<EURL> urls = bean.getExportedUrls();
             assertEquals(1, urls.size());
-            URL url = urls.get(0);
+            EURL url = urls.get(0);
             assertEquals("sayName,getBox", url.getParameter("methods"));
         } finally {
             ctx.stop();
@@ -527,7 +527,7 @@ public class ConfigTest {
         service.export();
         
         try {
-            URL url = service.toUrls().get(0);
+            EURL url = service.toUrls().get(0);
             assertEquals("api-override-properties", url.getParameter("application"));
             assertEquals("world", url.getParameter("owner"));
             assertEquals(13123, url.getPort());
@@ -624,7 +624,7 @@ public class ConfigTest {
         providerContext.start();
         try {
             ServiceConfig<DemoService> service = (ServiceConfig<DemoService>) providerContext.getBean("demoServiceConfig");
-            URL url = service.toUrls().get(0);
+            EURL url = service.toUrls().get(0);
             assertEquals("sysover", url.getParameter("application"));
             assertEquals("sysowner", url.getParameter("owner"));
             assertEquals("dubbo", url.getProtocol());
@@ -725,7 +725,7 @@ public class ConfigTest {
             service.export();
             
             try {
-                URL url = service.toUrls().get(0);
+                EURL url = service.toUrls().get(0);
                 assertEquals("sysover", url.getParameter("application"));
                 assertEquals("sysowner", url.getParameter("owner"));
                 assertEquals("dubbo", url.getProtocol());
@@ -767,7 +767,7 @@ public class ConfigTest {
             service.export();
 
             try {
-                URL url = service.toUrls().get(0);
+                EURL url = service.toUrls().get(0);
                 // from api
                 assertEquals("aaa", url.getParameter("application"));
                 // from dubbo.properties
@@ -791,7 +791,7 @@ public class ConfigTest {
                 new ClassPathXmlApplicationContext(ConfigTest.class.getPackage().getName().replace('.', '/') + "/customize-parameter.xml");
         context.start();
         ServiceBean<DemoService> serviceBean = (ServiceBean<DemoService>) context.getBean("demoServiceExport");
-        URL url = (URL) serviceBean.toUrls().get(0);
+        EURL url = (EURL) serviceBean.toUrls().get(0);
         assertEquals("protocol-paramA", url.getParameter("protocol.paramA"));
         assertEquals("service-paramA", url.getParameter("service.paramA"));
     }
@@ -961,7 +961,7 @@ public class ConfigTest {
             service.export();
             Collection<Registry> collection = MockRegistryFactory.getCachedRegistry();
             MockRegistry registry = (MockRegistry)collection.iterator().next();
-            URL url = registry.getRegistered().get(0);
+            EURL url = registry.getRegistered().get(0);
             Assert.assertEquals(Constants.GENERIC_SERIALIZATION_BEAN, url.getParameter(Constants.GENERIC_KEY));
         } finally {
             MockRegistryFactory.cleanCachedRegistry();
@@ -975,7 +975,7 @@ public class ConfigTest {
         try {
             ctx.start();
             ServiceConfig serviceConfig = (ServiceConfig) ctx.getBean("dubboDemoService");
-            URL url = (URL)serviceConfig.getExportedUrls().get(0);
+            EURL url = (EURL)serviceConfig.getExportedUrls().get(0);
             Assert.assertEquals(Constants.GENERIC_SERIALIZATION_BEAN, url.getParameter(Constants.GENERIC_KEY));
         } finally {
             ctx.destroy();

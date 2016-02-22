@@ -18,6 +18,7 @@ package com.alibaba.dubbo.common.extension.factory;
 import com.alibaba.dubbo.common.extension.ExtensionFactory;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.extension.SPI;
+//import cn.sunline.ltts.apm.api.registry.base.extension.SPI;
 
 /**
  * SpiExtensionFactory
@@ -27,11 +28,24 @@ import com.alibaba.dubbo.common.extension.SPI;
 public class SpiExtensionFactory implements ExtensionFactory {
 
     public <T> T getExtension(Class<T> type, String name) {
-        if (type.isInterface() && type.isAnnotationPresent(SPI.class)) {
-            ExtensionLoader<T> loader = ExtensionLoader.getExtensionLoader(type);
-            if (loader.getSupportedExtensions().size() > 0) {
-                return loader.getAdaptiveExtension();
-            }
+        if (type.isInterface() && (type.isAnnotationPresent(SPI.class) || type.isAnnotationPresent(cn.sunline.ltts.apm.api.registry.base.extension.SPI.class))) {
+        	if(type.isAnnotationPresent(SPI.class)){
+        		ExtensionLoader<T> loader = ExtensionLoader.getExtensionLoader(type);
+        		if (loader.getSupportedExtensions().size() > 0) {
+                    return loader.getAdaptiveExtension();
+                }
+        	}
+        	/**
+        	 * sunline-mod  PB 20150218  兼容使用注册中心时apm-api的SPI注册机制
+        	 * */
+        	else if(type.isAnnotationPresent(cn.sunline.ltts.apm.api.registry.base.extension.SPI.class)){
+        		cn.sunline.ltts.apm.api.registry.base.extension.ExtensionLoader<T> loader = cn.sunline.ltts.apm.api.registry.base.extension.ExtensionLoader.getExtensionLoader(type);
+        		if (loader.getSupportedExtensions().size() > 0) {
+                    return loader.getAdaptiveExtension();
+                }
+        	}
+            
+            
         }
         return null;
     }

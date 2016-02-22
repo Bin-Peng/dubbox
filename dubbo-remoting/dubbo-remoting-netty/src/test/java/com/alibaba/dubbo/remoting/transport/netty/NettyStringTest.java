@@ -19,7 +19,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
 import com.alibaba.dubbo.remoting.exchange.ExchangeServer;
 import com.alibaba.dubbo.remoting.exchange.Exchangers;
@@ -38,8 +38,8 @@ public class NettyStringTest {
         //int port = (int) (1000 * Math.random() + 10000);
         int port = 10001;
         System.out.println(port);
-        server = Exchangers.bind(URL.valueOf("telnet://0.0.0.0:" + port + "?server=netty"), new TelnetServerHandler());
-        client = Exchangers.connect(URL.valueOf("telnet://127.0.0.1:" + port + "?client=netty"), new TelnetClientHandler());
+        server = Exchangers.bind(EURL.valueOf("telnet://0.0.0.0:" + port + "?server=netty"), new TelnetServerHandler());
+        client = Exchangers.connect(EURL.valueOf("telnet://127.0.0.1:" + port + "?client=netty"), new TelnetClientHandler());
     }
 
     @Test

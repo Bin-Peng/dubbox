@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.alibaba.dubbo.cache.Cache;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * LruCache
@@ -31,7 +31,7 @@ public class LruCache implements Cache {
     
     private final Map<Object, Object> store;
 
-    public LruCache(URL url) {
+    public LruCache(EURL url) {
         final int max = url.getParameter("cache.size", 1000);
         this.store = new LinkedHashMap<Object, Object>() {
             private static final long serialVersionUID = -3834209229668463829L;

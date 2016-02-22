@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -36,7 +36,7 @@ final public class MockProtocol extends AbstractProtocol {
 		throw new UnsupportedOperationException();
 	}
 
-	public <T> Invoker<T> refer(Class<T> type, URL url) throws RpcException {
+	public <T> Invoker<T> refer(Class<T> type, EURL url) throws RpcException {
 		return new MockInvoker<T>(url);
 	}
 }

@@ -24,7 +24,7 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.Codec2;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -45,13 +45,13 @@ final class MinaCodecAdapter implements ProtocolCodecFactory {
 
     private final Codec2          codec;
 
-    private final URL             url;
+    private final EURL             url;
 
     private final ChannelHandler  handler;
 
     private final int            bufferSize;
 
-    public MinaCodecAdapter(Codec2 codec, URL url, ChannelHandler handler) {
+    public MinaCodecAdapter(Codec2 codec, EURL url, ChannelHandler handler) {
         this.codec = codec;
         this.url = url;
         this.handler = handler;

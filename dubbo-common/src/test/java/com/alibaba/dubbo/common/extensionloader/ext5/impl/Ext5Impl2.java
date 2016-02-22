@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext5.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extensionloader.ext5.NoAdaptiveMethodExt;
 
 /**
@@ -23,7 +23,7 @@ import com.alibaba.dubbo.common.extensionloader.ext5.NoAdaptiveMethodExt;
  *
  */
 public class Ext5Impl2 implements NoAdaptiveMethodExt {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         return "Ext5Impl2-echo";
     }
 }

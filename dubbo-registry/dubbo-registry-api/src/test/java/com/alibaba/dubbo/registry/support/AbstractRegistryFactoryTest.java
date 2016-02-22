@@ -21,10 +21,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.registry.NotifyListener;
 import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.RegistryFactory;
 import com.alibaba.dubbo.registry.RegistryFactory;
 import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
@@ -38,10 +39,10 @@ public class AbstractRegistryFactoryTest {
     private RegistryFactory registryFactory = new AbstractRegistryFactory() {
         
         @Override
-        protected Registry createRegistry(final URL url) {
+        protected Registry createRegistry(final EURL url) {
             return new Registry() {
 
-                public URL getUrl() {
+                public EURL getUrl() {
                     return url;
                 }
 
@@ -52,19 +53,19 @@ public class AbstractRegistryFactoryTest {
                 public void destroy() {
                 }
 
-                public void register(URL url) {
+                public void register(EURL url) {
                 }
 
-                public void unregister(URL url) {
+                public void unregister(EURL url) {
                 }
 
-                public void subscribe(URL url, NotifyListener listener) {
+                public void subscribe(EURL url, NotifyListener listener) {
                 }
 
-                public void unsubscribe(URL url, NotifyListener listener) {
+                public void unsubscribe(EURL url, NotifyListener listener) {
                 }
 
-                public List<URL> lookup(URL url) {
+                public List<EURL> lookup(EURL url) {
                     return null;
                 }
                 
@@ -74,7 +75,7 @@ public class AbstractRegistryFactoryTest {
     
     @Test
     public void testRegistryFactoryCache() throws Exception {
-        URL url = URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233");
+        EURL url = EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233");
         Registry registry1 = registryFactory.getRegistry(url);
         Registry registry2 = registryFactory.getRegistry(url);
         Assert.assertEquals(registry1, registry2);
@@ -82,15 +83,15 @@ public class AbstractRegistryFactoryTest {
     
     @Test
     public void testRegistryFactoryIpCache() throws Exception {
-        Registry registry1 = registryFactory.getRegistry(URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostName() + ":2233"));
-        Registry registry2 = registryFactory.getRegistry(URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233"));
+        Registry registry1 = registryFactory.getRegistry(EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostName() + ":2233"));
+        Registry registry2 = registryFactory.getRegistry(EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233"));
         Assert.assertEquals(registry1, registry2);
     }
 
     @Test
     public void testRegistryFactoryGroupCache() throws Exception {
-        Registry registry1 = registryFactory.getRegistry(URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=aaa"));
-        Registry registry2 = registryFactory.getRegistry(URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=bbb"));
+        Registry registry1 = registryFactory.getRegistry(EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=aaa"));
+        Registry registry2 = registryFactory.getRegistry(EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=bbb"));
         Assert.assertNotSame(registry1, registry2);
     }
 

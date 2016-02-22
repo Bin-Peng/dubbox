@@ -22,7 +22,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.Server;
 import com.alibaba.dubbo.remoting.exchange.ExchangeChannel;
@@ -39,14 +39,14 @@ public class NettyClientTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        server = Exchangers.bind(URL.valueOf("exchange://localhost:10001?server=netty"), new TelnetServerHandler());
+        server = Exchangers.bind(EURL.valueOf("exchange://localhost:10001?server=netty"), new TelnetServerHandler());
     }
 
     @Test
     public void testClientClose() throws Exception {
         List<ExchangeChannel> clients = new ArrayList<ExchangeChannel>(100);
         for (int i = 0; i < 100; i++) {
-            ExchangeChannel client = Exchangers.connect(URL.valueOf("exchange://localhost:10001?client=netty"));
+            ExchangeChannel client = Exchangers.connect(EURL.valueOf("exchange://localhost:10001?client=netty"));
             Thread.sleep(5);
             clients.add(client);
         }
@@ -59,7 +59,7 @@ public class NettyClientTest {
     @Test
     public void testServerClose() throws Exception {
         for (int i = 0; i < 100; i++) {
-            Server aServer = Exchangers.bind(URL.valueOf("exchange://localhost:" + (5000 + i) + "?client=netty"), new TelnetServerHandler());
+            Server aServer = Exchangers.bind(EURL.valueOf("exchange://localhost:" + (5000 + i) + "?client=netty"), new TelnetServerHandler());
             aServer.close();
         }
     }
@@ -73,7 +73,7 @@ public class NettyClientTest {
     }
     
     public static void main(String[] args) throws RemotingException, InterruptedException {
-    	ExchangeChannel client = Exchangers.connect(URL.valueOf("exchange://10.20.153.10:20880?client=netty&heartbeat=1000"));
+    	ExchangeChannel client = Exchangers.connect(EURL.valueOf("exchange://10.20.153.10:20880?client=netty&heartbeat=1000"));
     	Thread.sleep(60*1000*50);
 	}
 }

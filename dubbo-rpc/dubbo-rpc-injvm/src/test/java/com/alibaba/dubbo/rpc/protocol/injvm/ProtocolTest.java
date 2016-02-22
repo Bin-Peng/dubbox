@@ -21,7 +21,7 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Protocol;
@@ -40,7 +40,7 @@ public class ProtocolTest {
     
     ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension("javassist");
     
-    URL url = URL.valueOf("injvm://localhost:0/com.alibaba.dubbo.rpc.support.IEcho?interface=com.alibaba.dubbo.rpc.support.IEcho");
+    EURL url = EURL.valueOf("injvm://localhost:0/com.alibaba.dubbo.rpc.support.IEcho?interface=com.alibaba.dubbo.rpc.support.IEcho");
     
     Invoker<IEcho> invoker = proxyFactory.getInvoker(echo, IEcho.class, url);
     

@@ -14,7 +14,7 @@
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.AtomicPositiveInteger;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.TimeoutException;
@@ -44,11 +44,11 @@ public class ThriftInvoker<T> extends AbstractInvoker<T> {
     
     private final Set<Invoker<?>> invokers;
 
-    public ThriftInvoker( Class<T> service, URL url, ExchangeClient[] clients ) {
+    public ThriftInvoker( Class<T> service, EURL url, ExchangeClient[] clients ) {
         this(service, url, clients, null);
     }
 
-    public ThriftInvoker(Class<T> type, URL url, ExchangeClient[] clients, Set<Invoker<?>> invokers) {
+    public ThriftInvoker(Class<T> type, EURL url, ExchangeClient[] clients, Set<Invoker<?>> invokers) {
         super(type, url,
               new String[]{Constants.INTERFACE_KEY, Constants.GROUP_KEY,
                       Constants.TOKEN_KEY, Constants.TIMEOUT_KEY});

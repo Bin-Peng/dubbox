@@ -27,7 +27,7 @@ import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.rubyeye.xmemcached.utils.AddrUtil;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -54,7 +54,7 @@ public class MemcachedProtocol extends AbstractProtocol {
         throw new UnsupportedOperationException("Unsupported export memcached service. url: " + invoker.getUrl());
     }
 
-    public <T> Invoker<T> refer(final Class<T> type, final URL url) throws RpcException {
+    public <T> Invoker<T> refer(final Class<T> type, final EURL url) throws RpcException {
         try {
             String address = url.getAddress();
             String backup = url.getParameter(Constants.BACKUP_KEY);

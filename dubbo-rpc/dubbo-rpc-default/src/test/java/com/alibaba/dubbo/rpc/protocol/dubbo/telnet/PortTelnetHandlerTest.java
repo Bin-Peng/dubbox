@@ -24,7 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -51,7 +51,7 @@ public class PortTelnetHandlerTest {
     public void before() {
         mockInvoker = EasyMock.createMock(Invoker.class);
         EasyMock.expect(mockInvoker.getInterface()).andReturn(DemoService.class).anyTimes();
-        EasyMock.expect(mockInvoker.getUrl()).andReturn(URL.valueOf("dubbo://127.0.0.1:20887/demo")).anyTimes();
+        EasyMock.expect(mockInvoker.getUrl()).andReturn(EURL.valueOf("dubbo://127.0.0.1:20887/demo")).anyTimes();
         EasyMock.replay(mockInvoker);
         DubboProtocol.getDubboProtocol().export(mockInvoker);
     }

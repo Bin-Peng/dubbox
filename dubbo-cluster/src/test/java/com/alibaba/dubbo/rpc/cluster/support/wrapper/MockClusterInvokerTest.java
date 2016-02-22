@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -38,10 +38,10 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerInvoke_normal(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
 		url = url.addParameter(Constants.MOCK_KEY, "fail" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
-        URL mockUrl = URL.valueOf("mock://localhost/"+IHelloService.class.getName()
+        EURL mockUrl = EURL.valueOf("mock://localhost/"+IHelloService.class.getName()
 				+"?getSomething.mock=return aa");
 		
 		Protocol protocol = new MockProtocol();
@@ -66,11 +66,11 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerInvoke_failmock(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter(Constants.MOCK_KEY, "fail:return null" )
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
-        URL mockUrl = URL.valueOf("mock://localhost/"+IHelloService.class.getName()
+        EURL mockUrl = EURL.valueOf("mock://localhost/"+IHelloService.class.getName()
 				+"?getSomething.mock=return aa").addParameters(url.getParameters());
 		
 		Protocol protocol = new MockProtocol();
@@ -102,10 +102,10 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerInvoke_forcemock(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
 		url = url.addParameter(Constants.MOCK_KEY, "force:return null" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
-	    URL mockUrl = URL.valueOf("mock://localhost/"+IHelloService.class.getName()
+	    EURL mockUrl = EURL.valueOf("mock://localhost/"+IHelloService.class.getName()
 				+"?getSomething.mock=return aa&getSomething3xx.mock=return xx")
 				.addParameters(url.getParameters());
 		
@@ -134,10 +134,10 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerInvoke_forcemock_defaultreturn(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName());
 		url = url.addParameter(Constants.MOCK_KEY, "force" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
-	    URL mockUrl = URL.valueOf("mock://localhost/"+IHelloService.class.getName()
+	    EURL mockUrl = EURL.valueOf("mock://localhost/"+IHelloService.class.getName()
 				+"?getSomething.mock=return aa&getSomething3xx.mock=return xx&sayHello.mock=return ")
 				.addParameters(url.getParameters());
 		
@@ -156,7 +156,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_someMethods(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getSomething.mock","fail:return x")
 				.addParameter("getSomething2.mock","force:return y");
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -190,7 +190,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_WithOutDefault(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getSomething.mock","fail:return x")
 				.addParameter("getSomething2.mock","force:return y")
 				.addParameter("invoke_return_error", "true" );
@@ -223,7 +223,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_WithDefault(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","fail:return null")
 				.addParameter("getSomething.mock","fail:return x")
 				.addParameter("getSomething2.mock","force:return y")
@@ -259,7 +259,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_WithFailDefault(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","fail:return z")
 				.addParameter("getSomething.mock","fail:return x")
 				.addParameter("getSomething2.mock","force:return y")
@@ -295,7 +295,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_WithForceDefault(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","force:return z")
 				.addParameter("getSomething.mock","fail:return x")
 				.addParameter("getSomething2.mock","force:return y")
@@ -331,7 +331,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_Fock_Default(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","fail:return x")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -360,7 +360,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_checkCompatible_return(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getSomething.mock","return x")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -386,7 +386,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_checkCompatible_ImplMock(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","true")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -402,7 +402,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_checkCompatible_ImplMock2(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","fail")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -417,7 +417,7 @@ public class MockClusterInvokerTest {
 	 */
 	@Test
 	public void testMockInvokerFromOverride_Invoke_checkCompatible_ImplMock3(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","force");
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
 		//方法配置了mock
@@ -429,7 +429,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_String(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getSomething.mock","force:return 1688")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -443,7 +443,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_int(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getInt1.mock","force:return 1688")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -457,7 +457,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_boolean(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getBoolean1.mock","force:return true")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -471,7 +471,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_Boolean(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getBoolean2.mock","force:return true")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -485,7 +485,7 @@ public class MockClusterInvokerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_ListString_empty(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getListString.mock","force:return empty")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -499,7 +499,7 @@ public class MockClusterInvokerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_ListString(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getListString.mock","force:return [\"hi\",\"hi2\"]")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -515,7 +515,7 @@ public class MockClusterInvokerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_ListPojo_empty(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getUsers.mock","force:return empty")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -529,7 +529,7 @@ public class MockClusterInvokerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_ListPojo(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getUsers.mock","force:return [{id:1, name:\"hi1\"}, {id:2, name:\"hi2\"}]")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -545,7 +545,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_check_ListPojo_error(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getUsers.mock","force:return [{id:x, name:\"hi1\"}]")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -560,7 +560,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_force_throw(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getBoolean2.mock","force:throw ")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -577,7 +577,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_force_throwCustemException() throws Throwable{
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getBoolean2.mock","force:throw com.alibaba.dubbo.rpc.cluster.support.wrapper.MyMockException")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -594,7 +594,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_force_throwCustemExceptionNotFound(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("getBoolean2.mock","force:throw java.lang.RuntimeException2")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -611,7 +611,7 @@ public class MockClusterInvokerTest {
 	
 	@Test
 	public void testMockInvokerFromOverride_Invoke_mock_false(){
-		URL url = URL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
+		EURL url = EURL.valueOf("remote://1.2.3.4/"+IHelloService.class.getName())
 				.addParameter("mock","false")
 				.addParameter("invoke_return_error", "true" );
 		Invoker<IHelloService> cluster = getClusterInvoker(url);        
@@ -627,9 +627,9 @@ public class MockClusterInvokerTest {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Invoker<IHelloService> getClusterInvoker(URL url){
+	private Invoker<IHelloService> getClusterInvoker(EURL url){
 		//javasssit方式对方法参数类型判断严格,如果invocation数据设置不全，调用会失败.
-		final URL durl = url.addParameter("proxy", "jdk");
+		final EURL durl = url.addParameter("proxy", "jdk");
 		invokers.clear();
 		ProxyFactory proxy = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension("jdk");
 		Invoker<IHelloService> invoker1 = proxy.getInvoker(new HelloService(), IHelloService.class, durl);

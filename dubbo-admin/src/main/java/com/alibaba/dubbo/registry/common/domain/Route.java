@@ -18,7 +18,7 @@ package com.alibaba.dubbo.registry.common.domain;
 import java.util.List;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * Route
@@ -190,7 +190,7 @@ public class Route extends Entity {
 				+ ", username=" + username + ", enabled=" + enabled + "]";
 	}
 
-	public URL toUrl() {
+	public EURL toUrl() {
 	    String group = null;
         String version = null;
         String path = service;
@@ -204,10 +204,10 @@ public class Route extends Entity {
             version = path.substring(i + 1);
             path = path.substring(0, i);
         }
-	    return URL.valueOf(Constants.ROUTE_PROTOCOL + "://" + Constants.ANYHOST_VALUE + "/" + path 
+	    return EURL.valueOf(Constants.ROUTE_PROTOCOL + "://" + Constants.ANYHOST_VALUE + "/" + path 
 	            + "?" + Constants.CATEGORY_KEY + "=" + Constants.ROUTERS_CATEGORY 
 	            + "&router=condition&runtime=false&enabled=" + isEnabled() + "&priority=" + getPriority() + "&force=" + isForce() + "&dynamic=false"
-	            + "&name=" + getName() + "&" + Constants.RULE_KEY + "=" + URL.encode(getMatchRule() + " => " + getFilterRule())
+	            + "&name=" + getName() + "&" + Constants.RULE_KEY + "=" + EURL.encode(getMatchRule() + " => " + getFilterRule())
 	            + (group == null ? "" : "&" + Constants.GROUP_KEY + "=" + group)
 	            + (version == null ? "" : "&" + Constants.VERSION_KEY + "=" + version));
 	}

@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.remoting.exchange;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.SPI;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -41,7 +41,7 @@ public interface Exchanger {
      * @return message server
      */
     @Adaptive({Constants.EXCHANGER_KEY})
-    ExchangeServer bind(URL url, ExchangeHandler handler) throws RemotingException;
+    ExchangeServer bind(EURL url, ExchangeHandler handler) throws RemotingException;
 
     /**
      * connect.
@@ -51,6 +51,6 @@ public interface Exchanger {
      * @return message channel
      */
     @Adaptive({Constants.EXCHANGER_KEY})
-    ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException;
+    ExchangeClient connect(EURL url, ExchangeHandler handler) throws RemotingException;
 
 }

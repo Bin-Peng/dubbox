@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.dubbo.cache.Cache;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * ThreadLocalCache
@@ -30,7 +30,7 @@ public class ThreadLocalCache implements Cache {
 
     private final ThreadLocal<Map<Object, Object>> store;
 
-    public ThreadLocalCache(URL url) {
+    public ThreadLocalCache(EURL url) {
         this.store = new ThreadLocal<Map<Object, Object>>() {
             @Override
             protected Map<Object, Object> initialValue() {

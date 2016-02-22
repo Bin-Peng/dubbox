@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
 import com.alibaba.dubbo.monitor.MonitorService;
@@ -37,7 +37,7 @@ import com.alibaba.dubbo.monitor.simple.SimpleMonitorService;
  */
 public class StatisticsPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String service = url.getParameter("service");
         if (service == null || service.length() == 0) {
             throw new IllegalArgumentException("Please input service parameter.");

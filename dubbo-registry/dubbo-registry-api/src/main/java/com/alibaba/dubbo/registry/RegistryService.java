@@ -17,7 +17,7 @@ package com.alibaba.dubbo.registry;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * RegistryService. (SPI, Prototype, ThreadSafe)
@@ -40,7 +40,7 @@ public interface RegistryService {
      * 
      * @param url 注册信息，不允许为空，如：dubbo://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
      */
-    void register(URL url);
+    void register(EURL url);
 
     /**
      * 取消注册.
@@ -51,7 +51,7 @@ public interface RegistryService {
      * 
      * @param url 注册信息，不允许为空，如：dubbo://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
      */
-    void unregister(URL url);
+    void unregister(EURL url);
 
     /**
      * 订阅符合条件的已注册数据，当有注册数据变更时自动推送.
@@ -68,7 +68,7 @@ public interface RegistryService {
      * @param url 订阅条件，不允许为空，如：consumer://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
      * @param listener 变更事件监听器，不允许为空
      */
-    void subscribe(URL url, NotifyListener listener);
+    void subscribe(EURL url, NotifyListener listener);
 
     /**
      * 取消订阅.
@@ -80,7 +80,7 @@ public interface RegistryService {
      * @param url 订阅条件，不允许为空，如：consumer://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
      * @param listener 变更事件监听器，不允许为空
      */
-    void unsubscribe(URL url, NotifyListener listener);
+    void unsubscribe(EURL url, NotifyListener listener);
 
     /**
      * 查询符合条件的已注册数据，与订阅的推模式相对应，这里为拉模式，只返回一次结果。
@@ -89,6 +89,6 @@ public interface RegistryService {
      * @param url 查询条件，不允许为空，如：consumer://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
      * @return 已注册信息列表，可能为空，含义同{@link com.alibaba.dubbo.registry.NotifyListener#notify(List<URL>)}的参数。
      */
-    List<URL> lookup(URL url);
+    List<EURL> lookup(EURL url);
 
 }

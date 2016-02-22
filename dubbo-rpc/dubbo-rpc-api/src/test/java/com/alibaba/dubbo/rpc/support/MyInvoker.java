@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc.support;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -29,16 +29,16 @@ import com.alibaba.dubbo.rpc.RpcResult;
  */
 public class MyInvoker<T> implements Invoker<T> {
 
-    URL      url;
+    EURL      url;
     Class<T> type;
     boolean  hasException = false;
 
-    public MyInvoker(URL url){
+    public MyInvoker(EURL url){
         this.url = url;
         type = (Class<T>) DemoService.class;
     }
 
-    public MyInvoker(URL url, boolean hasException){
+    public MyInvoker(EURL url, boolean hasException){
         this.url = url;
         type = (Class<T>) DemoService.class;
         this.hasException = hasException;
@@ -48,7 +48,7 @@ public class MyInvoker<T> implements Invoker<T> {
         return type;
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

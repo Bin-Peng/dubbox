@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.LogUtil;
 import com.alibaba.dubbo.rpc.Filter;
 import com.alibaba.dubbo.rpc.Invocation;
@@ -50,7 +50,7 @@ public class AccessLogFilterTest {
     // TODO how to assert thread action
     @Test
     public void testDefault() {
-        URL url = URL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1");
+        EURL url = EURL.valueOf("test://test:11/test?accesslog=true&group=dubbo&version=1.1");
         Invoker<AccessLogFilterTest> invoker = new MyInvoker<AccessLogFilterTest>(url);
         Invocation invocation = new MockInvocation();
         accessLogFilter.invoke(invoker, invocation);
@@ -58,7 +58,7 @@ public class AccessLogFilterTest {
 
     @Test
     public void testCustom() {
-        URL url = URL.valueOf("test://test:11/test?accesslog=alibaba");
+        EURL url = EURL.valueOf("test://test:11/test?accesslog=alibaba");
         Invoker<AccessLogFilterTest> invoker = new MyInvoker<AccessLogFilterTest>(url);
         Invocation invocation = new MockInvocation();
         accessLogFilter.invoke(invoker, invocation);

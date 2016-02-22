@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.Version;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.transport.ChannelHandlerAdapter;
@@ -29,10 +29,10 @@ import com.alibaba.dubbo.remoting.transport.ChannelHandlerDispatcher;
 public class Transporters {
 
     public static Server bind(String url, ChannelHandler... handler) throws RemotingException {
-        return bind(URL.valueOf(url), handler);
+        return bind(EURL.valueOf(url), handler);
     }
 
-    public static Server bind(URL url, ChannelHandler... handlers) throws RemotingException {
+    public static Server bind(EURL url, ChannelHandler... handlers) throws RemotingException {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -49,10 +49,10 @@ public class Transporters {
     }
 
     public static Client connect(String url, ChannelHandler... handler) throws RemotingException {
-        return connect(URL.valueOf(url), handler);
+        return connect(EURL.valueOf(url), handler);
     }
 
-    public static Client connect(URL url, ChannelHandler... handlers) throws RemotingException {
+    public static Client connect(EURL url, ChannelHandler... handlers) throws RemotingException {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }

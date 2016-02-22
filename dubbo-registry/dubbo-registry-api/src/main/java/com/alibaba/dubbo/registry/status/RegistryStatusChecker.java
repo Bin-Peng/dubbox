@@ -20,7 +20,8 @@ import java.util.Collection;
 import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.common.status.Status;
 import com.alibaba.dubbo.common.status.StatusChecker;
-import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
 /**
@@ -42,7 +43,7 @@ public class RegistryStatusChecker implements StatusChecker {
             if (buf.length() > 0) {
                 buf.append(",");
             }
-            buf.append(registry.getUrl().getAddress());
+            buf.append(registry.getEurl().getAddress());
             if (! registry.isAvailable()) {
                 level = Status.Level.ERROR;
                 buf.append("(disconnected)");

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.registry.common.registry.ConvertUtil;
 
 /**
@@ -182,7 +182,7 @@ public class Provider extends Entity {
 		this.overrides = overrides;
 	}
 
-    public URL toUrl() {
+    public EURL toUrl() {
         Map<String, String> serviceName2Map = ConvertUtil.serviceName2Map(getService());
         /*if(!serviceName2Map.containsKey(Constants.INTERFACE_KEY)) {
             throw new IllegalArgumentException("No interface info");
@@ -192,7 +192,7 @@ public class Provider extends Entity {
         }*/
     
         String u = getUrl();
-        URL url = URL.valueOf(u + "?" + getParameters());
+        EURL url = EURL.valueOf(u + "?" + getParameters());
         
         url = url.addParameters(serviceName2Map);
         

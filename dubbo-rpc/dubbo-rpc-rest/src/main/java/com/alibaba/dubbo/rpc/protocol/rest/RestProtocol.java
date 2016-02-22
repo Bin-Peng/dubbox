@@ -16,7 +16,7 @@
 package com.alibaba.dubbo.rpc.protocol.rest;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.remoting.http.HttpBinder;
 import com.alibaba.dubbo.remoting.http.servlet.BootstrapListener;
@@ -80,7 +80,7 @@ public class RestProtocol extends AbstractProxyProtocol {
         return DEFAULT_PORT;
     }
 
-    protected <T> Runnable doExport(T impl, Class<T> type, URL url) throws RpcException {
+    protected <T> Runnable doExport(T impl, Class<T> type, EURL url) throws RpcException {
         String addr = url.getIp() + ":" + url.getPort();
         Class implClass = ServiceClassHolder.getInstance().popServiceClass();
         RestServer server = servers.get(addr);
@@ -125,7 +125,7 @@ public class RestProtocol extends AbstractProxyProtocol {
         };
     }
 
-    protected <T> T doRefer(Class<T> serviceType, URL url) throws RpcException {
+    protected <T> T doRefer(Class<T> serviceType, EURL url) throws RpcException {
         if (connectionMonitor == null) {
             connectionMonitor = new ConnectionMonitor();
         }
@@ -224,7 +224,7 @@ public class RestProtocol extends AbstractProxyProtocol {
         clients.clear();
     }
 
-    protected String getContextPath(URL url) {
+    protected String getContextPath(EURL url) {
         int pos = url.getPath().lastIndexOf("/");
         return pos > 0 ? url.getPath().substring(0, pos) : "";
     }

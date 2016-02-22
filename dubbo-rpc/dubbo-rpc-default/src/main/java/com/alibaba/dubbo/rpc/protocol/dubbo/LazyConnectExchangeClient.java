@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.Parameters;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NetUtils;
@@ -43,7 +43,7 @@ final class LazyConnectExchangeClient implements ExchangeClient{
 
     private final static Logger logger = LoggerFactory.getLogger(LazyConnectExchangeClient.class); 
 
-    private final URL                     url;
+    private final EURL                     url;
     private final ExchangeHandler         requestHandler;
     private volatile ExchangeClient       client;
     private final Lock                    connectLock = new ReentrantLock();
@@ -57,7 +57,7 @@ final class LazyConnectExchangeClient implements ExchangeClient{
     
     private AtomicLong warningcount = new AtomicLong(0);
     
-    public LazyConnectExchangeClient(URL url, ExchangeHandler requestHandler) {
+    public LazyConnectExchangeClient(EURL url, ExchangeHandler requestHandler) {
         //lazy connect ,need set send.reconnect = true, to avoid channel bad status. 
         this.url = url.addParameter(Constants.SEND_RECONNECT_KEY, Boolean.TRUE.toString());
         this.requestHandler = requestHandler;
@@ -88,7 +88,7 @@ final class LazyConnectExchangeClient implements ExchangeClient{
         return client.request(request);
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 
@@ -170,7 +170,7 @@ final class LazyConnectExchangeClient implements ExchangeClient{
             client.close(timeout);
     }
 
-    public void reset(URL url) {
+    public void reset(EURL url) {
         checkClient();
         client.reset(url);
     }

@@ -21,7 +21,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.monitor.Monitor;
 import com.alibaba.dubbo.monitor.MonitorFactory;
@@ -35,10 +35,10 @@ public class AbstractMonitorFactoryTest {
     
     private MonitorFactory monitorFactory = new AbstractMonitorFactory() {
         
-        protected Monitor createMonitor(final URL url) {
+        protected Monitor createMonitor(final EURL url) {
             return new Monitor() {
 
-				public URL getUrl() {
+				public EURL getUrl() {
 					return url;
 				}
 
@@ -49,10 +49,10 @@ public class AbstractMonitorFactoryTest {
                 public void destroy() {
                 }
                 
-				public void collect(URL statistics) {
+				public void collect(EURL statistics) {
 				}
 
-				public List<URL> lookup(URL query) {
+				public List<EURL> lookup(EURL query) {
 					return null;
 				}
                 
@@ -62,7 +62,7 @@ public class AbstractMonitorFactoryTest {
     
     @Test
     public void testMonitorFactoryCache() throws Exception {
-        URL url = URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233");
+        EURL url = EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233");
         Monitor monitor1 = monitorFactory.getMonitor(url);
         Monitor monitor2 = monitorFactory.getMonitor(url);
         Assert.assertEquals(monitor1, monitor2);
@@ -70,15 +70,15 @@ public class AbstractMonitorFactoryTest {
     
     @Test
     public void testMonitorFactoryIpCache() throws Exception {
-        Monitor monitor1 = monitorFactory.getMonitor(URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostName() + ":2233"));
-        Monitor monitor2 = monitorFactory.getMonitor(URL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233"));
+        Monitor monitor1 = monitorFactory.getMonitor(EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostName() + ":2233"));
+        Monitor monitor2 = monitorFactory.getMonitor(EURL.valueOf("dubbo://" + NetUtils.getLocalAddress().getHostAddress() + ":2233"));
         Assert.assertEquals(monitor1, monitor2);
     }
 
     @Test
     public void testMonitorFactoryGroupCache() throws Exception {
-        Monitor monitor1 = monitorFactory.getMonitor(URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=aaa"));
-        Monitor monitor2 = monitorFactory.getMonitor(URL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=bbb"));
+        Monitor monitor1 = monitorFactory.getMonitor(EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=aaa"));
+        Monitor monitor2 = monitorFactory.getMonitor(EURL.valueOf("dubbo://" + NetUtils.getLocalHost() + ":2233?group=bbb"));
         Assert.assertNotSame(monitor1, monitor2);
     }
 

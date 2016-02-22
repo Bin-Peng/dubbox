@@ -26,7 +26,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
@@ -41,11 +41,11 @@ public class NettyHandler extends SimpleChannelHandler {
 
     private final Map<String, Channel> channels = new ConcurrentHashMap<String, Channel>(); // <ip:port, channel>
     
-    private final URL url;
+    private final EURL url;
     
     private final ChannelHandler handler;
     
-    public NettyHandler(URL url, ChannelHandler handler){
+    public NettyHandler(EURL url, ChannelHandler handler){
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }

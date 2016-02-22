@@ -40,7 +40,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.NamedThreadFactory;
@@ -80,7 +80,7 @@ public class RedisRegistry extends FailbackRegistry {
     
     private boolean replicate;
 
-    public RedisRegistry(URL url) {
+    public RedisRegistry(EURL url) {
         super(url);
         if (url.isAnyHost()) {
     		throw new IllegalStateException("registry address == null");
@@ -159,7 +159,7 @@ public class RedisRegistry extends FailbackRegistry {
             try {
                 Jedis jedis = jedisPool.getResource();
                 try {
-                    for (URL url : new HashSet<URL>(getRegistered())) {
+                    for (EURL url : new HashSet<EURL>(getRegistered())) {
                         if (url.getParameter(Constants.DYNAMIC_KEY, true)) {
                             String key = toCategoryPath(url);
                             if (jedis.hset(key, url.toFullString(), String.valueOf(System.currentTimeMillis() + expirePeriod)) == 1) {
@@ -192,7 +192,7 @@ public class RedisRegistry extends FailbackRegistry {
                     boolean delete = false;
                     long now = System.currentTimeMillis();
                     for (Map.Entry<String, String> entry : values.entrySet()) {
-                        URL url = URL.valueOf(entry.getKey());
+                        EURL url = EURL.valueOf(entry.getKey());
                         if (url.getParameter(Constants.DYNAMIC_KEY, true)) {
                             long expire = Long.parseLong(entry.getValue());
                             if (expire < now) {
@@ -255,7 +255,7 @@ public class RedisRegistry extends FailbackRegistry {
     }
 
     @Override
-    public void doRegister(URL url) {
+    public void doRegister(EURL url) {
         String key = toCategoryPath(url);
         String value = url.toFullString();
         String expire = String.valueOf(System.currentTimeMillis() + expirePeriod);
@@ -289,7 +289,7 @@ public class RedisRegistry extends FailbackRegistry {
     }
 
     @Override
-    public void doUnregister(URL url) {
+    public void doUnregister(EURL url) {
         String key = toCategoryPath(url);
         String value = url.toFullString();
         RpcException exception = null;
@@ -322,7 +322,7 @@ public class RedisRegistry extends FailbackRegistry {
     }
     
     @Override
-    public void doSubscribe(final URL url, final NotifyListener listener) {
+    public void doSubscribe(final EURL url, final NotifyListener listener) {
         String service = toServicePath(url);
         Notifier notifier = notifiers.get(service);
         if (notifier == null) {
@@ -380,22 +380,22 @@ public class RedisRegistry extends FailbackRegistry {
     }
 
     @Override
-    public void doUnsubscribe(URL url, NotifyListener listener) {
+    public void doUnsubscribe(EURL url, NotifyListener listener) {
     }
 
     private void doNotify(Jedis jedis, String key) {
-        for (Map.Entry<URL, Set<NotifyListener>> entry : new HashMap<URL, Set<NotifyListener>>(getSubscribed()).entrySet()) {
+        for (Map.Entry<EURL, Set<NotifyListener>> entry : new HashMap<EURL, Set<NotifyListener>>(getSubscribed()).entrySet()) {
             doNotify(jedis, Arrays.asList(key), entry.getKey(), new HashSet<NotifyListener>(entry.getValue()));
         }
     }
 
-    private void doNotify(Jedis jedis, Collection<String> keys, URL url, Collection<NotifyListener> listeners) {
+    private void doNotify(Jedis jedis, Collection<String> keys, EURL url, Collection<NotifyListener> listeners) {
         if (keys == null || keys.size() == 0
                 || listeners == null || listeners.size() == 0) {
             return;
         }
         long now = System.currentTimeMillis();
-        List<URL> result = new ArrayList<URL>();
+        List<EURL> result = new ArrayList<EURL>();
         List<String> categories = Arrays.asList(url.getParameter(Constants.CATEGORY_KEY, new String[0]));
         String consumerService = url.getServiceInterface();
         for (String key : keys) {
@@ -409,11 +409,11 @@ public class RedisRegistry extends FailbackRegistry {
             if (! categories.contains(Constants.ANY_VALUE) && ! categories.contains(category)) {
                 continue;
             }
-            List<URL> urls = new ArrayList<URL>();
+            List<EURL> urls = new ArrayList<EURL>();
             Map<String, String> values = jedis.hgetAll(key);
             if (values != null && values.size() > 0) {
                 for (Map.Entry<String, String> entry : values.entrySet()) {
-                    URL u = URL.valueOf(entry.getKey());
+                    EURL u = EURL.valueOf(entry.getKey());
                     if (! u.getParameter(Constants.DYNAMIC_KEY, true)
                             || Long.parseLong(entry.getValue()) >= now) {
                         if (UrlUtils.isMatch(url, u)) {
@@ -461,11 +461,11 @@ public class RedisRegistry extends FailbackRegistry {
         return i > 0 ? categoryPath.substring(0, i) : categoryPath;
     }
 
-    private String toServicePath(URL url) {
+    private String toServicePath(EURL url) {
         return root + url.getServiceInterface();
     }
 
-    private String toCategoryPath(URL url) {
+    private String toCategoryPath(EURL url) {
         return toServicePath(url) + Constants.PATH_SEPARATOR + url.getParameter(Constants.CATEGORY_KEY, Constants.DEFAULT_CATEGORY);
     }
 

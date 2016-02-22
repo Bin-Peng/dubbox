@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
@@ -203,7 +203,7 @@ public class MergeableClusterInvoker<T> implements Invoker<T> {
         return directory.getInterface();
     }
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return directory.getUrl();
     }
 

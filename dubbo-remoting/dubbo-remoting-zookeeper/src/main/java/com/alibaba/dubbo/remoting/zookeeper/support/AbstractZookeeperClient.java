@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.zookeeper.ChildListener;
@@ -17,7 +17,7 @@ public abstract class AbstractZookeeperClient<TargetChildListener> implements Zo
 
 	protected static final Logger logger = LoggerFactory.getLogger(AbstractZookeeperClient.class);
 
-	private final URL url;
+	private final EURL url;
 
 	private final Set<StateListener> stateListeners = new CopyOnWriteArraySet<StateListener>();
 
@@ -25,11 +25,11 @@ public abstract class AbstractZookeeperClient<TargetChildListener> implements Zo
 
 	private volatile boolean closed = false;
 
-	public AbstractZookeeperClient(URL url) {
+	public AbstractZookeeperClient(EURL url) {
 		this.url = url;
 	}
 
-	public URL getUrl() {
+	public EURL getUrl() {
 		return url;
 	}
 

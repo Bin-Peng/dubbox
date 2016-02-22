@@ -19,7 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * @author <a href="mailto:gang.lvg@alibaba-inc.com">kimi</a>
@@ -28,7 +28,7 @@ public class ClusterUtilsTest {
 
     @Test
     public void testMergeUrl() throws Exception {
-        URL providerURL = URL.valueOf("dubbo://localhost:55555");
+        EURL providerURL = EURL.valueOf("dubbo://localhost:55555");
         providerURL = providerURL.setPath("path")
             .setUsername("username")
             .setPassword("password");
@@ -49,11 +49,11 @@ public class ClusterUtilsTest {
             .addParameter(Constants.DEFAULT_KEY_PREFIX + Constants.ALIVE_KEY, Integer.MAX_VALUE)
             .addParameter(Constants.DEFAULT_KEY_PREFIX + Constants.THREAD_NAME_KEY, "test");
 
-        URL consumerURL = URL.valueOf("dubbo://localhost:55555");
+        EURL consumerURL = EURL.valueOf("dubbo://localhost:55555");
         consumerURL = consumerURL.addParameter(Constants.PID_KEY, "1234");
 	    consumerURL = consumerURL.addParameter(Constants.THREADPOOL_KEY, "foo");
 
-        URL url = ClusterUtils.mergeUrl(providerURL, consumerURL.getParameters());
+        EURL url = ClusterUtils.mergeUrl(providerURL, consumerURL.getParameters());
 
         Assert.assertFalse(url.hasParameter(Constants.THREADS_KEY));
         Assert.assertFalse(url.hasParameter(Constants.DEFAULT_KEY_PREFIX + Constants.THREADS_KEY));

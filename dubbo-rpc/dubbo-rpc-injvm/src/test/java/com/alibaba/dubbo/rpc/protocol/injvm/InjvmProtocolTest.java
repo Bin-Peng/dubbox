@@ -26,7 +26,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Protocol;
@@ -54,9 +54,9 @@ public class InjvmProtocolTest
 	public void testLocalProtocol() throws Exception
 	{
 		DemoService service = new DemoServiceImpl();
-		Exporter<?> exporter = protocol.export(proxy.getInvoker(service, DemoService.class, URL.valueOf("injvm://127.0.0.1/TestService").addParameter(Constants.INTERFACE_KEY, DemoService.class.getName())));
+		Exporter<?> exporter = protocol.export(proxy.getInvoker(service, DemoService.class, EURL.valueOf("injvm://127.0.0.1/TestService").addParameter(Constants.INTERFACE_KEY, DemoService.class.getName())));
         exporters.add(exporter);
-		service = proxy.getProxy(protocol.refer(DemoService.class, URL.valueOf("injvm://127.0.0.1/TestService").addParameter(Constants.INTERFACE_KEY, DemoService.class.getName())));
+		service = proxy.getProxy(protocol.refer(DemoService.class, EURL.valueOf("injvm://127.0.0.1/TestService").addParameter(Constants.INTERFACE_KEY, DemoService.class.getName())));
 		assertEquals(service.getSize(new String[]{"", "", ""}), 3);
 		service.invoke("injvm://127.0.0.1/TestService", "invoke");
 	}
@@ -64,7 +64,7 @@ public class InjvmProtocolTest
     @Test
     public void testIsInjvmRefer() throws Exception {
         DemoService service = new DemoServiceImpl();
-        URL url = URL.valueOf("injvm://127.0.0.1/TestService")
+        EURL url = EURL.valueOf("injvm://127.0.0.1/TestService")
             .addParameter(Constants.INTERFACE_KEY, DemoService.class.getName());
         Exporter<?> exporter = protocol.export(proxy.getInvoker(service, DemoService.class, url));
         exporters.add(exporter);

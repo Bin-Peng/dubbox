@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
@@ -33,7 +33,7 @@ import com.alibaba.dubbo.monitor.simple.RegistryContainer;
 @Menu(name = "Applications", desc = "Show application dependencies.", order = 1000)
 public class ApplicationsPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         Set<String> applications = RegistryContainer.getInstance().getApplications();
         List<List<String>> rows = new ArrayList<List<String>>();
         int providersCount = 0;
@@ -45,12 +45,12 @@ public class ApplicationsPageHandler implements PageHandler {
                 List<String> row = new ArrayList<String>();
                 row.add(application);
                 
-                List<URL> providers = RegistryContainer.getInstance().getProvidersByApplication(application);
-                List<URL> consumers = RegistryContainer.getInstance().getConsumersByApplication(application);
+                List<EURL> providers = RegistryContainer.getInstance().getProvidersByApplication(application);
+                List<EURL> consumers = RegistryContainer.getInstance().getConsumersByApplication(application);
 
                 if (providers != null && providers.size() > 0
                         || consumers != null && consumers.size() > 0) {
-                    URL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
+                    EURL provider = (providers != null && providers.size() > 0 ? providers.iterator().next() : consumers.iterator().next());
                     row.add(provider.getParameter("owner", "") + (provider.hasParameter("organization") ?  " (" + provider.getParameter("organization") + ")" : ""));
                 } else {
                     row.add("");

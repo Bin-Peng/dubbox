@@ -2,7 +2,7 @@ package com.alibaba.dubbo.remoting.zookeeper;
 
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 public interface ZookeeperClient {
 
@@ -24,6 +24,6 @@ public interface ZookeeperClient {
 
 	void close();
 
-	URL getUrl();
+	EURL getUrl();
 
 }

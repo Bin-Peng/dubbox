@@ -27,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.LogUtil;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
@@ -45,7 +45,7 @@ import com.alibaba.dubbo.rpc.cluster.filter.DemoService;
 @SuppressWarnings("unchecked")
 public class FailSafeClusterInvokerTest {
     List<Invoker<DemoService>> invokers = new ArrayList<Invoker<DemoService>>();
-    URL url = URL.valueOf("test://test:11/test");
+    EURL url = EURL.valueOf("test://test:11/test");
     Invoker<DemoService> invoker = EasyMock.createMock(Invoker.class);
     RpcInvocation invocation = new RpcInvocation();
     Directory<DemoService> dic ;

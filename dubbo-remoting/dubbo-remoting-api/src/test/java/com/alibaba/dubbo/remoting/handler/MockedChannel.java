@@ -19,7 +19,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -30,7 +30,7 @@ import com.alibaba.dubbo.remoting.RemotingException;
  */
 public class MockedChannel implements Channel {
     private boolean isClosed ; 
-    private URL url; 
+    private EURL url; 
     private ChannelHandler handler ;
     private Map <String,Object> map = new HashMap<String, Object>(); 
     
@@ -39,7 +39,7 @@ public class MockedChannel implements Channel {
     }
 
 
-    public URL getUrl() {
+    public EURL getUrl() {
         return url;
     }
 

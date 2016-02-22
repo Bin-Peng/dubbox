@@ -15,7 +15,7 @@ import org.apache.zookeeper.KeeperException.NoNodeException;
 import org.apache.zookeeper.KeeperException.NodeExistsException;
 import org.apache.zookeeper.WatchedEvent;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.zookeeper.ChildListener;
 import com.alibaba.dubbo.remoting.zookeeper.StateListener;
 import com.alibaba.dubbo.remoting.zookeeper.support.AbstractZookeeperClient;
@@ -25,7 +25,7 @@ public class CuratorZookeeperClient extends
 
 	private final CuratorFramework client;
 
-	public CuratorZookeeperClient(URL url) {
+	public CuratorZookeeperClient(EURL url) {
 		super(url);
 		Builder builder = CuratorFrameworkFactory.builder()
 				.connectString(url.getBackupAddress())

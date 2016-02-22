@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.container.page.Menu;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
-import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 import com.alibaba.dubbo.registry.support.AbstractRegistry;
 import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
@@ -36,14 +37,14 @@ import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 @Menu(name = "Registries", desc = "Show connected registries.", order = 10000)
 public class RegistriesPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         List<List<String>> rows = new ArrayList<List<String>>();
         Collection<Registry> registries = AbstractRegistryFactory.getRegistries();
         int registeredCount = 0;
         int subscribedCount = 0;
         if (registries != null && registries.size() > 0) {
             for (Registry registry : registries) {
-                String server = registry.getUrl().getAddress();
+                String server = registry.getEurl().getAddress();
                 List<String> row = new ArrayList<String>();
                 row.add(NetUtils.getHostName(server) + "/" + server);
                 if (registry.isAvailable()) {

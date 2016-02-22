@@ -28,7 +28,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invoker;
@@ -49,7 +49,7 @@ public class ExplicitCallbackTest {
     public void exportService(){
       //先export一个service,测试共享连接的问题
         serviceURL=serviceURL.addParameter("connections", 1);
-        URL hellourl = serviceURL.setPath(IHelloService.class.getName());
+        EURL hellourl = serviceURL.setPath(IHelloService.class.getName());
         hello_exporter = ProtocolUtils.export(new HelloServiceImpl(), IHelloService.class, hellourl);
         exporter = ProtocolUtils.export(new DemoServiceImpl(), IDemoService.class, serviceURL);
     }
@@ -57,15 +57,15 @@ public class ExplicitCallbackTest {
         demoProxy = (IDemoService)ProtocolUtils.refer(IDemoService.class, consumerUrl);
     }
 
-    protected URL serviceURL = null ;
-    protected URL consumerUrl = null ;
+    protected EURL serviceURL = null ;
+    protected EURL consumerUrl = null ;
     
     @Before
     public void setUp(){
     }
     public void initOrResetUrl(int callbacks, int timeout) throws Exception {
         int port = NetUtils.getAvailablePort() ;
-        consumerUrl = serviceURL =  URL.valueOf("dubbo://127.0.0.1:"+port+"/"+IDemoService.class.getName()+"?group=test" 
+        consumerUrl = serviceURL =  EURL.valueOf("dubbo://127.0.0.1:"+port+"/"+IDemoService.class.getName()+"?group=test" 
                 +"&xxx.0.callback=true"
                 +"&xxx2.0.callback=true"
                 +"&unxxx2.0.callback=false"

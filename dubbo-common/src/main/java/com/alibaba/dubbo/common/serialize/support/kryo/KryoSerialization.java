@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.serialize.support.kryo;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.serialize.ObjectInput;
 import com.alibaba.dubbo.common.serialize.ObjectOutput;
 import com.alibaba.dubbo.common.serialize.OptimizedSerialization;
@@ -39,11 +39,11 @@ public class KryoSerialization implements OptimizedSerialization {
         return "x-application/kryo";
     }
 
-    public ObjectOutput serialize(URL url, OutputStream out) throws IOException {
+    public ObjectOutput serialize(EURL url, OutputStream out) throws IOException {
         return new KryoObjectOutput(out);
     }
 
-    public ObjectInput deserialize(URL url, InputStream is) throws IOException {
+    public ObjectInput deserialize(EURL url, InputStream is) throws IOException {
         return new KryoObjectInput(is);
     }
 }

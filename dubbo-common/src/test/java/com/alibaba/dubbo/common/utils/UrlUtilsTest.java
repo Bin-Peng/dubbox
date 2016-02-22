@@ -30,7 +30,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 
 /**
  * @author tony.chenl
@@ -47,7 +47,7 @@ public class UrlUtilsTest {
     @Test
     public void testParseUrl() {
         String address = "remote://root:alibaba@127.0.0.1:9090/dubbo.test.api";
-        URL url = UrlUtils.parseURL(address, null);
+        EURL url = UrlUtils.parseURL(address, null);
         assertEquals(localAddress + ":9090", url.getAddress());
         assertEquals("root", url.getUsername());
         assertEquals("alibaba", url.getPassword());
@@ -59,7 +59,7 @@ public class UrlUtilsTest {
     @Test
     public void testDefaultUrl() {
         String address = "127.0.0.1";
-        URL url = UrlUtils.parseURL(address, null);
+        EURL url = UrlUtils.parseURL(address, null);
         assertEquals(localAddress + ":9090", url.getAddress());
         assertEquals(9090, url.getPort());
         assertEquals("dubbo", url.getProtocol());
@@ -79,7 +79,7 @@ public class UrlUtilsTest {
         parameters.put("path", "dubbo.test.api");
         parameters.put("aaa", "bbb");
         parameters.put("ccc", "ddd");
-        URL url = UrlUtils.parseURL(address, parameters);
+        EURL url = UrlUtils.parseURL(address, parameters);
         assertEquals(localAddress + ":10000", url.getAddress());
         assertEquals("root", url.getUsername());
         assertEquals("alibaba", url.getPassword());
@@ -101,7 +101,7 @@ public class UrlUtilsTest {
         parameters.put("password", "alibaba");
         parameters.put("port", "10000");
         parameters.put("protocol", "dubbo");
-        URL url = UrlUtils.parseURL(address + "," + backupAddress1 + "," + backupAddress2, parameters);
+        EURL url = UrlUtils.parseURL(address + "," + backupAddress1 + "," + backupAddress2, parameters);
         assertEquals(localAddress + ":10000", url.getAddress());
         assertEquals("root", url.getUsername());
         assertEquals("alibaba", url.getPassword());
@@ -118,7 +118,7 @@ public class UrlUtilsTest {
         parameters.put("password", "alibaba");
         parameters.put("port", "10000");
         parameters.put("protocol", "dubbo");
-        List<URL> urls = UrlUtils.parseURLs(addresses, parameters);
+        List<EURL> urls = UrlUtils.parseURLs(addresses, parameters);
         assertEquals(localAddress + ":10000", urls.get(0).getAddress());
         assertEquals("127.0.0.2" + ":10000", urls.get(1).getAddress());
     }
@@ -250,8 +250,8 @@ public class UrlUtilsTest {
         String service = "dubbo.test.api.HelloService";
         List<String> forbid = new ArrayList<String>();
         forbid.add(service);
-        Set<URL> subscribed = new HashSet<URL>();
-        subscribed.add(URL.valueOf("dubbo://127.0.0.1:20880/" + service + "?group=perf&version=1.0.0"));
+        Set<EURL> subscribed = new HashSet<EURL>();
+        subscribed.add(EURL.valueOf("dubbo://127.0.0.1:20880/" + service + "?group=perf&version=1.0.0"));
         List<String> newForbid = UrlUtils.revertForbid(forbid, subscribed);
         List<String> expectForbid = new ArrayList<String>();
         expectForbid.add("perf/" + service + ":1.0.0");
@@ -277,36 +277,36 @@ public class UrlUtilsTest {
 
     @Test
     public void testIsMatch() {
-        URL consumerUrl = URL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=test");
-        URL providerUrl = URL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL consumerUrl = EURL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL providerUrl = EURL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
         assertTrue(UrlUtils.isMatch(consumerUrl, providerUrl));
     }
 
     @Test
     public void testIsMatch2() {
-        URL consumerUrl = URL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=2.0.0&group=test");
-        URL providerUrl = URL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL consumerUrl = EURL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=2.0.0&group=test");
+        EURL providerUrl = EURL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
         assertFalse(UrlUtils.isMatch(consumerUrl, providerUrl));
     }
 
     @Test
     public void testIsMatch3() {
-        URL consumerUrl = URL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=aa");
-        URL providerUrl = URL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL consumerUrl = EURL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=aa");
+        EURL providerUrl = EURL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
         assertFalse(UrlUtils.isMatch(consumerUrl, providerUrl));
     }
 
     @Test
     public void testIsMatch4() {
-        URL consumerUrl = URL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=*");
-        URL providerUrl = URL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL consumerUrl = EURL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=1.0.0&group=*");
+        EURL providerUrl = EURL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
         assertTrue(UrlUtils.isMatch(consumerUrl, providerUrl));
     }
 
     @Test
     public void testIsMatch5() {
-        URL consumerUrl = URL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=*&group=test");
-        URL providerUrl = URL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
+        EURL consumerUrl = EURL.valueOf("dubbo://127.0.0.1:20880/com.xxx.XxxService?version=*&group=test");
+        EURL providerUrl = EURL.valueOf("http://127.0.0.1:8080/com.xxx.XxxService?version=1.0.0&group=test");
         assertTrue(UrlUtils.isMatch(consumerUrl, providerUrl));
     }
 
@@ -324,11 +324,11 @@ public class UrlUtilsTest {
 
     @Test
     public void testIsServiceKeyMatch() throws Exception {
-        URL url = URL.valueOf("test://127.0.0.0");
-        URL pattern = url.addParameter(Constants.GROUP_KEY, "test")
+        EURL url = EURL.valueOf("test://127.0.0.0");
+        EURL pattern = url.addParameter(Constants.GROUP_KEY, "test")
             .addParameter(Constants.INTERFACE_KEY, "test")
             .addParameter(Constants.VERSION_KEY, "test");
-        URL value = pattern;
+        EURL value = pattern;
         assertTrue(UrlUtils.isServiceKeyMatch(pattern, value));
 
         pattern = pattern.addParameter(Constants.GROUP_KEY, "*");

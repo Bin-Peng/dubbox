@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -33,8 +33,8 @@ public class ThreadNameTest {
     private NettyServer server;
     private NettyClient client;
 
-    private URL serverURL;
-    private URL clientURL;
+    private EURL serverURL;
+    private EURL clientURL;
 
     private ThreadNameVerifyHandler serverHandler;
     private ThreadNameVerifyHandler clientHandler;
@@ -42,8 +42,8 @@ public class ThreadNameTest {
     @Before
     public void before() throws Exception {
         int port = 55555;
-        serverURL = URL.valueOf("netty://localhost").setPort(port);
-        clientURL = URL.valueOf("netty://localhost").setPort(port);
+        serverURL = EURL.valueOf("netty://localhost").setPort(port);
+        clientURL = EURL.valueOf("netty://localhost").setPort(port);
 
         serverHandler = new ThreadNameVerifyHandler(String.valueOf(port), false);
         clientHandler = new ThreadNameVerifyHandler(String.valueOf(port), true);

@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.remoting.Channel;
@@ -43,11 +43,11 @@ public class ExchangeServerPeer extends ExchangeServerDelegate implements Exchan
     
     private static final Logger logger = LoggerFactory.getLogger(ExchangeServerPeer.class);
 
-    private final Map<URL, ExchangeClient> clients;
+    private final Map<EURL, ExchangeClient> clients;
 
     private final ExchangeGroup group;
     
-    public ExchangeServerPeer(ExchangeServer server, Map<URL, ExchangeClient> clients, ExchangeGroup group){
+    public ExchangeServerPeer(ExchangeServer server, Map<EURL, ExchangeClient> clients, ExchangeGroup group){
         super(server);
         this.clients = clients;
         this.group = group;
@@ -93,8 +93,8 @@ public class ExchangeServerPeer extends ExchangeServerDelegate implements Exchan
         int port = remoteAddress.getPort();
         ExchangeChannel channel = super.getExchangeChannel(remoteAddress);
         if (channel == null) {
-            for (Map.Entry<URL, ExchangeClient> entry : clients.entrySet()) {
-                URL url = entry.getKey();
+            for (Map.Entry<EURL, ExchangeClient> entry : clients.entrySet()) {
+                EURL url = entry.getKey();
                 if (url.getIp().equals(host) && url.getPort() == port) {
                     return entry.getValue();
                 }

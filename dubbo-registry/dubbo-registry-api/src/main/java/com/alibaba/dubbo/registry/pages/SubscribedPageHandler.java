@@ -20,10 +20,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.container.page.Page;
 import com.alibaba.dubbo.container.page.PageHandler;
-import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 import com.alibaba.dubbo.registry.support.AbstractRegistry;
 import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
@@ -34,7 +35,7 @@ import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
  */
 public class SubscribedPageHandler implements PageHandler {
 
-    public Page handle(URL url) {
+    public Page handle(EURL url) {
         String registryAddress = url.getParameter("registry", "");
         List<List<String>> rows = new ArrayList<List<String>>();
         Collection<Registry> registries = AbstractRegistryFactory.getRegistries();
@@ -43,11 +44,11 @@ public class SubscribedPageHandler implements PageHandler {
         if (registries != null && registries.size() > 0) {
             if (registries.size() == 1) {
                 registry = registries.iterator().next();
-                select.append(" &gt; " + registry.getUrl().getAddress());
+                select.append(" &gt; " + registry.getEurl().getAddress());
             } else {
                 select.append(" &gt; <select onchange=\"window.location.href='subscribed.html?registry=' + this.value;\">");
                 for (Registry r : registries) {
-                    String sp = r.getUrl().getAddress();
+                    String sp = r.getEurl().getAddress();
                     select.append("<option value=\">");
                     select.append(sp);
                     if (((registryAddress == null || registryAddress.length() == 0) && registry == null)
@@ -63,9 +64,9 @@ public class SubscribedPageHandler implements PageHandler {
             }
         }
         if (registry instanceof AbstractRegistry) {
-            Set<URL> services = ((AbstractRegistry) registry).getSubscribed().keySet();
+            Set<EURL> services = ((AbstractRegistry) registry).getSubscribed().keySet();
             if (services != null && services.size() > 0) {
-                for (URL u : services) {
+                for (EURL u : services) {
                     List<String> row = new ArrayList<String>();
                     row.add(u.toFullString().replace("<", "&lt;").replace(">", "&gt;"));
                     rows.add(row);

@@ -25,14 +25,14 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import com.alibaba.dubbo.remoting.RemotingException;
 import com.alibaba.dubbo.remoting.transport.dispatcher.WrappedChannelHandler;
 
 public class WrappedChannelHandlerTest {
     WrappedChannelHandler handler ;
-    URL url = URL.valueOf("test://10.20.30.40:1234");
+    EURL url = EURL.valueOf("test://10.20.30.40:1234");
 
     @Before
     public void setUp() throws Exception {

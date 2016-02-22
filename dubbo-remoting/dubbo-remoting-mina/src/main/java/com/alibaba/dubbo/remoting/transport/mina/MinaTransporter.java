@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.remoting.transport.mina;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Client;
 import com.alibaba.dubbo.remoting.RemotingException;
@@ -29,11 +29,11 @@ public class MinaTransporter implements Transporter {
     
     public static final String NAME = "mina";
 
-    public Server bind(URL url, ChannelHandler handler) throws RemotingException {
+    public Server bind(EURL url, ChannelHandler handler) throws RemotingException {
         return new MinaServer(url, handler);
     }
 
-    public Client connect(URL url, ChannelHandler handler) throws RemotingException {
+    public Client connect(EURL url, ChannelHandler handler) throws RemotingException {
         return new MinaClient(url, handler);
     }
 

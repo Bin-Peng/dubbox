@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.rpc;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 
 /**
@@ -29,18 +29,18 @@ public class ProtocolUtils {
     private static ProxyFactory proxy = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
     
     public static <T> T refer(Class<T> type, String url) {
-        return refer(type, URL.valueOf(url));
+        return refer(type, EURL.valueOf(url));
     }
     
-    public static <T> T refer(Class<T> type, URL url) {
+    public static <T> T refer(Class<T> type, EURL url) {
         return proxy.getProxy(protocol.refer(type, url));
     }
     
     public static <T> Exporter<T> export(T instance, Class<T> type, String url) {
-        return export(instance, type, URL.valueOf(url));
+        return export(instance, type, EURL.valueOf(url));
     }
     
-    public static <T> Exporter<T> export(T instance, Class<T> type, URL url) {
+    public static <T> Exporter<T> export(T instance, Class<T> type, EURL url) {
         return protocol.export(proxy.getInvoker(instance, type, url));
     }
 

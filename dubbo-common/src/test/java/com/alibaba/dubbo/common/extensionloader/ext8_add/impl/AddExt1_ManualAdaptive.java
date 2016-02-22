@@ -15,7 +15,7 @@
  */
 package com.alibaba.dubbo.common.extensionloader.ext8_add.impl;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.Adaptive;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.common.extensionloader.ext8_add.AddExt1;
@@ -25,7 +25,7 @@ import com.alibaba.dubbo.common.extensionloader.ext8_add.AddExt1;
  */
 @Adaptive
 public class AddExt1_ManualAdaptive implements AddExt1 {
-    public String echo(URL url, String s) {
+    public String echo(EURL url, String s) {
         AddExt1 addExt1 = ExtensionLoader.getExtensionLoader(AddExt1.class).getExtension(url.getParameter("add.ext1"));
         return addExt1.echo(url, s);
     }

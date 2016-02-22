@@ -16,7 +16,7 @@
 
 package com.alibaba.dubbo.remoting.transport.dispatcher;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 import com.alibaba.dubbo.remoting.ChannelHandler;
 import com.alibaba.dubbo.remoting.Dispatcher;
@@ -31,7 +31,7 @@ public class FakeChannelHandlers extends ChannelHandlers {
     }
 
     @Override
-    protected ChannelHandler wrapInternal(ChannelHandler handler, URL url) {
+    protected ChannelHandler wrapInternal(ChannelHandler handler, EURL url) {
         return ExtensionLoader.getExtensionLoader(Dispatcher.class)
             .getAdaptiveExtension().dispatch(handler, url);
     }

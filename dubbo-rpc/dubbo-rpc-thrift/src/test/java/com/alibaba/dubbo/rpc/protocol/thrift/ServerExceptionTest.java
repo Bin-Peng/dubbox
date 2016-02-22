@@ -13,7 +13,7 @@
  */
 package com.alibaba.dubbo.rpc.protocol.thrift;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
 import com.alibaba.dubbo.rpc.RpcInvocation;
@@ -90,8 +90,8 @@ public class ServerExceptionTest extends AbstractTest {
     }
 
     @Override
-    protected URL getUrl() {
-        URL url = super.getUrl();
+    protected EURL getUrl() {
+        EURL url = super.getUrl();
 //        url = url.addParameter( Constants.TIMEOUT_KEY, Integer.MAX_VALUE );
         return url;
     }

@@ -17,7 +17,7 @@ package com.alibaba.dubbo.remoting.transport;
 
 import java.io.IOException;
 
-import com.alibaba.dubbo.common.URL;
+import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.remoting.Channel;
 import junit.framework.TestCase;
 
@@ -36,7 +36,7 @@ public class AbstractCodecTest extends TestCase {
 
     public void test_checkPayload_default8M() throws Exception {
         Channel channel = createMock(Channel.class);
-        expect(channel.getUrl()).andReturn(URL.valueOf("dubbo://1.1.1.1")).anyTimes();
+        expect(channel.getUrl()).andReturn(EURL.valueOf("dubbo://1.1.1.1")).anyTimes();
         replay(channel);
 
         AbstractCodec.checkPayload(channel, 1 * 1024 * 1024);
@@ -56,7 +56,7 @@ public class AbstractCodecTest extends TestCase {
 
     public void test_checkPayload_minusPayloadNoLimit() throws Exception {
         Channel channel = createMock(Channel.class);
-        expect(channel.getUrl()).andReturn(URL.valueOf("dubbo://1.1.1.1?payload=-1")).anyTimes();
+        expect(channel.getUrl()).andReturn(EURL.valueOf("dubbo://1.1.1.1?payload=-1")).anyTimes();
         replay(channel);
 
         AbstractCodec.checkPayload(channel, 15 * 1024 * 1024);
