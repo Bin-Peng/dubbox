@@ -24,10 +24,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.alibaba.dubbo.common.Constants;
-import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
-import com.alibaba.dubbo.registry.NotifyListener;
-import com.alibaba.dubbo.registry.RegistryFactory;
+//import com.alibaba.dubbo.registry.NotifyListener;
+//import com.alibaba.dubbo.registry.RegistryFactory;
 import com.alibaba.dubbo.registry.integration.RegistryProtocol;
 import com.alibaba.dubbo.registry.support.AbstractRegistry;
 import com.alibaba.dubbo.remoting.exchange.ExchangeClient;
@@ -40,6 +39,10 @@ import com.alibaba.dubbo.rpc.cluster.support.FailfastCluster;
 import com.alibaba.dubbo.rpc.protocol.AbstractInvoker;
 import com.alibaba.dubbo.rpc.protocol.dubbo.DubboInvoker;
 import com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol;
+
+import cn.sunline.ltts.apm.api.registry.base.EURL;
+import cn.sunline.ltts.apm.api.registry.base.NotifyListener;
+import cn.sunline.ltts.apm.api.registry.base.RegistryFactory;
 
 /**
  * RegistryProtocolTest

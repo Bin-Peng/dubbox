@@ -17,18 +17,19 @@ package com.alibaba.dubbo.registry.support;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
-import cn.sunline.ltts.apm.api.registry.base.EURL;
 import com.alibaba.dubbo.common.utils.NetUtils;
-import com.alibaba.dubbo.registry.NotifyListener;
-import com.alibaba.dubbo.registry.Registry;
+//import com.alibaba.dubbo.registry.NotifyListener;
+//import com.alibaba.dubbo.registry.Registry;
 //import com.alibaba.dubbo.registry.RegistryFactory;
-import com.alibaba.dubbo.registry.RegistryFactory;
-import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 
+import cn.sunline.ltts.apm.api.registry.base.EURL;
+import cn.sunline.ltts.apm.api.registry.base.NotifyListener;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
+import cn.sunline.ltts.apm.api.registry.base.RegistryFactory;
+import cn.sunline.ltts.apm.api.registry.base.support.AbstractRegistryFactory;
+import junit.framework.Assert;
 /**
  * AbstractRegistryFactoryTest
  * 
@@ -42,7 +43,7 @@ public class AbstractRegistryFactoryTest {
         protected Registry createRegistry(final EURL url) {
             return new Registry() {
 
-                public EURL getUrl() {
+                public EURL getEurl() {
                     return url;
                 }
 
@@ -68,6 +69,9 @@ public class AbstractRegistryFactoryTest {
                 public List<EURL> lookup(EURL url) {
                     return null;
                 }
+
+				
+
                 
             };
         }
