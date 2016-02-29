@@ -17,7 +17,7 @@ package com.alibaba.dubbo.registry.zookeeper;
 
 import cn.sunline.ltts.apm.api.registry.base.EURL;
 //import com.alibaba.dubbo.registry.Registry;
-import com.alibaba.dubbo.registry.Registry;
+import cn.sunline.ltts.apm.api.registry.base.Registry;
 //import com.alibaba.dubbo.registry.support.AbstractRegistryFactory;
 import cn.sunline.ltts.apm.api.registry.base.support.AbstractRegistryFactory;
 import com.alibaba.dubbo.remoting.zookeeper.ZookeeperTransporter;
@@ -36,7 +36,7 @@ public class ZookeeperRegistryFactory extends AbstractRegistryFactory {
 	}
 
 	public Registry createRegistry(EURL url) {
-        return new ZookeeperRegistry(url, zookeeperTransporter);
+        return (Registry) new ZookeeperRegistry(url, zookeeperTransporter);
     }
 
 }
