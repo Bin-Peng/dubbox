@@ -432,7 +432,7 @@ public class RegistryDirectoryTest {
     public void testDestroy_WithDestroyRegistry() {
         RegistryDirectory registryDirectory = getRegistryDirectory();
         CountDownLatch latch = new CountDownLatch(1);
-        registryDirectory.setRegistry(new MockRegistry(latch));
+        registryDirectory.setRegistry((cn.sunline.ltts.apm.api.registry.base.Registry) new MockRegistry(latch));
         registryDirectory.subscribe(EURL.valueOf("consumer://" + NetUtils.getLocalHost() + "/DemoService?category=providers"));
         registryDirectory.destroy();
         Assert.assertEquals(0, latch.getCount());
@@ -441,7 +441,7 @@ public class RegistryDirectoryTest {
     @Test
     public void testDestroy_WithDestroyRegistry_WithError() {
         RegistryDirectory registryDirectory = getRegistryDirectory();
-        registryDirectory.setRegistry(new MockRegistry(true));
+        registryDirectory.setRegistry((cn.sunline.ltts.apm.api.registry.base.Registry) new MockRegistry(true));
         registryDirectory.destroy();
     }
 
