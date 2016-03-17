@@ -85,6 +85,8 @@ public class MonitorFilter implements Filter {
             String application = invoker.getUrl().getParameter(Constants.APPLICATION_KEY);
             String service = invoker.getInterface().getName(); // 获取服务名称
             String method = RpcUtils.getMethodName(invocation); // 获取方法名
+            String groupId = invoker.getUrl().getParameter(Constants.GROUP_KEY); //获取服务分组
+            String version = invoker.getUrl().getParameter(Constants.VERSION_KEY); //获取服务版本号
             EURL url = invoker.getUrl().getUrlParameter(Constants.MONITOR_KEY);
             Monitor monitor = monitorFactory.getMonitor(url);
             int localPort;
@@ -120,7 +122,9 @@ public class MonitorFilter implements Filter {
                                 MonitorService.ELAPSED, String.valueOf(elapsed),
                                 MonitorService.CONCURRENT, String.valueOf(concurrent),
                                 Constants.INPUT_KEY, input,
-                                Constants.OUTPUT_KEY, output));
+                                Constants.OUTPUT_KEY, output,
+            					Constants.GROUP_KEY, groupId,
+            					Constants.VERSION_KEY, version));
         } catch (Throwable t) {
             logger.error("Failed to monitor count service " + invoker.getUrl() + ", cause: " + t.getMessage(), t);
         }
